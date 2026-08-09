@@ -66,10 +66,20 @@ def usuario_logado(
     return {
         "id": usuario.id,
         "aluno_id": aluno.id,
+
         "nome_completo": aluno.nome_completo,
         "email": aluno.email,
+        "telefone": aluno.telefone,
         "matricula": aluno.matricula,
+        "data_nascimento": aluno.data_nascimento,
+        "bairro": aluno.bairro,
+        "curso": aluno.curso,
+
         "cargo": aluno.cargo,
+        "ingresso_liga": aluno.ingresso_liga,
+        "desligamento_liga": aluno.desligamento_liga,
+        "faz_estagio": aluno.faz_estagio,
+
         "tipo": usuario.tipo,
         "status": usuario.status
     }

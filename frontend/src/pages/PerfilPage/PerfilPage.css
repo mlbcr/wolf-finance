@@ -1,0 +1,490 @@
+.perfil-page {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 0 auto;
+    padding: 45px 40px 60px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   CARD PRINCIPAL
+========================= */
+
+.perfil-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+
+    padding: 38px 42px;
+
+    box-sizing: border-box;
+
+    box-shadow: 0 8px 30px rgba(15, 39, 71, 0.07);
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.perfil-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.perfil-avatar {
+    width: 82px;
+    height: 82px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #0f2747;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.perfil-header-info h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.perfil-badges {
+    display: flex;
+    gap: 8px;
+
+    margin-top: 9px;
+}
+
+.perfil-role,
+.perfil-status {
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.perfil-role {
+    background: #eef3f8;
+    color: #0f2747;
+}
+
+.perfil-status {
+    background: #eaf7ef;
+    color: #247a47;
+}
+
+
+/* =========================
+   DIVISOR
+========================= */
+
+.perfil-divider {
+    width: 100%;
+    height: 1px;
+
+    margin: 30px 0;
+
+    background: #e5e7eb;
+}
+
+
+/* =========================
+   SEÇÕES
+========================= */
+
+.perfil-section h2,
+.perfil-security h2 {
+    margin: 0 0 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #172033;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.perfil-section h2 i,
+.perfil-security h2 i {
+    color: #0f2747;
+
+    font-size: 15px;
+}
+
+
+/* =========================
+   CAMPOS
+========================= */
+
+.perfil-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 16px;
+}
+
+.perfil-field {
+    padding: 16px 18px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e8edf3;
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.perfil-field span {
+    color: #718096;
+
+    font-size: 12px;
+}
+
+.perfil-field strong {
+    color: #172033;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    word-break: break-word;
+}
+
+
+/* =========================
+   ESTÁGIO
+========================= */
+
+.perfil-estagio {
+    padding: 16px 18px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e8edf3;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #172033;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.perfil-estagio i {
+    color: #247a47;
+
+    font-size: 19px;
+}
+
+
+/* =========================
+   SEGURANÇA
+========================= */
+
+.security-title p {
+    margin: -12px 0 0;
+
+    color: #718096;
+
+    font-size: 12px;
+}
+
+.password-row {
+    margin-top: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.password-dots {
+    color: #172033;
+
+    font-size: 18px;
+    letter-spacing: 4px;
+}
+
+
+/* =========================
+   BOTÕES
+========================= */
+
+.btn-secondary,
+.btn-alterar,
+.btn-enviar,
+.btn-cancelar {
+    border: none;
+    border-radius: 10px;
+
+    padding: 11px 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.btn-secondary {
+    background: #eef3f8;
+    color: #0f2747;
+}
+
+.btn-secondary:hover {
+    background: #dfe8f1;
+}
+
+.btn-alterar {
+    flex-shrink: 0;
+
+    background: #0f2747;
+    color: #ffffff;
+}
+
+.btn-alterar:hover {
+    background: #173a65;
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   SOLICITAÇÃO
+========================= */
+
+.perfil-request {
+    padding: 20px;
+
+    background: #f7f9fc;
+
+    border: 1px solid #e4eaf1;
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+}
+
+.perfil-request h2 {
+    margin: 0 0 6px;
+
+    color: #172033;
+
+    font-size: 15px;
+}
+
+.perfil-request p {
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(15, 39, 71, 0.45);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 1000;
+}
+
+.modal {
+    width: 100%;
+    max-width: 520px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 28px;
+
+    box-sizing: border-box;
+
+    box-shadow: 0 15px 50px rgba(15, 39, 71, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 19px;
+}
+
+.modal-header p {
+    margin: 7px 0 0;
+
+    color: #718096;
+
+    font-size: 13px;
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #f1f4f7;
+    color: #5d6878;
+
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background: #e6ebf0;
+}
+
+.alteracao-textarea {
+    width: 100%;
+    min-height: 140px;
+
+    margin-top: 22px;
+    padding: 14px;
+
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    border: 1px solid #dce3eb;
+    border-radius: 10px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    color: #172033;
+}
+
+.alteracao-textarea:focus {
+    border-color: #0f2747;
+}
+
+.modal-actions {
+    margin-top: 18px;
+
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+.btn-cancelar {
+    background: #f1f4f7;
+    color: #4a5568;
+}
+
+.btn-cancelar:hover {
+    background: #e5e9ee;
+}
+
+.btn-enviar {
+    background: #0f2747;
+    color: #ffffff;
+}
+
+.btn-enviar:hover {
+    background: #173a65;
+}
+
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 700px) {
+
+    .perfil-page {
+        padding: 25px 18px 40px;
+    }
+
+    .perfil-card {
+        padding: 28px 22px;
+    }
+
+    .perfil-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-request {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-alterar {
+        width: 100%;
+    }
+
+    .password-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-secondary {
+        width: 100%;
+    }
+}
+
