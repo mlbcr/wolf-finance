@@ -1,0 +1,238 @@
+
+.home-page {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 36px 40px 50px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   PERFIL
+========================= */
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+
+    padding: 28px 30px;
+
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+
+    box-shadow: 0 4px 15px rgba(15, 39, 71, 0.05);
+}
+
+.profile-avatar-big {
+    width: 82px;
+    height: 82px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: #0f2747;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.profile-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-info h1 {
+    margin: 0;
+
+    font-size: 23px;
+    font-weight: 700;
+
+    color: #172033;
+}
+
+.profile-role {
+    display: inline-block;
+
+    margin-top: 6px;
+
+    padding: 4px 10px;
+
+    border-radius: 20px;
+
+    background-color: #eef3f8;
+    color: #0f2747;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   CARDS DO TOPO
+========================= */
+
+.home-top-cards {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================
+   MENU RÁPIDO
+========================= */
+
+.quick-menu {
+    margin-top: 38px;
+}
+
+.quick-menu h2 {
+    margin: 0 0 18px;
+
+    color: #172033;
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.nav-cards {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 16px;
+}
+
+
+.nav-card {
+    min-height: 110px;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    background-color: #0f2747;
+    border: 1px solid #0f2747;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 11px;
+
+    text-decoration: none;
+    color: #ffffff;
+
+    box-shadow: 0 4px 12px rgba(15, 39, 71, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.nav-card:hover {
+    transform: translateY(-3px);
+
+    background-color: #173a66;
+
+    box-shadow: 0 8px 20px rgba(15, 39, 71, 0.18);
+}
+
+.nav-card i {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 12px;
+
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+}
+
+.nav-card span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+
+
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 900px) {
+
+    .profile-section {
+        flex-wrap: wrap;
+    }
+
+    .home-top-cards {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .nav-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .home-page {
+        padding: 24px 18px 40px;
+    }
+
+    .profile-section {
+        padding: 22px;
+    }
+
+    .profile-avatar-big {
+        width: 64px;
+        height: 64px;
+
+        font-size: 18px;
+    }
+
+    .profile-info h1 {
+        font-size: 18px;
+    }
+
+    .home-top-cards {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-card {
+        min-height: 90px;
+    }
+}
+

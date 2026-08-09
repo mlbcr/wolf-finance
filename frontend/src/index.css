@@ -1,0 +1,33 @@
+:root {
+  --bg-primary: #0B0E14;
+  --card-bg: rgba(18, 24, 38, 0.75);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-gold: #D4AF37;
+  --accent-gold-hover: #E5C158;
+  --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --input-border: rgba(255, 255, 255, 0.12);
+  --input-focus: #D4AF37;
+}
+
+html,
+body,
+#root {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: #f5f7fa;
+}
