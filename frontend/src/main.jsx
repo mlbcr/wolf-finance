@@ -6,13 +6,17 @@ import './index.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
 import App from './App.jsx'
+
 import AuthProvider from '@/contexts/AuthProvider'
+import EquipesProvider from '@/contexts//Equipes/EquipesProvider'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
             <AuthProvider>
-                <App />
+                <EquipesProvider>
+                    <App />
+                </EquipesProvider>
             </AuthProvider>
         </BrowserRouter>
     </StrictMode>,

@@ -1,0 +1,305 @@
+.equipes-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+}
+
+
+/* HEADER */
+
+.equipes-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 35px;
+}
+
+.page-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+
+    margin-bottom: 8px;
+}
+
+.page-label i {
+    font-size: 12px;
+}
+
+.equipes-header h1 {
+    margin: 0;
+
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.equipes-header p {
+    margin: 8px 0 0;
+
+    color: #6b7280;
+    font-size: 15px;
+}
+
+
+/* CONTADOR */
+
+.equipes-count {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 16px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    background: #ffffff;
+}
+
+.equipes-count strong {
+    font-size: 20px;
+    color: #111827;
+}
+
+.equipes-count span {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* CARDS */
+
+.equipes-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.equipe-card {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 220px;
+    padding: 24px;
+
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    text-decoration: none;
+    color: inherit;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.equipe-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #d1d5db;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+
+
+/* TOPO DO CARD */
+
+.equipe-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.equipe-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #f3f4f6;
+    color: #374151;
+
+    font-size: 19px;
+}
+
+.equipe-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: #15803d;
+}
+
+.equipe-status i {
+    font-size: 7px;
+}
+
+
+/* INFORMAÇÕES */
+
+.equipe-info {
+    flex: 1;
+
+    margin-top: 24px;
+}
+
+.equipe-info h2 {
+    margin: 0 0 8px;
+
+    font-size: 21px;
+    font-weight: 650;
+
+    color: #111827;
+}
+
+.equipe-info p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+
+/* RODAPÉ */
+
+.equipe-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 24px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #f0f0f0;
+}
+
+.equipe-card-footer span {
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #6b7280;
+}
+
+.equipe-arrow {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+    color: #374151;
+
+    transition: transform 0.2s ease;
+}
+
+.equipe-card:hover .equipe-arrow {
+    transform: translateX(3px);
+}
+
+
+/* SEM EQUIPES */
+
+.sem-equipes {
+    min-height: 320px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 40px;
+
+    background: #ffffff;
+
+    border: 1px dashed #d1d5db;
+    border-radius: 16px;
+}
+
+.sem-equipes-icon {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 16px;
+
+    background: #f3f4f6;
+    color: #6b7280;
+
+    font-size: 24px;
+}
+
+.sem-equipes h2 {
+    margin: 0 0 8px;
+
+    font-size: 18px;
+    color: #111827;
+}
+
+.sem-equipes p {
+    max-width: 400px;
+
+    margin: 0;
+
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 700px) {
+
+    .equipes-page {
+        padding: 30px 20px 50px;
+    }
+
+    .equipes-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .equipes-header h1 {
+        font-size: 27px;
+    }
+
+    .equipes-cards {
+        grid-template-columns: 1fr;
+    }
+
+}

@@ -20,7 +20,7 @@ app.add_middleware(
 Base.metadata.create_all(bind=engine)
 
 app.include_router(alunos.router)
-# app.include_router(equipes.router)
+app.include_router(equipes.router)
 # app.include_router(projetos.router)
 # app.include_router(reunioes.router)
 # app.include_router(presencas.router)
