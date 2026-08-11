@@ -1,0 +1,349 @@
+
+.aluno-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 30px 60px;
+    box-sizing: border-box;
+}
+
+/* VOLTAR */
+
+.voltar-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    border: none;
+    background: none;
+
+    color: #666;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    margin-bottom: 24px;
+    padding: 6px 0;
+
+    transition: color 0.2s;
+}
+
+.voltar-button:hover {
+    color: #222;
+}
+
+/* HEADER */
+
+.aluno-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    background: white;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+
+    padding: 30px;
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+
+    margin-bottom: 24px;
+}
+
+.aluno-header-avatar {
+    width: 80px;
+    height: 80px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background: #f1f4ff;
+    color: #3157d5;
+
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.aluno-header-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.aluno-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #3157d5;
+
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.aluno-label i {
+    font-size: 11px;
+}
+
+.aluno-header-info h1 {
+    margin: 6px 0 7px;
+
+    color: #1f1f1f;
+
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.aluno-header-info p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+.aluno-header-info p i {
+    color: #999;
+}
+
+/* SEÇÕES */
+
+.aluno-section {
+    background: white;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+
+    padding: 28px;
+
+    margin-bottom: 20px;
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+/* TÍTULO */
+
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+}
+
+.section-title h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 0 5px;
+
+    color: #222;
+
+    font-size: 20px;
+}
+
+.section-title h2 i {
+    color: #3157d5;
+    font-size: 17px;
+}
+
+.section-title p {
+    margin: 0;
+
+    color: #888;
+
+    font-size: 14px;
+}
+
+/* GRID DE INFORMAÇÕES */
+
+.aluno-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 0;
+
+    border-top: 1px solid #eeeeee;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.info-item:nth-child(odd) {
+    border-right: 1px solid #eeeeee;
+}
+
+.info-item span {
+    color: #999;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.info-item strong {
+    color: #292929;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    word-break: break-word;
+}
+
+/* ALUNO NÃO ENCONTRADO */
+
+.aluno-empty {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 60px 20px;
+
+    text-align: center;
+
+    background: white;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+.aluno-empty > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    height: 60px;
+
+    margin-bottom: 16px;
+
+    border-radius: 14px;
+
+    background: #f4f5f8;
+
+    color: #999;
+
+    font-size: 23px;
+}
+
+.aluno-empty h2 {
+    margin: 0 0 6px;
+
+    color: #333;
+
+    font-size: 18px;
+}
+
+.aluno-empty p {
+    margin: 0;
+
+    color: #999;
+
+    font-size: 14px;
+}
+
+.btn-editar-aluno {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 15px;
+
+    border: 1px solid #e1e1e1;
+    border-radius: 9px;
+
+    background: white;
+    color: #444;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s;
+}
+
+.btn-editar-aluno:hover {
+    background: #f6f6f6;
+    border-color: #d4d4d4;
+}
+
+.aluno-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-top: 8px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.aluno-status i {
+    font-size: 7px;
+}
+
+.aluno-status.ativo {
+    color: #2d8a4e;
+}
+
+.aluno-status.inativo {
+    color: #999;
+}
+
+
+/* RESPONSIVO */
+
+
+
+@media (max-width: 700px) {
+
+    .aluno-page {
+        padding: 25px 16px 40px;
+    }
+
+    .aluno-header {
+        align-items: flex-start;
+        flex-direction: column;
+
+        padding: 24px;
+    }
+
+    .aluno-header-info h1 {
+        font-size: 25px;
+    }
+
+    .aluno-section {
+        padding: 22px 18px;
+    }
+
+    .aluno-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-item:nth-child(odd) {
+        border-right: none;
+    }
+}
+

@@ -39,3 +39,6 @@ class EquipeUpdate(BaseModel):
     lider_id: UUID | None = None
     icone: str
     cor: str
+
+class MembrosEquipeCreate(BaseModel):
+    aluno_ids: list[UUID]

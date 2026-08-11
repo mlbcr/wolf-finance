@@ -11,6 +11,13 @@ from app.schemas.equipes import (
     EquipeResponse,
     MembroEquipeResponse
 )
+from app.schemas.equipes import (
+    EquipeCreate,
+    EquipeUpdate,
+    EquipeResponse,
+    MembroEquipeResponse,
+    MembrosEquipeCreate
+)
 from app.security.dependencies import get_usuario_id
 from app.services.equipe import (
     listar_equipes_service,
@@ -19,6 +26,7 @@ from app.services.equipe import (
     criar_equipe_service,
     listar_membros_service,
     adicionar_membro_service,
+    adicionar_membros_service,
     deletar_membro_service,
     atualizar_equipe_service
 )
@@ -36,13 +44,6 @@ def listar_equipes(
     return listar_equipes_service(db)
 
 
-@router.get("/", response_model=list[EquipeResponse])
-def listar_equipes(
-    db: Session = Depends(get_db)
-):
-    return listar_equipes_service(db)
-
-
 @router.get("/minhas", response_model=list[EquipeResponse])
 def minhas_equipes(
     db: Session = Depends(get_db),
@@ -50,20 +51,6 @@ def minhas_equipes(
 ):
     return minhas_equipes_service(db, UUID(usuario_id))
 
-
-@router.get("/{equipe_id}", response_model=EquipeResponse)
-def buscar_equipe(
-    equipe_id: UUID,
-    db: Session = Depends(get_db)
-):
-    try:
-        return buscar_equipe_service(db, equipe_id)
-
-    except ValueError as error:
-        raise HTTPException(
-            status_code=404,
-            detail=str(error)
-        )
 
 
 @router.get("/{equipe_id}", response_model=EquipeResponse)
@@ -113,6 +100,24 @@ def listar_membros(
             detail=str(error)
         )
 
+@router.post("/{equipe_id}/membros")
+def adicionar_membros(
+    equipe_id: UUID,
+    dados: MembrosEquipeCreate,
+    db: Session = Depends(get_db)
+):
+    try:
+        return adicionar_membros_service(
+            db,
+            equipe_id,
+            dados.aluno_ids
+        )
+
+    except ValueError as error:
+        raise HTTPException(
+            status_code=404,
+            detail=str(error)
+        )
 
 @router.post("/{equipe_id}/membros/{aluno_id}")
 def adicionar_membro(

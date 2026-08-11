@@ -1,0 +1,89 @@
+.equipe-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    margin-bottom: 24px;
+}
+
+.equipe-icon {
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: #f1f4ff;
+    color: #3157d5;
+    font-size: 30px;
+}
+
+.equipe-header-info {
+    flex: 1;
+}
+
+.equipe-lider-wrapper {
+    margin-top: 8px;
+}
+
+.equipe-lider {
+    display: inline-block;
+    color: #666;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.equipe-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2d8a4e;
+    text-transform: uppercase;
+}
+
+.equipe-status i {
+    font-size: 7px;
+}
+
+.equipe-header-info h1 {
+    margin: 6px 0 5px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1f1f1f;
+}
+
+.equipe-header-info p {
+    margin: 0;
+    color: #777;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.btn-editar-equipe {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: 1px solid #e1e1e1;
+    border-radius: 9px;
+    background: white;
+    color: #444;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-editar-equipe:hover {
+    background: #f6f6f6;
+    border-color: #d4d4d4;
+}

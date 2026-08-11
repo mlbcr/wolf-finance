@@ -1,9 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
+import useAuth from '@/contexts/useAuth'
 
 function PrivateRoute() {
-    const token = localStorage.getItem("token");
+    const { usuario, loading } = useAuth()
 
-    return token ? <Outlet /> : <Navigate to="/login" replace />;
+    if (loading) {
+        return null
+    }
+
+    return usuario ? <Outlet /> : <Navigate to="/login" replace />
 }
 
 export default PrivateRoute;

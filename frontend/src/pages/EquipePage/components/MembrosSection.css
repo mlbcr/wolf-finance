@@ -1,0 +1,102 @@
+.membros-section {
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.section-title h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 5px;
+    font-size: 20px;
+    color: #222;
+}
+
+.section-title p {
+    margin: 0;
+    color: #888;
+    font-size: 14px;
+}
+
+.membros-count {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #f1f4ff;
+    color: #3157d5;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.membros-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #eeeeee;
+}
+
+.sem-membros {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 45px 20px;
+}
+
+.sem-membros>i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 14px;
+    background: #f4f5f8;
+    color: #999;
+    font-size: 21px;
+    margin-bottom: 15px;
+}
+
+.sem-membros h3 {
+    margin: 0 0 6px;
+    color: #333;
+    font-size: 16px;
+}
+
+.sem-membros p {
+    margin: 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.btn-adicionar-membro {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e2e2;
+    background: white;
+    color: #333;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-adicionar-membro i {
+    font-size: 12px;
+}
+
+.btn-adicionar-membro:hover {
+    background: #f6f6f6;
+}

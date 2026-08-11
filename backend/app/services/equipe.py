@@ -212,3 +212,59 @@ def atualizar_equipe_service(
     db.refresh(equipe)
 
     return equipe
+
+def adicionar_membros_service(
+    db: Session,
+    equipe_id: UUID,
+    aluno_ids: list[UUID]
+):
+    equipe = (
+        db.query(Equipe)
+        .filter(Equipe.id == equipe_id)
+        .first()
+    )
+
+    if not equipe:
+        raise ValueError("Equipe não encontrada")
+
+    membros_adicionados = []
+
+    for aluno_id in aluno_ids:
+
+        aluno = (
+            db.query(Aluno)
+            .filter(Aluno.id == aluno_id)
+            .first()
+        )
+
+        if not aluno:
+            raise ValueError(
+                f"Aluno {aluno_id} não encontrado"
+            )
+
+        membro_existente = (
+            db.query(AlunoEquipe)
+            .filter(
+                AlunoEquipe.equipe_id == equipe_id,
+                AlunoEquipe.aluno_id == aluno_id
+            )
+            .first()
+        )
+
+        if membro_existente:
+            continue
+
+        membro = AlunoEquipe(
+            equipe_id=equipe_id,
+            aluno_id=aluno_id
+        )
+
+        db.add(membro)
+        membros_adicionados.append(membro)
+
+    db.commit()
+
+    return {
+        "message": "Membros adicionados com sucesso",
+        "quantidade": len(membros_adicionados)
+    }

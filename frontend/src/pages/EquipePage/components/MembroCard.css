@@ -1,0 +1,104 @@
+.membro-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 4px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.membro-card:last-child {
+    border-bottom: none;
+}
+
+.membro-avatar {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eef1f8;
+    color: #405070;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.membro-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.membro-info strong {
+    color: #292929;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.membro-info span {
+    margin-top: 3px;
+    color: #888;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.membro-lider-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 6px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: transparent;
+    color: #777;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.membro-lider-badge::before {
+    content: '\2022';
+    display: inline-block;
+    margin-right: 6px;
+    color: #999;
+    font-size: 12px;
+    transform: translateY(-1px);
+}
+
+.membro-meta {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.membro-meta span {
+    padding: 5px 9px;
+    border-radius: 6px;
+    background: #f4f4f4;
+    color: #555;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.membro-meta small {
+    color: #999;
+    font-size: 11px;
+}
+
+.membro-remove {
+    border: none;
+    background: transparent;
+    color: #c23d3d;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.membro-remove:hover {
+    background: rgba(194, 61, 61, 0.06);
+}

@@ -1,0 +1,24 @@
+.modal-aluno {
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background: white;
+
+    border-radius: 18px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+    overflow: hidden;
+}
+
+.modal-aluno-body {
+    padding: 25px 26px;
+
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}

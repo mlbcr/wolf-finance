@@ -7,9 +7,12 @@ import LoginPage from '@/pages/LoginPage/LoginPage'
 import PresencasPage from '@/pages/PresencasPage/PresencasPage'
 import ReunioesPage from '@/pages/ReunioesPage/ReunioesPage'
 import PerfilPage from '@/pages/PerfilPage/PerfilPage'
+import AlunoPage from '@/pages/AlunoPage/AlunoPage'
+import AlunosPage from '@/pages/AlunosPage/AlunosPage'
 
 import { Routes, Route } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
+import AdminRoute from './AdminRoute'
 
 export default function AppRouter() {
     return (
@@ -24,6 +27,11 @@ export default function AppRouter() {
                 <Route path="/equipes/:id" element={<EquipePage />} />
                 <Route path="/projetos" element={<ProjetosPage />} />
                 <Route path="/projetos/:id" element={<ProjetoPage />} />
+            </Route>
+
+            <Route element={<AdminRoute />}>
+                <Route path="/alunos" element={<AlunosPage />} />
+                <Route path="/alunos/:id" element={<AlunoPage />} />
             </Route>
         </Routes>
     )

@@ -1,0 +1,360 @@
+
+.alunos-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+
+    padding: 40px 30px 60px;
+    box-sizing: border-box;
+}
+
+/* HEADER */
+
+.alunos-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+}
+
+.alunos-header h1 {
+    margin: 0;
+
+    color: #1f1f1f;
+
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.alunos-header p {
+    margin: 5px 0 0;
+
+    color: #777;
+
+    font-size: 15px;
+}
+
+.alunos-count {
+    padding: 7px 11px;
+
+    border-radius: 8px;
+
+    background: #f1f4ff;
+    color: #3157d5;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.alunos-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.btn-cadastrar-aluno {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 15px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #3157d5;
+    color: white;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.2s, transform 0.2s;
+}
+
+.btn-cadastrar-aluno:hover {
+    background: #2849b8;
+    transform: translateY(-1px);
+}
+
+.btn-cadastrar-aluno:active {
+    transform: translateY(0);
+}
+
+.btn-cadastrar-aluno i {
+    font-size: 12px;
+}
+
+/* BUSCA */
+
+.alunos-search {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    margin-bottom: 20px;
+
+    background: white;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+.alunos-search i {
+    color: #999;
+
+    font-size: 14px;
+}
+
+.alunos-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #333;
+
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.alunos-search input::placeholder {
+    color: #aaa;
+}
+
+
+/* LISTA */
+
+.alunos-list {
+    display: flex;
+    flex-direction: column;
+
+    background: white;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 18px;
+
+    padding: 8px 28px;
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+
+/* ALUNO */
+
+.aluno-card {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 16px 4px;
+
+    border: none;
+    border-bottom: 1px solid #eeeeee;
+
+    background: white;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+.aluno-card:last-child {
+    border-bottom: none;
+}
+
+.aluno-card:hover {
+    background: #fafbff;
+}
+
+
+/* AVATAR */
+
+.aluno-avatar {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eef1f8;
+    color: #405070;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* INFORMAÇÕES */
+
+.aluno-info {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+.aluno-info strong {
+    color: #292929;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.aluno-info span {
+    margin-top: 3px;
+
+    color: #888;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.aluno-info small {
+    margin-top: 3px;
+
+    color: #aaa;
+
+    font-size: 11px;
+}
+
+
+/* SETA */
+
+.aluno-card > i {
+    flex-shrink: 0;
+
+    color: #aaa;
+
+    font-size: 12px;
+
+    transition: color 0.15s ease,
+                transform 0.15s ease;
+}
+
+.aluno-card:hover > i {
+    color: #3157d5;
+
+    transform: translateX(2px);
+}
+
+
+/* NENHUM ALUNO */
+
+.empty-alunos {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    text-align: center;
+
+    padding: 45px 20px;
+}
+
+.empty-alunos > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 55px;
+    height: 55px;
+
+    margin-bottom: 15px;
+
+    border-radius: 14px;
+
+    background: #f4f5f8;
+
+    color: #999;
+
+    font-size: 21px;
+}
+
+.empty-alunos h3 {
+    margin: 0 0 6px;
+
+    color: #333;
+
+    font-size: 16px;
+}
+
+.empty-alunos p {
+    margin: 0;
+
+    color: #999;
+
+    font-size: 14px;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 700px) {
+
+    .alunos-page {
+        padding: 25px 16px 40px;
+    }
+
+    .alunos-header {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+    .alunos-header h1 {
+        font-size: 25px;
+    }
+
+    .alunos-list {
+        padding: 8px 18px;
+    }
+
+    .aluno-card {
+        padding: 14px 2px;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .alunos-list {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .aluno-info small {
+        display: none;
+    }
+}
+
