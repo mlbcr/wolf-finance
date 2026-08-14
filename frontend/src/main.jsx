@@ -8,8 +8,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import App from './App.jsx'
 
 import AuthProvider from '@/contexts/AuthProvider'
-import EquipesProvider from '@/contexts//Equipes/EquipesProvider'
-import ProjetosProvider from '@/contexts/projetos/ProjetosProvider'
+import EquipesProvider from '@/contexts/Equipes/EquipesProvider'
+import ProjetosProvider from '@/contexts/Projetos/ProjetosProvider'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
