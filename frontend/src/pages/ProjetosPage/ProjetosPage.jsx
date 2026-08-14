@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import useProjetos from '@/contexts/projetos/useProjetos'
+import useProjetos from '@/contexts/Projetos/useProjetos'
 import useAuth from '@/contexts/useAuth'
 
 import {
