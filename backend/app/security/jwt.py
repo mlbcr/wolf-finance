@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta, timezone
-
+import os
 import jwt
+from dotenv import load_dotenv
 
+load_dotenv()
+SECRET_KEY = os.getenv("JWT_PASS")
 
-SECRET_KEY = "uma-chave-super-secreta-com-pelo-menos-32-bytes"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
