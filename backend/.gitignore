@@ -1,0 +1,36 @@
+# Ambiente virtual
+venv/
+.venv/
+env/
+
+# Variáveis de ambiente / segredos
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Testes / cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Backup do banco
+*.backup
+*.dump
+*.sql
+
+# Logs
+*.log

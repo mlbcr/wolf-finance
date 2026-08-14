@@ -1,8 +1,8 @@
-export async function buscarMinhasEquipes() {
+export async function buscarMeusProjetos() {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/equipes/minhas',
+        'http://127.0.0.1:8000/projetos/meus',
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -11,17 +11,18 @@ export async function buscarMinhasEquipes() {
     )
 
     if (!response.ok) {
-        throw new Error('Não foi possível buscar as equipes')
+        throw new Error('Não foi possível buscar os projetos')
     }
 
     return response.json()
 }
 
-export async function buscarTodasEquipes() {
+
+export async function buscarTodosProjetos() {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/equipes/',
+        'http://127.0.0.1:8000/projetos/',
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -30,17 +31,18 @@ export async function buscarTodasEquipes() {
     )
 
     if (!response.ok) {
-        throw new Error('Não foi possível buscar as equipes')
+        throw new Error('Não foi possível buscar os projetos')
     }
 
     return response.json()
 }
 
-export async function buscarEquipe(id) {
+
+export async function buscarProjeto(id) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${id}`,
+        `http://127.0.0.1:8000/projetos/${id}`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -49,17 +51,18 @@ export async function buscarEquipe(id) {
     )
 
     if (!response.ok) {
-        throw new Error('Não foi possível buscar a equipe')
+        throw new Error('Não foi possível buscar o projeto')
     }
 
     return response.json()
 }
 
-export async function criarEquipe(dados) {
+
+export async function criarProjeto(dados) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/equipes/',
+        'http://127.0.0.1:8000/projetos/',
         {
             method: 'POST',
             headers: {
@@ -71,17 +74,18 @@ export async function criarEquipe(dados) {
     )
 
     if (!response.ok) {
-        throw new Error('Não foi possível criar a equipe')
+        throw new Error('Não foi possível criar o projeto')
     }
 
     return response.json()
 }
 
-export async function atualizarEquipe(id, dados) {
+
+export async function atualizarProjeto(id, dados) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${id}`,
+        `http://127.0.0.1:8000/projetos/${id}`,
         {
             method: 'PUT',
             headers: {
@@ -93,17 +97,18 @@ export async function atualizarEquipe(id, dados) {
     )
 
     if (!response.ok) {
-        throw new Error('Não foi possível atualizar a equipe')
+        throw new Error('Não foi possível atualizar o projeto')
     }
 
     return response.json()
 }
 
-export async function buscarMembrosEquipe(id) {
+
+export async function buscarMembrosProjeto(id) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${id}/membros`,
+        `http://127.0.0.1:8000/projetos/${id}/membros`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -112,22 +117,26 @@ export async function buscarMembrosEquipe(id) {
     )
 
     if (!response.ok) {
-        throw new Error('Não foi possível buscar os membros')
+        throw new Error('Não foi possível buscar os membros do projeto')
     }
 
     return response.json()
 }
 
-export async function adicionarMembrosEquipe(equipeId, alunoIds) {
+
+export async function adicionarMembrosProjeto(
+    projetoId,
+    alunoIds
+) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${equipeId}/membros`,
+        `http://127.0.0.1:8000/projetos/${projetoId}/membros`,
         {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
                 aluno_ids: alunoIds
@@ -142,11 +151,15 @@ export async function adicionarMembrosEquipe(equipeId, alunoIds) {
     return response.json()
 }
 
-export async function removerMembroEquipe(equipeId, alunoId) {
+
+export async function removerMembroProjeto(
+    projetoId,
+    alunoId
+) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${equipeId}/membros/${alunoId}`,
+        `http://127.0.0.1:8000/projetos/${projetoId}/membros/${alunoId}`,
         {
             method: 'DELETE',
             headers: {
@@ -162,11 +175,12 @@ export async function removerMembroEquipe(equipeId, alunoId) {
     return response.json()
 }
 
-export async function buscarEquipesAluno(alunoId) {
+
+export async function buscarProjetosAluno(alunoId) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/alunos/${alunoId}/equipes`,
+        `http://127.0.0.1:8000/alunos/${alunoId}/projetos`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -176,10 +190,9 @@ export async function buscarEquipesAluno(alunoId) {
 
     if (!response.ok) {
         throw new Error(
-            'Não foi possível buscar as equipes do aluno'
+            'Não foi possível buscar os projetos do aluno'
         )
     }
 
     return response.json()
 }
-

@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+import { buscarCursos } from '@/api/apiCursos'
 
 import './CadastrarAlunoModal.css'
 
@@ -7,6 +9,7 @@ export default function CadastrarAlunoModal({
     onSave,
     salvando
 }) {
+
     const [form, setForm] = useState({
         nome_completo: '',
         bairro: '',
@@ -22,12 +25,98 @@ export default function CadastrarAlunoModal({
         faz_estagio: false
     })
 
+    const [cursos, setCursos] = useState([])
+    const [buscaCurso, setBuscaCurso] = useState('')
+    const [cursoAberto, setCursoAberto] = useState(false)
+    const cursoSelectRef = useRef(null)
+
+    useEffect(() => {
+        async function carregarCursos() {
+            try {
+                const dados = await buscarCursos()
+                setCursos(dados)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        carregarCursos()
+    }, [])
+
+    useEffect(() => {
+        function handleClickFora(event) {
+            if (
+                cursoSelectRef.current &&
+                !cursoSelectRef.current.contains(event.target)
+            ) {
+                setCursoAberto(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickFora)
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickFora)
+        }
+    }, [])
+
+    function normalizarTexto(texto) {
+        return texto
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim()
+    }
+
+    const cursosFiltrados = cursos.filter(curso => {
+        const termo = normalizarTexto(buscaCurso)
+
+        if (!termo) {
+            return true
+        }
+
+        return (
+            normalizarTexto(curso.nome).includes(termo) ||
+            normalizarTexto(curso.sigla).includes(termo)
+        )
+    })
+
+    function formatarTelefone(value) {
+        const numeros = value
+            .replace(/\D/g, '')
+            .slice(0, 11)
+
+        if (numeros.length === 0) {
+            return ''
+        }
+
+        if (numeros.length <= 2) {
+            return `(${numeros}`
+        }
+
+        if (numeros.length <= 7) {
+            return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`
+        }
+
+        return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`
+    }
+
     function handleChange(event) {
-        const { name, value, type, checked } = event.target
+        const {
+            name,
+            value,
+            type,
+            checked
+        } = event.target
 
         setForm(prev => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value
+            [name]:
+                type === 'checkbox'
+                    ? checked
+                    : name === 'telefone'
+                        ? value.replace(/\D/g, '').slice(0, 11)
+                        : value
         }))
     }
 
@@ -128,7 +217,7 @@ export default function CadastrarAlunoModal({
                                     name="telefone"
                                     type="tel"
                                     placeholder="(21) 99999-9999"
-                                    value={form.telefone}
+                                    value={formatarTelefone(form.telefone)}
                                     onChange={handleChange}
                                     required
                                 />
@@ -202,15 +291,68 @@ export default function CadastrarAlunoModal({
                                     Curso
                                 </label>
 
-                                <input
-                                    id="curso"
-                                    name="curso"
-                                    type="text"
-                                    placeholder="Ex.: Ciência da Computação"
-                                    value={form.curso}
-                                    onChange={handleChange}
-                                    required
-                                />
+                                <div className="curso-select"
+                                ref={cursoSelectRef}
+                                >
+
+                                    <input
+                                        type="text"
+                                        placeholder="Pesquisar curso..."
+                                        value={
+                                            cursoAberto
+                                                ? buscaCurso
+                                                : form.curso
+                                        }
+                                        onFocus={() => {
+                                            setCursoAberto(true)
+                                            setBuscaCurso('')
+                                        }}
+                                        onChange={event => {
+                                            setBuscaCurso(event.target.value)
+                                            setCursoAberto(true)
+                                        }}
+                                        required={!form.curso}
+                                    />
+
+                                    {cursoAberto && (
+                                        <div className="curso-options">
+
+                                            {cursosFiltrados.length === 0 && (
+                                                <div className="curso-empty">
+                                                    Nenhum curso encontrado.
+                                                </div>
+                                            )}
+
+                                            {cursosFiltrados.map(curso => (
+                                                <button
+                                                    key={curso.id}
+                                                    type="button"
+                                                    className="curso-option"
+                                                    onClick={() => {
+                                                        setForm(prev => ({
+                                                            ...prev,
+                                                            curso: curso.nome
+                                                        }))
+
+                                                        setBuscaCurso(curso.nome)
+                                                        setCursoAberto(false)
+                                                    }}
+                                                >
+                                                    <strong>
+                                                        {curso.sigla}
+                                                    </strong>
+
+                                                    <span>
+                                                        {curso.nome}
+                                                    </span>
+                                                </button>
+                                            ))}
+
+                                        </div>
+                                    )}
+
+                                </div>
+
                             </div>
 
                         </div>

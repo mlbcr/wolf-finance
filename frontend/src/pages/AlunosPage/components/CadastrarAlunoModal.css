@@ -391,6 +391,108 @@
 }
 
 
+/* =========================
+   SELECT DE CURSO
+   ========================= */
+
+.curso-select {
+    position: relative;
+    width: 100%;
+}
+
+.curso-select input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.curso-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+
+    max-height: 220px;
+    overflow-y: auto;
+
+    background: #ffffff;
+    border: 1px solid #d9dce1;
+    border-radius: 8px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+    z-index: 1000;
+}
+
+/* Cada opção */
+
+.curso-option {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 3px;
+
+    padding: 10px 12px;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition: background-color 0.15s ease;
+}
+
+.curso-option:hover {
+    background-color: #f4f5f7;
+}
+
+.curso-option strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: #222;
+}
+
+.curso-option span {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Nenhum resultado */
+
+.curso-empty {
+    padding: 14px;
+
+    font-size: 13px;
+    color: #777;
+
+    text-align: center;
+}
+
+/* Scrollbar */
+
+.curso-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.curso-options::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.curso-options::-webkit-scrollbar-thumb {
+    background: #c8cbd0;
+    border-radius: 10px;
+}
+
+.curso-options::-webkit-scrollbar-thumb:hover {
+    background: #aeb2b8;
+}
+
+
+
 /* RESPONSIVO */
 
 @media (max-width: 600px) {

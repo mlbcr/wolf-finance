@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.models.aluno import Aluno
 from app.models.equipe import Equipe, AlunoEquipe
-from app.schemas.equipes import EquipeCreate
+from app.schemas.equipes import EquipeCreate, EquipeUpdate
 
 from app.models.usuario import Usuario
 
@@ -51,7 +51,9 @@ def criar_equipe_service(
     equipe = Equipe(
         nome=dados.nome,
         descricao=dados.descricao,
-        lider_id=dados.lider_id
+        lider_id=dados.lider_id,
+        icone=dados.icone,
+        cor=dados.cor
     )
 
     db.add(equipe)

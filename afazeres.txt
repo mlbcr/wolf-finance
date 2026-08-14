@@ -1,0 +1,7 @@
+Tela de Projetos
+- Mostrar projetos em que participa 
+- (ADMIN) Listar todos os projetos
+
+Todas as Telas
+- Paginação
+

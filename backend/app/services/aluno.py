@@ -10,12 +10,12 @@ from app.security.password import gerar_hash
 def aluno_para_dict(aluno: Aluno):
     return {
         "id": str(aluno.id),
-        "nome_completo": aluno.nome_completo,
+        "nome_completo": aluno.nome_completo.strip().upper(),
         "bairro": aluno.bairro,
         "curso": aluno.curso,
         "email": aluno.email,
         "telefone": aluno.telefone,
-        "matricula": aluno.matricula,
+        "matricula": aluno.matricula.strip().upper(),
         "data_nascimento": (
             aluno.data_nascimento.isoformat()
             if aluno.data_nascimento

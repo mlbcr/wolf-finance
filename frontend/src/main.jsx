@@ -9,13 +9,16 @@ import App from './App.jsx'
 
 import AuthProvider from '@/contexts/AuthProvider'
 import EquipesProvider from '@/contexts//Equipes/EquipesProvider'
+import ProjetosProvider from '@/contexts/projetos/ProjetosProvider'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
             <AuthProvider>
                 <EquipesProvider>
-                    <App />
+                    <ProjetosProvider>
+                        <App />
+                    </ProjetosProvider>
                 </EquipesProvider>
             </AuthProvider>
         </BrowserRouter>

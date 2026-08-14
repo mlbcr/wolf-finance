@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import {
     buscarAlunos,
     cadastrarAluno
@@ -9,6 +8,7 @@ import {
 import CadastrarAlunoModal from './components/CadastrarAlunoModal'
 
 import './AlunosPage.css'
+import SearchBar from '@/components/SearchBar/SearchBar'
 
 export default function AlunosPage() {
     const navigate = useNavigate()
@@ -126,18 +126,12 @@ export default function AlunosPage() {
 
             </div>
 
-            <div className="alunos-search">
-
-                <i className="fa-solid fa-magnifying-glass"></i>
-
-                <input
-                    type="text"
-                    placeholder="Buscar por nome, e-mail ou matrícula..."
-                    value={busca}
-                    onChange={event => setBusca(event.target.value)}
-                />
-
-            </div>
+            <SearchBar
+                className="alunos-search"
+                placeholder="Buscar por nome, e-mail ou matrícula..."
+                value={busca}
+                onChange={event => setBusca(event.target.value)}
+            />
 
             <section className="alunos-list">
 
@@ -193,7 +187,7 @@ export default function AlunosPage() {
                 ))}
 
             </section>
-            
+
             {totalPaginas > 1 && (
                 <div className="alunos-pagination">
 

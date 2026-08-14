@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 
 import './AdicionarMembrosModal.css'
+import SearchBar from '@/components/SearchBar/SearchBar'
 
 export default function AdicionarMembrosModal({
     alunos,
@@ -71,16 +72,12 @@ export default function AdicionarMembrosModal({
                     </button>
                 </div>
 
-                <div className="membros-search">
-                    <i className="fa-solid fa-magnifying-glass"></i>
-
-                    <input
-                        type="text"
-                        placeholder="Buscar por nome, e-mail ou matrícula..."
-                        value={busca}
-                        onChange={event => setBusca(event.target.value)}
-                    />
-                </div>
+                <SearchBar
+                    className="membros-search"
+                    placeholder="Buscar por nome, e-mail ou matrícula..."
+                    value={busca}
+                    onChange={event => setBusca(event.target.value)}
+                />
 
                 <div className="alunos-list">
 
@@ -103,9 +100,8 @@ export default function AdicionarMembrosModal({
                             <button
                                 key={aluno.id}
                                 type="button"
-                                className={`aluno-option ${
-                                    selecionado ? 'selected' : ''
-                                }`}
+                                className={`aluno-option ${selecionado ? 'selected' : ''
+                                    }`}
                                 onClick={() => toggleAluno(aluno.id)}
                             >
                                 <div className="aluno-avatar">

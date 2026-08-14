@@ -1,3 +1,5 @@
 export * from './apiAuth'
 export * from './apiAlunos'
 export * from './apiEquipes'
+export * from './apiCursos'
+export * from './apiProjetos'

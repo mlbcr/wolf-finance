@@ -347,3 +347,445 @@
     }
 }
 
+.aluno-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+}
+
+/* VOLTAR */
+
+.voltar-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 24px;
+
+    border: none;
+    background: none;
+
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.voltar-button:hover {
+    color: #111;
+}
+
+/* HEADER */
+
+.aluno-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    padding: 28px;
+
+    background: #fff;
+
+    border: 1px solid #e7e7e7;
+    border-radius: 14px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.aluno-header-avatar {
+    width: 72px;
+    height: 72px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f0f0f0;
+    color: #333;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.aluno-header-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.aluno-header-info h1 {
+    margin: 0 0 7px;
+
+    color: #1a1a1a;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.aluno-header-info p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0 0 10px;
+
+    color: #777;
+    font-size: 14px;
+}
+
+.aluno-header-info p i {
+    font-size: 13px;
+}
+
+.aluno-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.aluno-status i {
+    font-size: 7px;
+}
+
+.aluno-status.ativo {
+    color: #218739;
+}
+
+.aluno-status.inativo {
+    color: #999;
+}
+
+/* BOTÃO EDITAR */
+
+.btn-editar-aluno {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 16px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: #fff;
+    color: #333;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-editar-aluno:hover {
+    background: #f7f7f7;
+    border-color: #ccc;
+}
+
+/* ABAS */
+
+.aluno-tabs {
+    display: flex;
+    align-items: center;
+
+    margin-top: 24px;
+
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.aluno-tabs button {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 13px 18px;
+
+    border: none;
+    background: transparent;
+
+    color: #777;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.aluno-tabs button:hover {
+    color: #333;
+}
+
+.aluno-tabs button.active {
+    color: #222;
+}
+
+.aluno-tabs button.active::after {
+    content: '';
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: -1px;
+
+    height: 2px;
+
+    background: #222;
+    border-radius: 2px 2px 0 0;
+}
+
+.aluno-tabs button i {
+    font-size: 13px;
+}
+
+/* CONTEÚDO */
+
+.aluno-tab-content {
+    margin-top: 24px;
+}
+
+/* SEÇÕES */
+
+.aluno-section {
+    margin-bottom: 20px;
+
+    padding: 24px;
+
+    background: #fff;
+
+    border: 1px solid #e7e7e7;
+    border-radius: 12px;
+}
+
+.section-title {
+    margin-bottom: 22px;
+}
+
+.section-title h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 0 5px;
+
+    color: #222;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.section-title h2 i {
+    width: 20px;
+
+    color: #555;
+
+    font-size: 15px;
+}
+
+.section-title p {
+    margin: 0;
+
+    color: #888;
+
+    font-size: 13px;
+}
+
+/* GRID DE INFORMAÇÕES */
+
+.aluno-info-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 20px 32px;
+}
+
+.info-item {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-item span {
+    color: #888;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.info-item strong {
+    color: #333;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+/* EMPTY DAS ABAS */
+
+.tab-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 55px 20px;
+
+    text-align: center;
+}
+
+.tab-empty > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 52px;
+    height: 52px;
+
+    margin-bottom: 16px;
+
+    border-radius: 50%;
+
+    background: #f5f5f5;
+    color: #888;
+
+    font-size: 20px;
+}
+
+.tab-empty h3 {
+    margin: 0 0 7px;
+
+    color: #333;
+
+    font-size: 15px;
+}
+
+.tab-empty p {
+    max-width: 380px;
+
+    margin: 0;
+
+    color: #888;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ALUNO NÃO ENCONTRADO */
+
+.aluno-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 400px;
+
+    text-align: center;
+}
+
+.aluno-empty > i {
+    margin-bottom: 18px;
+
+    color: #aaa;
+
+    font-size: 42px;
+}
+
+.aluno-empty h2 {
+    margin: 0 0 8px;
+
+    color: #333;
+
+    font-size: 20px;
+}
+
+.aluno-empty p {
+    margin: 0;
+
+    color: #888;
+
+    font-size: 14px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 700px) {
+
+    .aluno-page {
+        padding: 20px 16px 40px;
+    }
+
+    .aluno-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+
+        padding: 20px;
+    }
+
+    .aluno-header-avatar {
+        width: 60px;
+        height: 60px;
+
+        font-size: 20px;
+    }
+
+    .aluno-header-info {
+        width: calc(100% - 80px);
+    }
+
+    .aluno-header-info h1 {
+        font-size: 20px;
+    }
+
+    .btn-editar-aluno {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .aluno-tabs {
+        overflow-x: auto;
+    }
+
+    .aluno-tabs button {
+        flex-shrink: 0;
+
+        padding: 13px 14px;
+
+        font-size: 13px;
+    }
+
+    .aluno-section {
+        padding: 20px;
+    }
+
+    .aluno-info-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+}
+
+
+

@@ -49,9 +49,6 @@ export default function Header() {
                     alt="Wolf Finance"
                 />
 
-                <p>
-                    Wolf <span>Finance</span>
-                </p>
             </button>
 
             <div className="header-user">

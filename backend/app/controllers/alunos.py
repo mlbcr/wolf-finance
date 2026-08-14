@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.schemas.alunos import AlunoCreate, AlunoUpdate
 from app.services.aluno import cadastrar_aluno, aluno_para_dict
 from app.models.aluno import Aluno
+from app.models.equipe import Equipe, AlunoEquipe
 
 from database import get_db
 from utils.email.email_util import enviar_email
@@ -167,3 +168,56 @@ def atualizar_aluno(
         "faz_estagio": aluno.faz_estagio,
         "status": aluno.status
     }
+
+
+@router.get("/{aluno_id}/equipes")
+def listar_equipes_aluno(
+    aluno_id: UUID,
+    db: Session = Depends(get_db)
+):
+    aluno = db.query(Aluno).filter(
+        Aluno.id == aluno_id
+    ).first()
+
+    if not aluno:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Aluno não encontrado"
+        )
+
+    equipes = (
+        db.query(Equipe)
+        .join(
+            AlunoEquipe,
+            AlunoEquipe.equipe_id == Equipe.id
+        )
+        .filter(
+            AlunoEquipe.aluno_id == aluno_id
+        )
+        .all()
+    )
+
+    return [
+        {
+            "id": str(equipe.id),
+            "nome": equipe.nome,
+            "descricao": equipe.descricao,
+            "lider_id": str(equipe.lider_id)
+                if equipe.lider_id
+                else None,
+            "criado_em": (
+                equipe.criado_em.isoformat()
+                if equipe.criado_em
+                else None
+            ),
+            "atualizado_em": (
+                equipe.atualizado_em.isoformat()
+                if equipe.atualizado_em
+                else None
+            ),
+            "status": equipe.status,
+            "icone": equipe.icone,
+            "cor": equipe.cor
+        }
+        for equipe in equipes
+    ]

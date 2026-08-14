@@ -3,6 +3,7 @@ import { useState } from "react"
 import useAuth from "@/contexts/useAuth"
 
 import "./PerfilPage.css"
+import Modal from '@/components/Modal/Modal'
 
 export default function PerfilPage() {
 
@@ -292,56 +293,50 @@ export default function PerfilPage() {
             {/* MODAL */}
 
             {modalAberto && (
+                <Modal onClose={() => setModalAberto(false)} containerClassName="modal">
 
-                <div className="modal-overlay">
+                    <div className="modal-header">
 
-                    <div className="modal">
+                        <div>
+                            <h2>Solicitar alteração</h2>
 
-                        <div className="modal-header">
-
-                            <div>
-                                <h2>Solicitar alteração</h2>
-
-                                <p>
-                                    Explique quais informações precisam
-                                    ser alteradas.
-                                </p>
-                            </div>
-
-                            <button
-                                className="modal-close"
-                                onClick={() => setModalAberto(false)}
-                            >
-                                <i className="fa-solid fa-xmark"></i>
-                            </button>
-
+                            <p>
+                                Explique quais informações precisam
+                                ser alteradas.
+                            </p>
                         </div>
 
-                        <textarea
-                            className="alteracao-textarea"
-                            placeholder="Ex: Meu telefone mudou para (21) 99999-9999..."
-                        />
-
-                        <div className="modal-actions">
-
-                            <button
-                                className="btn-cancelar"
-                                onClick={() => setModalAberto(false)}
-                            >
-                                Cancelar
-                            </button>
-
-                            <button className="btn-enviar">
-                                <i className="fa-solid fa-paper-plane"></i>
-                                Enviar solicitação
-                            </button>
-
-                        </div>
+                        <button
+                            className="modal-close"
+                            onClick={() => setModalAberto(false)}
+                        >
+                            <i className="fa-solid fa-xmark"></i>
+                        </button>
 
                     </div>
 
-                </div>
+                    <textarea
+                        className="alteracao-textarea"
+                        placeholder="Ex: Meu telefone mudou para (21) 99999-9999..."
+                    />
 
+                    <div className="modal-actions">
+
+                        <button
+                            className="btn-cancelar"
+                            onClick={() => setModalAberto(false)}
+                        >
+                            Cancelar
+                        </button>
+
+                        <button className="btn-enviar">
+                            <i className="fa-solid fa-paper-plane"></i>
+                            Enviar solicitação
+                        </button>
+
+                    </div>
+
+                </Modal>
             )}
 
         </main>

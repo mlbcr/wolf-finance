@@ -7,6 +7,9 @@ import {
 } from '@/api/api'
 
 import EditarAlunoModal from './components/EditarAlunoModal'
+import AlunoInfo from './AlunoInfo'
+import AlunoEquipes from './AlunoEquipes'
+import AlunoProjetos from './AlunoProjetos'
 
 import './AlunoPage.css'
 
@@ -19,6 +22,8 @@ export default function AlunoPage() {
 
     const [editando, setEditando] = useState(false)
     const [salvando, setSalvando] = useState(false)
+
+    const [abaAtiva, setAbaAtiva] = useState('informacoes')
 
     useEffect(() => {
         async function carregarAluno() {
@@ -34,18 +39,6 @@ export default function AlunoPage() {
 
         carregarAluno()
     }, [id])
-
-    function formatarData(data) {
-        if (!data) {
-            return '-'
-        }
-
-        return new Date(`${data}T00:00:00`).toLocaleDateString('pt-BR')
-    }
-
-    function abrirEdicao() {
-        setEditando(true)
-    }
 
     async function handleSalvar(dados) {
         setSalvando(true)
@@ -77,6 +70,7 @@ export default function AlunoPage() {
             <main className="aluno-page">
 
                 <button
+                    type="button"
                     className="voltar-button"
                     onClick={() => navigate('/alunos')}
                 >
@@ -85,6 +79,7 @@ export default function AlunoPage() {
                 </button>
 
                 <div className="aluno-empty">
+
                     <i className="fa-solid fa-user-slash"></i>
 
                     <h2>Aluno não encontrado</h2>
@@ -92,6 +87,7 @@ export default function AlunoPage() {
                     <p>
                         Não foi possível encontrar este aluno.
                     </p>
+
                 </div>
 
             </main>
@@ -110,12 +106,14 @@ export default function AlunoPage() {
         <main className="aluno-page">
 
             <button
+                type="button"
                 className="voltar-button"
                 onClick={() => navigate('/alunos')}
             >
                 <i className="fa-solid fa-arrow-left"></i>
                 Voltar para alunos
             </button>
+
 
             {/* HEADER */}
 
@@ -127,14 +125,22 @@ export default function AlunoPage() {
 
                 <div className="aluno-header-info">
 
-                    <h1>{aluno.nome_completo}</h1>
+                    <h1>
+                        {aluno.nome_completo}
+                    </h1>
 
                     <p>
                         <i className="fa-solid fa-envelope"></i>
                         {aluno.email}
                     </p>
 
-                    <span className={`aluno-status ${aluno.status === 'ATIVO' ? 'ativo' : 'inativo'}`}>
+                    <span
+                        className={`aluno-status ${
+                            aluno.status === 'ATIVO'
+                                ? 'ativo'
+                                : 'inativo'
+                        }`}
+                    >
                         <i className="fa-solid fa-circle"></i>
                         {aluno.status}
                     </span>
@@ -144,7 +150,7 @@ export default function AlunoPage() {
                 <button
                     type="button"
                     className="btn-editar-aluno"
-                    onClick={abrirEdicao}
+                    onClick={() => setEditando(true)}
                 >
                     <i className="fa-solid fa-pen"></i>
                     Editar aluno
@@ -152,191 +158,70 @@ export default function AlunoPage() {
 
             </section>
 
-            {/* DADOS PESSOAIS */}
 
-            <section className="aluno-section">
+            {/* ABAS */}
 
-                <div className="section-title">
-                    <div>
-                        <h2>
-                            <i className="fa-solid fa-user"></i>
-                            Dados pessoais
-                        </h2>
+            <nav className="aluno-tabs">
 
-                        <p>
-                            Informações pessoais do aluno
-                        </p>
-                    </div>
-                </div>
+                <button
+                    type="button"
+                    className={
+                        abaAtiva === 'informacoes'
+                            ? 'active'
+                            : ''
+                    }
+                    onClick={() => setAbaAtiva('informacoes')}
+                >
+                    Informações do aluno
+                </button>
 
-                <div className="aluno-info-grid">
+                <button
+                    type="button"
+                    className={
+                        abaAtiva === 'equipes'
+                            ? 'active'
+                            : ''
+                    }
+                    onClick={() => setAbaAtiva('equipes')}
+                >
+                    Equipes
+                </button>
 
-                    <div className="info-item">
-                        <span>Nome completo</span>
-                        <strong>{aluno.nome_completo || '-'}</strong>
-                    </div>
+                <button
+                    type="button"
+                    className={
+                        abaAtiva === 'projetos'
+                            ? 'active'
+                            : ''
+                    }
+                    onClick={() => setAbaAtiva('projetos')}
+                >
+                    Projetos
+                </button>
 
-                    <div className="info-item">
-                        <span>Data de nascimento</span>
-                        <strong>
-                            {formatarData(aluno.data_nascimento)}
-                        </strong>
-                    </div>
+            </nav>
 
-                    <div className="info-item">
-                        <span>Bairro</span>
-                        <strong>{aluno.bairro || '-'}</strong>
-                    </div>
 
-                    <div className="info-item">
-                        <span>E-mail</span>
-                        <strong>{aluno.email || '-'}</strong>
-                    </div>
+            {/* CONTEÚDO DA ABA */}
 
-                    <div className="info-item">
-                        <span>Telefone</span>
-                        <strong>{aluno.telefone || '-'}</strong>
-                    </div>
+            <div className="aluno-tab-content">
 
-                </div>
+                {abaAtiva === 'informacoes' && (
+                    <AlunoInfo aluno={aluno} />
+                )}
 
-            </section>
+                {abaAtiva === 'equipes' && (
+                    <AlunoEquipes aluno={aluno} />
+                )}
 
-            {/* DADOS ACADÊMICOS */}
+                {abaAtiva === 'projetos' && (
+                    <AlunoProjetos aluno={aluno} />
+                )}
 
-            <section className="aluno-section">
+            </div>
 
-                <div className="section-title">
-                    <div>
-                        <h2>
-                            <i className="fa-solid fa-graduation-cap"></i>
-                            Dados acadêmicos
-                        </h2>
 
-                        <p>
-                            Informações acadêmicas do aluno
-                        </p>
-                    </div>
-                </div>
-
-                <div className="aluno-info-grid">
-
-                    <div className="info-item">
-                        <span>Matrícula</span>
-                        <strong>{aluno.matricula || '-'}</strong>
-                    </div>
-
-                    <div className="info-item">
-                        <span>Curso</span>
-                        <strong>{aluno.curso || '-'}</strong>
-                    </div>
-
-                    <div className="info-item">
-                        <span>Ingresso no curso</span>
-                        <strong>
-                            {formatarData(aluno.periodo_ingresso)}
-                        </strong>
-                    </div>
-
-                    <div className="info-item">
-                        <span>Data de cadastro</span>
-                        <strong>
-                            {aluno.cadastrado_em
-                                ? new Date(
-                                    aluno.cadastrado_em
-                                ).toLocaleDateString('pt-BR')
-                                : '-'
-                            }
-                        </strong>
-                    </div>
-
-                </div>
-
-            </section>
-
-            {/* DADOS DA LIGA */}
-
-            <section className="aluno-section">
-
-                <div className="section-title">
-                    <div>
-                        <h2>
-                            <i className="fa-solid fa-users"></i>
-                            Dados da liga
-                        </h2>
-
-                        <p>
-                            Informações sobre a participação na liga
-                        </p>
-                    </div>
-                </div>
-
-                <div className="aluno-info-grid">
-
-                    <div className="info-item">
-                        <span>Cargo</span>
-                        <strong>{aluno.cargo || '-'}</strong>
-                    </div>
-
-                    <div className="info-item">
-                        <span>Ingresso na liga</span>
-                        <strong>
-                            {formatarData(aluno.ingresso_liga)}
-                        </strong>
-                    </div>
-
-                    <div className="info-item">
-                        <span>Desligamento da liga</span>
-                        <strong>
-                            {aluno.desligamento_liga
-                                ? formatarData(aluno.desligamento_liga)
-                                : 'Ainda na liga'
-                            }
-                        </strong>
-                    </div>
-
-                    <div className="info-item">
-                        <span>Status</span>
-                        <strong>{aluno.status || '-'}</strong>
-                    </div>
-
-                </div>
-
-            </section>
-
-            {/* DADOS PROFISSIONAIS */}
-
-            <section className="aluno-section">
-
-                <div className="section-title">
-                    <div>
-                        <h2>
-                            <i className="fa-solid fa-briefcase"></i>
-                            Dados profissionais
-                        </h2>
-
-                        <p>
-                            Informações profissionais do aluno
-                        </p>
-                    </div>
-                </div>
-
-                <div className="aluno-info-grid">
-
-                    <div className="info-item">
-                        <span>Faz estágio</span>
-
-                        <strong>
-                            {aluno.faz_estagio
-                                ? 'Sim'
-                                : 'Não'
-                            }
-                        </strong>
-                    </div>
-
-                </div>
-
-            </section>
+            {/* MODAL DE EDIÇÃO */}
 
             {editando && (
                 <EditarAlunoModal
@@ -350,3 +235,4 @@ export default function AlunoPage() {
         </main>
     )
 }
+

@@ -35,6 +35,12 @@ class Equipe(Base):
         nullable=True
     )
 
+    vice_lider_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("alunos.id"),
+        nullable=True
+    )
+
     criado_em: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,

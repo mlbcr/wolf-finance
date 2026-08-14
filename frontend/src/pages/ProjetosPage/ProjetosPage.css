@@ -2,7 +2,7 @@
    PAGE
 ========================================================= */
 
-.equipes-page {
+.projetos-page {
     width: 100%;
     max-width: 1100px;
 
@@ -16,7 +16,7 @@
    HEADER
 ========================================================= */
 
-.equipes-header {
+.projetos-header {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -37,7 +37,7 @@
     font-weight: 600;
 }
 
-.equipes-header h1 {
+.projetos-header h1 {
     margin: 0;
 
     color: #1f1f1f;
@@ -46,7 +46,7 @@
     font-weight: 700;
 }
 
-.equipes-header p {
+.projetos-header p {
     margin: 8px 0 0;
 
     color: #777;
@@ -56,10 +56,10 @@
 
 
 /* =========================================================
-   BOTÃO NOVA EQUIPE
+   BOTÃO NOVA projeto
 ========================================================= */
 
-.btn-nova-equipe {
+.btn-novo-projeto {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -82,7 +82,7 @@
         transform 0.2s ease;
 }
 
-.btn-nova-equipe:hover {
+.btn-novo-projeto:hover {
     background: #2849b8;
 
     transform: translateY(-1px);
@@ -93,7 +93,7 @@
    SEÇÕES
 ========================================================= */
 
-.equipes-section {
+.projetos-section {
     padding: 24px;
 
     margin-bottom: 20px;
@@ -131,7 +131,7 @@
     font-size: 13px;
 }
 
-.equipes-count {
+.projetos-count {
     display: flex;
     align-items: center;
     gap: 7px;
@@ -146,13 +146,13 @@
     background: #fafafa;
 }
 
-.equipes-count strong {
+.projetos-count strong {
     color: #222;
 
     font-size: 16px;
 }
 
-.equipes-count span {
+.projetos-count span {
     color: #888;
 
     font-size: 12px;
@@ -160,10 +160,10 @@
 
 
 /* =========================================================
-   MINHAS EQUIPES — CARDS
+   MINHAS projetoS — CARDS
 ========================================================= */
 
-.equipes-cards {
+.projetos-cards {
     display: grid;
 
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -171,7 +171,7 @@
     gap: 16px;
 }
 
-.equipe-card {
+.projeto-card {
     display: flex;
     flex-direction: column;
 
@@ -193,7 +193,7 @@
         border-color 0.2s ease;
 }
 
-.equipe-card:hover {
+.projeto-card:hover {
     transform: translateY(-3px);
 
     border-color: #d5d5d5;
@@ -205,7 +205,7 @@
 
 /* TOPO DO CARD */
 
-.equipe-card-top {
+.projeto-card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -213,7 +213,7 @@
     gap: 15px;
 }
 
-.equipe-icon {
+.projeto-icon {
     width: 48px;
     height: 48px;
 
@@ -228,7 +228,7 @@
     font-size: 18px;
 }
 
-.equipe-status {
+.projeto-status {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -239,14 +239,14 @@
     font-weight: 600;
 }
 
-.equipe-status i {
+.projeto-status i {
     font-size: 6px;
 }
 
 
 /* INFORMAÇÕES */
 
-.equipe-info {
+.projeto-info {
     flex: 1;
 
     margin-top: 20px;
@@ -254,7 +254,7 @@
     min-width: 0;
 }
 
-.equipe-info h2 {
+.projeto-info h2 {
     margin: 0 0 7px;
 
     color: #222;
@@ -267,7 +267,7 @@
     white-space: nowrap;
 }
 
-.equipe-info p {
+.projeto-info p {
     margin: 0;
 
     color: #777;
@@ -285,7 +285,7 @@
 
 /* RODAPÉ */
 
-.equipe-card-footer {
+.projeto-card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -297,14 +297,14 @@
     border-top: 1px solid #eeeeee;
 }
 
-.equipe-card-footer span {
+.projeto-card-footer span {
     color: #777;
 
     font-size: 12px;
     font-weight: 600;
 }
 
-.equipe-arrow {
+.projeto-arrow {
     width: 28px;
     height: 28px;
 
@@ -322,23 +322,23 @@
     transition: transform 0.2s ease;
 }
 
-.equipe-card:hover .equipe-arrow {
+.projeto-card:hover .projeto-arrow {
     transform: translateX(3px);
 }
 
 
 /* =========================================================
-   TODAS AS EQUIPES
+   TODAS AS projetoS
 ========================================================= */
 
-.todas-equipes-section {
+.todas-projetos-section {
     margin-top: 30px;
 }
 
 
 /* PESQUISA */
 
-.equipes-search {
+.projetos-search {
     position: relative;
 
     display: flex;
@@ -347,7 +347,7 @@
     margin-bottom: 18px;
 }
 
-.equipes-search > i {
+.projetos-search > i {
     position: absolute;
     left: 13px;
 
@@ -358,7 +358,7 @@
     pointer-events: none;
 }
 
-.equipes-search input {
+.projetos-search input {
     width: 100%;
 
     box-sizing: border-box;
@@ -380,13 +380,13 @@
         background 0.2s ease;
 }
 
-.equipes-search input:focus {
+.projetos-search input:focus {
     border-color: #3157d5;
 
     background: #fff;
 }
 
-.equipes-search input::placeholder {
+.projetos-search input::placeholder {
     color: #aaa;
 }
 
@@ -422,14 +422,14 @@
 
 /* LISTA */
 
-.todas-equipes-list {
+.todas-projetos-list {
     display: flex;
     flex-direction: column;
 
     border-top: 1px solid #eeeeee;
 }
 
-.todas-equipe-item {
+.todas-projeto-item {
     display: flex;
     align-items: center;
 
@@ -447,7 +447,7 @@
         padding 0.15s ease;
 }
 
-.todas-equipe-item:hover {
+.todas-projeto-item:hover {
     padding-left: 10px;
     padding-right: 10px;
 
@@ -457,7 +457,7 @@
 
 /* ÍCONE */
 
-.todas-equipe-icon {
+.todas-projeto-icon {
     width: 42px;
     height: 42px;
 
@@ -475,7 +475,7 @@
 
 /* INFORMAÇÕES */
 
-.todas-equipe-info {
+.todas-projeto-info {
     display: flex;
     flex-direction: column;
 
@@ -486,7 +486,7 @@
     min-width: 0;
 }
 
-.todas-equipe-info strong {
+.todas-projeto-info strong {
     color: #292929;
 
     font-size: 14px;
@@ -497,7 +497,7 @@
     white-space: nowrap;
 }
 
-.todas-equipe-info span {
+.todas-projeto-info span {
     color: #888;
 
     font-size: 12px;
@@ -510,7 +510,7 @@
 
 /* SETA */
 
-.todas-equipe-arrow {
+.todas-projeto-arrow {
     flex-shrink: 0;
 
     color: #bbb;
@@ -522,7 +522,7 @@
         transform 0.2s ease;
 }
 
-.todas-equipe-item:hover .todas-equipe-arrow {
+.todas-projeto-item:hover .todas-projeto-arrow {
     color: #555;
 
     transform: translateX(3px);
@@ -533,7 +533,7 @@
    SEM RESULTADOS
 ========================================================= */
 
-.sem-equipes,
+.sem-projetos,
 .sem-resultados {
     display: flex;
     flex-direction: column;
@@ -544,7 +544,7 @@
     text-align: center;
 }
 
-.sem-equipes-icon {
+.sem-projetos-icon {
     width: 52px;
     height: 52px;
 
@@ -562,7 +562,7 @@
     font-size: 20px;
 }
 
-.sem-equipes h2,
+.sem-projetos h2,
 .sem-resultados h3 {
     margin: 0 0 7px;
 
@@ -571,7 +571,7 @@
     font-size: 16px;
 }
 
-.sem-equipes p,
+.sem-projetos p,
 .sem-resultados p {
     max-width: 380px;
 
@@ -596,7 +596,7 @@
    LOADING
 ========================================================= */
 
-.equipes-loading {
+.projetos-loading {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -631,7 +631,7 @@
     background: rgba(0, 0, 0, 0.35);
 }
 
-.nova-equipe-modal {
+.nova-projeto-modal {
     width: 100%;
     max-width: 480px;
 
@@ -748,27 +748,27 @@
 
 @media (max-width: 700px) {
 
-    .equipes-page {
+    .projetos-page {
         padding: 25px 16px 45px;
     }
 
-    .equipes-header {
+    .projetos-header {
         align-items: flex-start;
 
         flex-direction: column;
     }
 
-    .equipes-header h1 {
+    .projetos-header h1 {
         font-size: 26px;
     }
 
-    .btn-nova-equipe {
+    .btn-nova-projeto {
         width: 100%;
 
         justify-content: center;
     }
 
-    .equipes-section {
+    .projetos-section {
         padding: 20px 18px;
     }
 
@@ -776,28 +776,28 @@
         align-items: flex-start;
     }
 
-    .equipes-cards {
+    .projetos-cards {
         grid-template-columns: 1fr;
     }
 
-    .equipe-card {
+    .projeto-card {
         min-height: 180px;
     }
 
-    .todas-equipe-item {
+    .todas-projeto-item {
         padding: 13px 0;
     }
 
-    .todas-equipe-icon {
+    .todas-projeto-icon {
         width: 40px;
         height: 40px;
     }
 
-    .todas-equipe-info span {
+    .todas-projeto-info span {
         max-width: 200px;
     }
 
-    .nova-equipe-modal {
+    .nova-projeto-modal {
         max-width: none;
     }
 }
