@@ -1,6 +1,8 @@
+import { API_URL } from './api'
+
 export async function fazerLogin(dados) {
     const response = await fetch(
-        'http://127.0.0.1:8000/auth/login',
+        `${API_URL}/auth/login`,
         {
             method: 'POST',
             headers: {
@@ -21,7 +23,7 @@ export async function buscarUsuarioLogado() {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/auth/me',
+        `${API_URL}/auth/me`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,

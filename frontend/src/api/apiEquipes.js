@@ -1,8 +1,10 @@
+import { API_URL } from './api'
+
 export async function buscarMinhasEquipes() {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/equipes/minhas',
+        `${API_URL}/equipes/minhas`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -21,7 +23,7 @@ export async function buscarTodasEquipes() {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/equipes/',
+        `${API_URL}/equipes/`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -40,7 +42,7 @@ export async function buscarEquipe(id) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${id}`,
+        `${API_URL}/equipes/${id}`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -59,7 +61,7 @@ export async function criarEquipe(dados) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/equipes/',
+        `${API_URL}/equipes/`,
         {
             method: 'POST',
             headers: {
@@ -81,7 +83,7 @@ export async function atualizarEquipe(id, dados) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${id}`,
+        `${API_URL}/equipes/${id}`,
         {
             method: 'PUT',
             headers: {
@@ -103,7 +105,7 @@ export async function buscarMembrosEquipe(id) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${id}/membros`,
+        `${API_URL}/equipes/${id}/membros`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -122,7 +124,7 @@ export async function adicionarMembrosEquipe(equipeId, alunoIds) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${equipeId}/membros`,
+        `${API_URL}/equipes/${equipeId}/membros`,
         {
             method: 'POST',
             headers: {
@@ -146,7 +148,7 @@ export async function removerMembroEquipe(equipeId, alunoId) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/equipes/${equipeId}/membros/${alunoId}`,
+        `${API_URL}/equipes/${equipeId}/membros/${alunoId}`,
         {
             method: 'DELETE',
             headers: {
@@ -166,7 +168,7 @@ export async function buscarEquipesAluno(alunoId) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/alunos/${alunoId}/equipes`,
+        `${API_URL}/alunos/${alunoId}/equipes`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,

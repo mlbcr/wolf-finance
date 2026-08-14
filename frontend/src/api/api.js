@@ -1,3 +1,4 @@
+export const API_URL = 'https://wolf-finance.onrender.com'
 export * from './apiAuth'
 export * from './apiAlunos'
 export * from './apiEquipes'

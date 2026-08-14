@@ -1,8 +1,10 @@
+import { API_URL } from './api'
+
 export async function buscarAlunos() {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/alunos/',
+        `${API_URL}/alunos/`,
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -21,7 +23,7 @@ export async function buscarAluno(id) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/alunos/${id}`,
+        `${API_URL}/alunos/${id}`,
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -40,7 +42,7 @@ export async function atualizarAluno(id, dados) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/alunos/${id}`,
+        `${API_URL}/alunos/${id}`,
         {
             method: 'PUT',
 
@@ -64,7 +66,7 @@ export async function cadastrarAluno(dados) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/alunos/',
+        `${API_URL}/alunos/`,
         {
             method: 'POST',
             headers: {

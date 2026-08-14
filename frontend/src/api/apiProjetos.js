@@ -1,8 +1,10 @@
+import { API_URL } from './api'
+
 export async function buscarMeusProjetos() {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/projetos/meus',
+        `${API_URL}/projetos/meus`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -22,7 +24,7 @@ export async function buscarTodosProjetos() {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/projetos/',
+        `${API_URL}/projetos/`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -42,7 +44,7 @@ export async function buscarProjeto(id) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/projetos/${id}`,
+        `${API_URL}/projetos/${id}`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -62,7 +64,7 @@ export async function criarProjeto(dados) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        'http://127.0.0.1:8000/projetos/',
+        `${API_URL}/projetos/`,
         {
             method: 'POST',
             headers: {
@@ -85,7 +87,7 @@ export async function atualizarProjeto(id, dados) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/projetos/${id}`,
+        `${API_URL}/projetos/${id}`,
         {
             method: 'PUT',
             headers: {
@@ -108,7 +110,7 @@ export async function buscarMembrosProjeto(id) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/projetos/${id}/membros`,
+        `${API_URL}/projetos/${id}/membros`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -131,7 +133,7 @@ export async function adicionarMembrosProjeto(
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/projetos/${projetoId}/membros`,
+        `${API_URL}/projetos/${projetoId}/membros`,
         {
             method: 'POST',
             headers: {
@@ -159,7 +161,7 @@ export async function removerMembroProjeto(
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/projetos/${projetoId}/membros/${alunoId}`,
+        `${API_URL}/projetos/${projetoId}/membros/${alunoId}`,
         {
             method: 'DELETE',
             headers: {
@@ -180,7 +182,7 @@ export async function buscarProjetosAluno(alunoId) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
-        `http://127.0.0.1:8000/alunos/${alunoId}/projetos`,
+        `${API_URL}/alunos/${alunoId}/projetos`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
