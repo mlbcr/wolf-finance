@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 
 from app.models.aluno import Aluno
 from app.models.usuario import Usuario
