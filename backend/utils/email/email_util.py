@@ -49,7 +49,7 @@ def enviar_email(
 
     caminho_logo_texto = os.path.join(
         os.path.dirname(__file__),
-        "logo_texto.png"
+        "logo-texto.png"
     )
 
     with open(caminho_logo, "rb") as arquivo:
