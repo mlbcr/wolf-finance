@@ -26,16 +26,13 @@ def enviar_email(
         "Seu cliente de e-mail não suporta HTML."
     )
 
-    # Gera os Content-ID das imagens
     logo_cid = make_msgid()
     logo_text_cid = make_msgid()
 
-    # Remove < > para usar no HTML como cid:xxx
     logo_cid = logo_cid[1:-1]
     logo_text_cid = logo_text_cid[1:-1]
 
-    # Aqui o template precisa receber os CIDs
-    corpo_html = corpo_html(
+    corpo_html = corpo_html.format(
         logo_cid=logo_cid,
         logo_text_cid=logo_text_cid
     )
@@ -45,7 +42,6 @@ def enviar_email(
         subtype="html"
     )
 
-    # Caminhos das imagens
     caminho_logo = os.path.join(
         os.path.dirname(__file__),
         "logo.png"
