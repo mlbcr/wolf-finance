@@ -14,3 +14,6 @@ class UsuarioAtualResponse(BaseModel):
     cargo: str
     tipo: str
     status: str
+
+class RecuperarSenhaRequest(BaseModel):
+    login: str

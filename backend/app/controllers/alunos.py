@@ -18,6 +18,10 @@ router = APIRouter(
 )
 
 
+from utils.email.email_util import enviar_email
+from utils.email.templates import template_email_cadastro
+
+
 @router.post("/", status_code=201)
 def criar_aluno(
     aluno: AlunoCreate,
@@ -26,11 +30,17 @@ def criar_aluno(
     try:
         aluno, senha_inicial = cadastrar_aluno(aluno, db)
 
+        corpo_html = template_email_cadastro(
+            nome=aluno.nome_completo,
+            matricula=aluno.matricula,
+            email=aluno.email,
+            senha=senha_inicial,
+        )
+
         enviar_email(
             email=aluno.email,
-            matricula=aluno.matricula,
-            nome=aluno.nome_completo,
-            senha=senha_inicial
+            assunto="Acesso à Wolf Finance",
+            corpo_html=corpo_html
         )
 
         return aluno_para_dict(aluno)

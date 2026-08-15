@@ -4,6 +4,7 @@ import EquipePage from '@/pages/EquipePage/EquipePage'
 import ProjetosPage from '@/pages/ProjetosPage/ProjetosPage'
 import ProjetoPage from '@/pages/ProjetoPage/ProjetoPage'
 import LoginPage from '@/pages/LoginPage/LoginPage'
+import RecuperarSenhaPage from '@/pages/LoginPage/RecuperarSenhaPage'
 import PresencasPage from '@/pages/PresencasPage/PresencasPage'
 import ReunioesPage from '@/pages/ReunioesPage/ReunioesPage'
 import PerfilPage from '@/pages/PerfilPage/PerfilPage'
@@ -18,6 +19,7 @@ export default function AppRouter() {
     return (
         <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/recuperar-senha" element={<RecuperarSenhaPage />} />
             <Route element={<PrivateRoute />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/perfil" element={<PerfilPage />} />

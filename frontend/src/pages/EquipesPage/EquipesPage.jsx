@@ -471,7 +471,6 @@ export default function EquipesPage() {
 
             )}
 
-            {/* MODAL */}
 
             {modalAberto && (
                 <Modal onClose={fecharModal} containerClassName="nova-equipe-modal">

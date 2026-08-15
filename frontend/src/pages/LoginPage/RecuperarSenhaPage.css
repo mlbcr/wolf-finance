@@ -2,9 +2,10 @@
    Página
 ================================ */
 
-.login-page {
+.recuperar-page {
   min-height: 100vh;
   width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +18,12 @@
       #e9edf3 100%
     );
 
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 
   padding: 1.5rem;
   box-sizing: border-box;
@@ -28,7 +34,7 @@
    Card
 ================================ */
 
-.login-card {
+.recuperar-card {
   width: 100%;
   max-width: 420px;
 
@@ -46,6 +52,8 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  box-sizing: border-box;
 }
 
 
@@ -53,24 +61,34 @@
    Cabeçalho
 ================================ */
 
-.login-header {
+.recuperar-header {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   text-align: center;
 }
 
-.login-logo {
-  width: 68px;
-  height: auto;
+.recuperar-icon {
+  width: 54px;
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   margin-bottom: 1rem;
 
-  filter: drop-shadow(
-    0 4px 8px rgba(15, 23, 42, 0.12)
-  );
+  border-radius: 14px;
+
+  background: rgba(197, 164, 61, 0.1);
+
+  color: #a4862d;
+
+  font-size: 1.3rem;
 }
 
-.login-header h1 {
+.recuperar-header h1 {
   color: #172033;
 
   font-size: 1.625rem;
@@ -81,13 +99,15 @@
   margin: 0;
 }
 
-.login-header h2 {
+.recuperar-header p {
+  max-width: 340px;
+
   color: #6b7280;
 
-  font-size: 0.95rem;
-  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.5;
 
-  margin-top: 0.4rem;
+  margin: 0.6rem 0 0;
 }
 
 
@@ -95,133 +115,56 @@
    Formulário
 ================================ */
 
-.login-form {
+.recuperar-form {
   display: flex;
   flex-direction: column;
+
   gap: 1.25rem;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
+
   gap: 0.5rem;
 }
 
 
 /* ================================
-   Campo de senha
+   Label
 ================================ */
 
-.password-field {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
+.login-label {
+  color: #172033 !important;
 
-.password-field input {
-  padding-right: 3rem;
-}
-
-.password-toggle {
-  position: absolute;
-  right: 0.75rem;
-
-  border: none;
-  background: transparent;
-
-  color: #8a93a3;
-
-  cursor: pointer;
-
-  font-size: 1.05rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0.2rem;
-
-  transition: color 0.2s ease;
-}
-
-.password-toggle:hover {
-  color: #172033;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 
 /* ================================
-   Lembrar login
+   Input
 ================================ */
 
-.remember-group {
-  display: flex;
-  align-items: center;
+.login-input {
+  color: #172033 !important;
 
-  margin-top: -0.15rem;
+  background: #ffffff !important;
+
+  border: 1px solid #d5dbe4 !important;
 }
 
-.remember-checkbox {
-  display: inline-flex;
-  align-items: center;
-
-  gap: 0.65rem;
-
-  color: #6b7280;
-
-  font-size: 0.875rem;
-
-  cursor: pointer;
-  user-select: none;
+.login-input::placeholder {
+  color: #9aa3b2 !important;
 }
 
-.remember-checkbox input {
-  position: absolute;
+.login-input:focus {
+  border-color: #c5a43d !important;
 
-  opacity: 0;
-  pointer-events: none;
-}
-
-.custom-checkbox {
-  width: 17px;
-  height: 17px;
-
-  border: 1px solid #cfd5de;
-  border-radius: 5px;
-
-  background: #ffffff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #ffffff;
-
-  font-size: 0.65rem;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.remember-checkbox:hover .custom-checkbox {
-  border-color: #c5a43d;
-}
-
-.remember-checkbox input:checked + .custom-checkbox {
-  background: #c5a43d;
-  border-color: #c5a43d;
+  outline: none;
 
   box-shadow:
     0 0 0 3px rgba(197, 164, 61, 0.12);
-}
-
-.remember-text {
-  transition: color 0.2s ease;
-}
-
-.remember-checkbox:hover .remember-text {
-  color: #172033;
 }
 
 
@@ -229,10 +172,10 @@
    Botão
 ================================ */
 
-.login-button {
+.recuperar-senha {
   width: 100%;
 
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
 
   padding: 0.85rem;
 
@@ -243,8 +186,8 @@
 
   color: #ffffff;
 
-  font-weight: 600;
   font-size: 1rem;
+  font-weight: 600;
 
   cursor: pointer;
 
@@ -257,7 +200,7 @@
     0 4px 12px rgba(23, 32, 51, 0.18);
 }
 
-.login-button:hover {
+.recuperar-senha:hover {
   background: #202c45;
 
   transform: translateY(-1px);
@@ -266,8 +209,56 @@
     0 6px 18px rgba(23, 32, 51, 0.22);
 }
 
-.login-button:active {
-  transform: translateY(0);
+
+/* ================================
+   Sucesso
+================================ */
+
+.recuperar-sucesso {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  gap: 0.75rem;
+}
+
+.sucesso-icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e8f5ee;
+
+  color: #258653;
+
+  font-size: 1.2rem;
+
+  margin-bottom: 0.25rem;
+}
+
+.recuperar-sucesso h2 {
+  color: #172033;
+
+  font-size: 1.2rem;
+
+  margin: 0;
+}
+
+.recuperar-sucesso p {
+  color: #6b7280;
+
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  margin: 0;
 }
 
 
@@ -290,12 +281,6 @@
 
 .common-link:hover {
   color: #80691f;
-  text-decoration: underline;
-}
 
-.login-label {
-  color: #172033 !important;
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 0.1rem;
+  text-decoration: underline;
 }

@@ -5,19 +5,27 @@
   background: var(--input-bg);
   border: 1px solid var(--input-border);
   border-radius: 8px;
-  color: var(--text-main);
+  color: #172033;
   font-size: 0.95rem;
   outline: none;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
 
+.login-input {
+  color: #172033 !important;
+  background: #ffffff !important;
+  border: 1px solid #d5dbe4 !important;
+}
+
 .login-input::placeholder {
-  color: rgba(156, 163, 175, 0.5);
+  color: #9aa3b2 !important;
 }
 
 .login-input:focus {
-  border-color: var(--input-focus);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: #c5a43d !important;
+  outline: none;
+
+  box-shadow:
+    0 0 0 3px rgba(197, 164, 61, 0.12);
 }

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.schemas.auth import LoginRequest
-from app.services.auth import autenticar_usuario
+from app.schemas.auth import LoginRequest, RecuperarSenhaRequest
+from app.services.auth import autenticar_usuario, solicitar_recuperacao_senha
 from app.security.dependencies import get_usuario_id
 
 from app.models.usuario import Usuario
@@ -83,3 +83,10 @@ def usuario_logado(
         "tipo": usuario.tipo,
         "status": usuario.status
     }
+
+@router.post("/recuperar-senha")
+def recuperar_senha(
+    dados: RecuperarSenhaRequest,
+    db: Session = Depends(get_db)
+):
+    return solicitar_recuperacao_senha(dados, db)
