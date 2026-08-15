@@ -71,3 +71,5 @@ def enviar_email(
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(remetente, senha)
         smtp.send_message(mensagem)
+
+    print(f"Email enviado: {remetente}")
