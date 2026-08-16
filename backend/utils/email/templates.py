@@ -29,15 +29,11 @@ def template_email_cadastro(
     font-family: Arial, Helvetica, sans-serif;
 ">
 
-    <!-- ÁREA EXTERNA -->
-
     <div style="
         width: 100%;
         padding: 35px 0;
         background-color: #eef0f7;
     ">
-
-        <!-- CONTAINER PRINCIPAL -->
 
         <div style="
             width: 100%;
@@ -49,9 +45,7 @@ def template_email_cadastro(
             border: 1px solid #dfe3ee;
         ">
 
-            <!-- =========================================
-                 CABEÇALHO
-                 ========================================= -->
+            <!-- CABEÇALHO -->
 
             <div style="
                 width: 100%;
@@ -77,15 +71,11 @@ def template_email_cadastro(
             </div>
 
 
-            <!-- =========================================
-                 CONTEÚDO PRINCIPAL
-                 ========================================= -->
+            <!-- CONTEÚDO -->
 
             <div style="
                 padding: 42px 45px 40px 45px;
             ">
-
-                <!-- IDENTIFICAÇÃO -->
 
                 <p style="
                     margin: 0 0 8px 0;
@@ -99,8 +89,6 @@ def template_email_cadastro(
                 </p>
 
 
-                <!-- SAUDAÇÃO -->
-
                 <h1 style="
                     margin: 0 0 18px 0;
                     color: #171a4d;
@@ -111,8 +99,6 @@ def template_email_cadastro(
                     Olá, {nome}
                 </h1>
 
-
-                <!-- TEXTO -->
 
                 <p style="
                     margin: 0 0 16px 0;
@@ -127,6 +113,7 @@ def template_email_cadastro(
                     foi criado com sucesso.
                 </p>
 
+
                 <p style="
                     margin: 0 0 30px 0;
                     color: #505568;
@@ -138,9 +125,7 @@ def template_email_cadastro(
                 </p>
 
 
-                <!-- =========================================
-                     CREDENCIAIS
-                     ========================================= -->
+                <!-- CREDENCIAIS -->
 
                 <div style="
                     padding: 25px;
@@ -163,9 +148,8 @@ def template_email_cadastro(
                         border-collapse: collapse;
                     ">
 
-                        <!-- MATRÍCULA -->
-
                         <tr>
+
                             <td style="
                                 padding: 9px 0;
                                 color: #73788d;
@@ -185,12 +169,12 @@ def template_email_cadastro(
                             ">
                                 {matricula}
                             </td>
+
                         </tr>
 
 
-                        <!-- EMAIL -->
-
                         <tr>
+
                             <td style="
                                 padding: 9px 0;
                                 color: #73788d;
@@ -210,19 +194,19 @@ def template_email_cadastro(
                             ">
                                 {email}
                             </td>
+
                         </tr>
 
 
-                        <!-- SENHA -->
-
                         <tr>
+
                             <td style="
                                 padding: 9px 0;
                                 color: #73788d;
                                 font-size: 14px;
                                 vertical-align: top;
                             ">
-                                Senha temporária
+                                Senha
                             </td>
 
                             <td style="
@@ -245,6 +229,7 @@ def template_email_cadastro(
                                 </span>
 
                             </td>
+
                         </tr>
 
                     </table>
@@ -252,9 +237,7 @@ def template_email_cadastro(
                 </div>
 
 
-                <!-- =========================================
-                     AVISO DE SEGURANÇA
-                     ========================================= -->
+                <!-- AVISO -->
 
                 <div style="
                     margin-top: 24px;
@@ -279,8 +262,6 @@ def template_email_cadastro(
                 </div>
 
 
-                <!-- OBSERVAÇÃO -->
-
                 <p style="
                     margin: 28px 0 0 0;
                     color: #74798d;
@@ -294,9 +275,7 @@ def template_email_cadastro(
             </div>
 
 
-            <!-- =========================================
-                 FOOTER
-                 ========================================= -->
+            <!-- FOOTER -->
 
             <div style="
                 padding: 32px 45px;
@@ -318,8 +297,6 @@ def template_email_cadastro(
                 </p>
 
 
-                <!-- LOGO DO LOBO -->
-
                 <img
                     src="cid:{logo_cid}"
                     alt="Wolf Finance"
@@ -334,8 +311,6 @@ def template_email_cadastro(
                     "
                 >
 
-
-                <!-- INFORMAÇÕES -->
 
                 <p style="
                     margin: 0;
@@ -359,8 +334,6 @@ def template_email_cadastro(
                 </p>
 
 
-                <!-- EMAIL -->
-
                 <p style="
                     margin: 12px 0 0 0;
                     font-size: 13px;
@@ -380,10 +353,6 @@ def template_email_cadastro(
 
             </div>
 
-
-            <!-- =========================================
-                 RODAPÉ FINAL
-                 ========================================= -->
 
             <div style="
                 padding: 14px 30px;
@@ -412,9 +381,10 @@ def template_email_cadastro(
 </html>
 """
 
+
 def template_recuperar_senha(
     nome: str,
-    link_recuperacao: str,
+    senha: str,
     logo_cid: str,
     logo_text_cid: str
 ) -> str:
@@ -431,7 +401,7 @@ def template_recuperar_senha(
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Recuperação de senha - Wolf Finance</title>
+    <title>Nova senha - Wolf Finance</title>
 </head>
 
 <body style="
@@ -441,15 +411,11 @@ def template_recuperar_senha(
     font-family: Arial, Helvetica, sans-serif;
 ">
 
-    <!-- ÁREA EXTERNA -->
-
     <div style="
         width: 100%;
         padding: 35px 0;
         background-color: #eef0f7;
     ">
-
-        <!-- CONTAINER PRINCIPAL -->
 
         <div style="
             width: 100%;
@@ -461,9 +427,7 @@ def template_recuperar_senha(
             border: 1px solid #dfe3ee;
         ">
 
-            <!-- =========================================
-                 CABEÇALHO
-                 ========================================= -->
+            <!-- CABEÇALHO -->
 
             <div style="
                 width: 100%;
@@ -488,15 +452,11 @@ def template_recuperar_senha(
             </div>
 
 
-            <!-- =========================================
-                 CONTEÚDO PRINCIPAL
-                 ========================================= -->
+            <!-- CONTEÚDO -->
 
             <div style="
                 padding: 42px 45px 40px 45px;
             ">
-
-                <!-- IDENTIFICAÇÃO -->
 
                 <p style="
                     margin: 0 0 8px 0;
@@ -510,8 +470,6 @@ def template_recuperar_senha(
                 </p>
 
 
-                <!-- SAUDAÇÃO -->
-
                 <h1 style="
                     margin: 0 0 18px 0;
                     color: #171a4d;
@@ -522,8 +480,6 @@ def template_recuperar_senha(
                     Olá, {nome}
                 </h1>
 
-
-                <!-- TEXTO -->
 
                 <p style="
                     margin: 0 0 16px 0;
@@ -538,82 +494,61 @@ def template_recuperar_senha(
                     da sua conta na Wolf Finance.
                 </p>
 
+
                 <p style="
                     margin: 0 0 30px 0;
                     color: #505568;
                     font-size: 15px;
                     line-height: 1.7;
                 ">
-                    Clique no botão abaixo para criar uma
-                    nova senha para sua conta.
+                    Uma nova senha foi gerada para sua conta.
+                    Utilize os dados abaixo para realizar o acesso.
                 </p>
 
 
-                <!-- =========================================
-                     BOTÃO
-                     ========================================= -->
+                <!-- NOVA SENHA -->
 
                 <div style="
-                    text-align: center;
-                    margin: 0 0 30px 0;
-                ">
-
-                    <a
-                        href="{link_recuperacao}"
-                        style="
-                            display: inline-block;
-                            padding: 13px 26px;
-                            background-color: #171a4d;
-                            color: #ffffff;
-                            font-size: 14px;
-                            font-weight: bold;
-                            text-decoration: none;
-                            border-radius: 7px;
-                        "
-                    >
-                        Redefinir minha senha
-                    </a>
-
-                </div>
-
-
-                <!-- =========================================
-                     LINK ALTERNATIVO
-                     ========================================= -->
-
-                <div style="
-                    padding: 18px;
+                    padding: 25px;
                     background-color: #f6f7fb;
                     border: 1px solid #e1e4ed;
                     border-radius: 10px;
                 ">
 
                     <p style="
-                        margin: 0 0 10px 0;
-                        color: #505568;
+                        margin: 0 0 12px 0;
+                        color: #73788d;
                         font-size: 13px;
-                        line-height: 1.6;
                     ">
-                        Caso o botão não funcione, copie e cole
-                        o endereço abaixo no seu navegador:
+                        Sua nova senha
                     </p>
 
-                    <p style="
-                        margin: 0;
-                        color: #666b82;
-                        font-size: 12px;
-                        line-height: 1.6;
-                        word-break: break-all;
+
+                    <div style="
+                        text-align: center;
                     ">
-                        {link_recuperacao}
-                    </p>
+
+                        <span style="
+                            display: inline-block;
+                            padding: 13px 20px;
+                            background-color: #ffffff;
+                            border: 1px solid #d4d8e3;
+                            border-radius: 8px;
+                            color: #20243f;
+                            font-family: monospace;
+                            font-size: 20px;
+                            font-weight: bold;
+                            letter-spacing: 1px;
+                        ">
+                            {senha}
+                        </span>
+
+                    </div>
 
                 </div>
 
 
-                <!-- =========================================
-                     AVISO DE SEGURANÇA
-                     ========================================= -->
+                <!-- AVISO DE SEGURANÇA -->
 
                 <div style="
                     margin-top: 24px;
@@ -628,14 +563,15 @@ def template_recuperar_senha(
                         font-size: 13px;
                         line-height: 1.6;
                     ">
-                        Este link é temporário e deve ser utilizado
-                        apenas para redefinir sua senha.
+                        Por segurança, recomendamos que você
+                        <strong style="color: #171a4d;">
+                            altere esta senha
+                        </strong>
+                        após entrar no sistema.
                     </p>
 
                 </div>
 
-
-                <!-- OBSERVAÇÃO -->
 
                 <p style="
                     margin: 28px 0 0 0;
@@ -644,15 +580,13 @@ def template_recuperar_senha(
                     line-height: 1.6;
                 ">
                     Se você não solicitou a recuperação da senha,
-                    ignore este e-mail. Sua senha permanecerá a mesma.
+                    entre em contato com o RH da Wolf Finance.
                 </p>
 
             </div>
 
 
-            <!-- =========================================
-                 FOOTER
-                 ========================================= -->
+            <!-- FOOTER -->
 
             <div style="
                 padding: 32px 45px;
@@ -674,8 +608,6 @@ def template_recuperar_senha(
                 </p>
 
 
-                <!-- LOGO DO LOBO -->
-
                 <img
                     src="cid:{logo_cid}"
                     alt="Wolf Finance"
@@ -690,8 +622,6 @@ def template_recuperar_senha(
                     "
                 >
 
-
-                <!-- INFORMAÇÕES -->
 
                 <p style="
                     margin: 0;
@@ -715,8 +645,6 @@ def template_recuperar_senha(
                 </p>
 
 
-                <!-- EMAIL -->
-
                 <p style="
                     margin: 12px 0 0 0;
                     font-size: 13px;
@@ -737,9 +665,7 @@ def template_recuperar_senha(
             </div>
 
 
-            <!-- =========================================
-                 RODAPÉ FINAL
-                 ========================================= -->
+            <!-- RODAPÉ FINAL -->
 
             <div style="
                 padding: 14px 30px;

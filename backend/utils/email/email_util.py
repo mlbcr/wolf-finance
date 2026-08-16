@@ -1,8 +1,7 @@
 import os
-import smtplib
+import base64
 
-from email.message import EmailMessage
-from email.utils import make_msgid
+import resend
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,63 +12,68 @@ def enviar_email(
     assunto: str,
     corpo_html: str
 ):
+    api_key = os.getenv("RESEND_API_KEY")
     remetente = os.getenv("EMAIL_REMETENTE")
-    senha = os.getenv("EMAIL_SENHA")
 
-    mensagem = EmailMessage()
+    if not api_key:
+        raise RuntimeError(
+            "RESEND_API_KEY não configurada"
+        )
 
-    mensagem["From"] = remetente
-    mensagem["To"] = email
-    mensagem["Subject"] = assunto
+    if not remetente:
+        raise RuntimeError(
+            "EMAIL_REMETENTE não configurado"
+        )
 
-    mensagem.set_content(
-        "Seu cliente de e-mail não suporta HTML."
-    )
+    resend.api_key = api_key
 
-    logo_cid = make_msgid()
-    logo_text_cid = make_msgid()
+    logo_cid = "logo-wolf"
+    logo_text_cid = "logo-wolf-text"
 
-    logo_cid = logo_cid[1:-1]
-    logo_text_cid = logo_text_cid[1:-1]
-
-    corpo_html = corpo_html.format(
-        logo_cid=logo_cid,
-        logo_text_cid=logo_text_cid
-    )
-
-    mensagem.add_alternative(
-        corpo_html,
-        subtype="html"
-    )
+    # Caminhos das imagens
+    pasta_email = os.path.dirname(__file__)
 
     caminho_logo = os.path.join(
-        os.path.dirname(__file__),
+        pasta_email,
         "logo.png"
     )
 
     caminho_logo_texto = os.path.join(
-        os.path.dirname(__file__),
-        "logo-text.png"
+        pasta_email,
+        "logo_texto.png"
     )
 
+    # Lê a logo
     with open(caminho_logo, "rb") as arquivo:
-        mensagem.get_payload()[1].add_related(
-            arquivo.read(),
-            maintype="image",
-            subtype="png",
-            cid=f"<{logo_cid}>"
-        )
+        logo_base64 = base64.b64encode(
+            arquivo.read()
+        ).decode("utf-8")
 
+    # Lê a logo com texto
     with open(caminho_logo_texto, "rb") as arquivo:
-        mensagem.get_payload()[1].add_related(
-            arquivo.read(),
-            maintype="image",
-            subtype="png",
-            cid=f"<{logo_text_cid}>"
-        )
+        logo_text_base64 = base64.b64encode(
+            arquivo.read()
+        ).decode("utf-8")
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(remetente, senha)
-        smtp.send_message(mensagem)
+    resposta = resend.Emails.send({
+        "from": remetente,
+        "to": [email],
+        "subject": assunto,
+        "html": corpo_html,
+        "attachments": [
+            {
+                "filename": "logo.png",
+                "content": logo_base64,
+                "content_id": logo_cid,
+                "content_type": "image/png"
+            },
+            {
+                "filename": "logo-text.png",
+                "content": logo_text_base64,
+                "content_id": logo_text_cid,
+                "content_type": "image/png"
+            }
+        ]
+    })
 
-    print(f"Email enviado: {remetente}")
+    return resposta

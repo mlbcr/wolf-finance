@@ -3,12 +3,26 @@ from fastapi import HTTPException
 
 from app.models.aluno import Aluno
 from app.models.usuario import Usuario
-from app.schemas.auth import LoginRequest
-from app.security.password import verificar_senha
+from app.schemas.auth import LoginRequest, RecuperarSenhaRequest
+
+from app.security.password import verificar_senha, gerar_hash
 from app.security.jwt import criar_token
 
 from utils.email.email_util import enviar_email
 from utils.email.templates import template_recuperar_senha
+
+import secrets
+import string
+
+
+def gerar_senha_temporaria(tamanho=10):
+    caracteres = string.ascii_letters + string.digits
+
+    return "".join(
+        secrets.choice(caracteres)
+        for _ in range(tamanho)
+    )
+
 
 def autenticar_usuario(
     dados: LoginRequest,
@@ -28,7 +42,9 @@ def autenticar_usuario(
 
     usuario = (
         db.query(Usuario)
-        .filter(Usuario.aluno_id == aluno.id)
+        .filter(
+            Usuario.aluno_id == aluno.id
+        )
         .first()
     )
 
@@ -52,9 +68,6 @@ def autenticar_usuario(
     }
 
 
-from app.schemas.auth import RecuperarSenhaRequest
-
-
 def solicitar_recuperacao_senha(
     dados: RecuperarSenhaRequest,
     db: Session
@@ -74,28 +87,39 @@ def solicitar_recuperacao_senha(
             detail="Usuário não encontrado"
         )
 
-    # Por enquanto, apenas para testar o template.
-    # Depois vamos gerar o token de recuperação.
-    link_recuperacao = (
-        "https://gowolffinance.vercel.app/redefinir-senha"
+    usuario = (
+        db.query(Usuario)
+        .filter(
+            Usuario.aluno_id == aluno.id
+        )
+        .first()
     )
+
+    if not usuario:
+        raise HTTPException(
+            status_code=404,
+            detail="Usuário não possui conta"
+        )
+
+    nova_senha = gerar_senha_temporaria()
+
+    usuario.senha_hash = gerar_hash(nova_senha)
 
     corpo_html = template_recuperar_senha(
         nome=aluno.nome_completo,
-        link_recuperacao=link_recuperacao,
-        logo_cid="logo_cid",
-        logo_text_cid="logo_text_cid"
+        senha=nova_senha,
+        logo_cid="logo-wolf",
+        logo_text_cid="logo-wolf-text"
     )
 
     enviar_email(
         email=aluno.email,
-        assunto="Recuperação de senha — Wolf Finance",
+        assunto="Nova senha — Wolf Finance",
         corpo_html=corpo_html
     )
 
+    db.commit()
+
     return {
-        "message": (
-            "Se os dados estiverem cadastrados, "
-            "um e-mail será enviado."
-        )
+        "message": "Uma nova senha foi enviada para o e-mail cadastrado."
     }
