@@ -41,7 +41,7 @@ def enviar_email(
 ):
     email_enabled = os.getenv("EMAIL_ENABLED", "false").lower() == "true"
 
-    if not EMAIL_ENABLED:
+    if not email_enabled:
         print("Envio de e-mail desativado neste ambiente.")
         return
 
