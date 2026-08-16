@@ -16,21 +16,16 @@ def enviar_email(
     remetente = os.getenv("EMAIL_REMETENTE")
 
     if not api_key:
-        raise RuntimeError(
-            "RESEND_API_KEY não configurada"
-        )
+        raise RuntimeError("RESEND_API_KEY não configurada")
 
     if not remetente:
-        raise RuntimeError(
-            "EMAIL_REMETENTE não configurado"
-        )
+        raise RuntimeError("EMAIL_REMETENTE não configurado")
 
     resend.api_key = api_key
 
     logo_cid = "logo-wolf"
     logo_text_cid = "logo-wolf-text"
 
-    # Caminhos das imagens
     pasta_email = os.path.dirname(__file__)
 
     caminho_logo = os.path.join(
@@ -43,13 +38,11 @@ def enviar_email(
         "logo_texto.png"
     )
 
-    # Lê a logo
     with open(caminho_logo, "rb") as arquivo:
         logo_base64 = base64.b64encode(
             arquivo.read()
         ).decode("utf-8")
 
-    # Lê a logo com texto
     with open(caminho_logo_texto, "rb") as arquivo:
         logo_text_base64 = base64.b64encode(
             arquivo.read()
