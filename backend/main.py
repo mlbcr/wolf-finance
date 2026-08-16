@@ -12,6 +12,7 @@ ENV = os.getenv("ENV", "dev")
 if ENV == "prod":
     ALLOWED_ORIGINS = [
         "https://gowolffinance.vercel.app",
+        "https://www.wolffinance.app",
     ]
 else:
     ALLOWED_ORIGINS = [
