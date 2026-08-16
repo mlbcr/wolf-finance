@@ -39,6 +39,11 @@ def enviar_email(
     assunto: str,
     corpo_html: str
 ):
+    email_enabled = os.getenv("EMAIL_ENABLED", "false").lower() == "true"
+
+    if not EMAIL_ENABLED:
+        print("Envio de e-mail desativado neste ambiente.")
+        return
 
     creds = obter_credentials()
 

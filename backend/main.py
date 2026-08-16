@@ -5,14 +5,25 @@ from app import models
 from app.controllers import alunos, equipes, projetos, reunioes, presencas, auth, cursos
 import uvicorn
 
+import os
+
+ENV = os.getenv("ENV", "dev")
+
+if ENV == "prod":
+    ALLOWED_ORIGINS = [
+        "https://gowolffinance.vercel.app",
+    ]
+else:
+    ALLOWED_ORIGINS = [
+        "http://localhost:5173",
+        "https://gowolffinance.vercel.app",
+    ]
+
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://gowolffinance.vercel.app",
-    ],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
