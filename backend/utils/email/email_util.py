@@ -1,10 +1,37 @@
 import os
+import json
 import base64
 
-import resend
-from dotenv import load_dotenv
+from email.message import EmailMessage
 
-load_dotenv()
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
+from googleapiclient.discovery import build
+
+
+SCOPES = [
+    "https://www.googleapis.com/auth/gmail.send"
+]
+
+
+def obter_credentials():
+
+    token_json = os.getenv("GMAIL_TOKEN")
+
+    if not token_json:
+        raise RuntimeError(
+            "GMAIL_TOKEN não configurada"
+        )
+
+    creds = Credentials.from_authorized_user_info(
+        json.loads(token_json),
+        SCOPES
+    )
+
+    if creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+
+    return creds
 
 
 def enviar_email(
@@ -12,19 +39,30 @@ def enviar_email(
     assunto: str,
     corpo_html: str
 ):
-    api_key = os.getenv("RESEND_API_KEY")
-    remetente = os.getenv("EMAIL_REMETENTE")
 
-    if not api_key:
-        raise RuntimeError("RESEND_API_KEY não configurada")
+    creds = obter_credentials()
 
-    if not remetente:
-        raise RuntimeError("EMAIL_REMETENTE não configurado")
+    service = build(
+        "gmail",
+        "v1",
+        credentials=creds
+    )
 
-    resend.api_key = api_key
+    mensagem = EmailMessage()
 
-    logo_cid = "logo-wolf"
-    logo_text_cid = "logo-wolf-text"
+    mensagem["To"] = email
+    mensagem["From"] = os.getenv("EMAIL_REMETENTE")
+    mensagem["Subject"] = assunto
+
+    mensagem.set_content(
+        "Este e-mail contém conteúdo HTML. "
+        "Abra-o em um cliente de e-mail compatível."
+    )
+
+    mensagem.add_alternative(
+        corpo_html,
+        subtype="html"
+    )
 
     pasta_email = os.path.dirname(__file__)
 
@@ -39,34 +77,35 @@ def enviar_email(
     )
 
     with open(caminho_logo, "rb") as arquivo:
-        logo_base64 = base64.b64encode(
-            arquivo.read()
-        ).decode("utf-8")
+        mensagem.get_payload()[1].add_related(
+            arquivo.read(),
+            maintype="image",
+            subtype="png",
+            cid="<logo-wolf>"
+        )
 
     with open(caminho_logo_texto, "rb") as arquivo:
-        logo_text_base64 = base64.b64encode(
-            arquivo.read()
-        ).decode("utf-8")
+        mensagem.get_payload()[1].add_related(
+            arquivo.read(),
+            maintype="image",
+            subtype="png",
+            cid="<logo-wolf-text>"
+        )
 
-    resposta = resend.Emails.send({
-        "from": remetente,
-        "to": [email],
-        "subject": assunto,
-        "html": corpo_html,
-        "attachments": [
-            {
-                "filename": "logo.png",
-                "content": logo_base64,
-                "content_id": logo_cid,
-                "content_type": "image/png"
-            },
-            {
-                "filename": "logo-text.png",
-                "content": logo_text_base64,
-                "content_id": logo_text_cid,
-                "content_type": "image/png"
+    raw_message = base64.urlsafe_b64encode(
+        mensagem.as_bytes()
+    ).decode()
+
+    resultado = (
+        service.users()
+        .messages()
+        .send(
+            userId="me",
+            body={
+                "raw": raw_message
             }
-        ]
-    })
+        )
+        .execute()
+    )
 
-    return resposta
+    return resultado
