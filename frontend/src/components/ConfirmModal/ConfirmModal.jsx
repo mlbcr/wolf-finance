@@ -1,6 +1,13 @@
 import './ConfirmModal.css'
 
-export default function ConfirmModal({ titulo, mensagem, onConfirmar, onCancelar }) {
+import Button from '@/components/Button/Button'
+
+export default function ConfirmModal({
+    titulo,
+    mensagem,
+    onConfirmar,
+    onCancelar
+}) {
     if (!mensagem) return null
 
     return (
@@ -10,17 +17,26 @@ export default function ConfirmModal({ titulo, mensagem, onConfirmar, onCancelar
                     <i className="fa-solid fa-question-circle"></i>
                 </div>
 
-                <h2 className="confirm-modal-titulo">{titulo || 'Confirmação'}</h2>
+                <h2 className="confirm-modal-titulo">
+                    {titulo || 'Confirmação'}
+                </h2>
 
-                <p className="confirm-modal-mensagem">{mensagem}</p>
+                <p className="confirm-modal-mensagem">
+                    {mensagem}
+                </p>
 
                 <div className="confirm-modal-footer">
-                    <button className="btn-cancelar" onClick={onCancelar}>
-                        Cancelar
-                    </button>
-                    <button className="btn-confirmar" onClick={onConfirmar}>
-                        Confirmar
-                    </button>
+                    <Button
+                        label="Cancelar"
+                        variant="btn-cancelar"
+                        onClick={onCancelar}
+                    />
+
+                    <Button
+                        label="Confirmar"
+                        variant="btn-confirmar"
+                        onClick={onConfirmar}
+                    />
                 </div>
             </div>
         </div>

@@ -8,8 +8,10 @@ import {
     buscarTodosProjetos
 } from '@/api/api'
 
-import './ProjetosPage.css'
 import Modal from '@/components/Modal/Modal'
+import Button from '@/components/Button/Button'
+
+import './ProjetosPage.css'
 
 
 export default function ProjetosPage() {
@@ -142,15 +144,15 @@ export default function ProjetosPage() {
 
                 {isAdmin && (
 
-                    <button
+                    <Button
                         type="button"
-                        className="btn-novo-projeto"
+                        variant="btn-novo-projeto"
                         onClick={abrirModalNovoProjeto}
                     >
                         <i className="fa-solid fa-plus"></i>
 
                         Novo projeto
-                    </button>
+                    </Button>
 
                 )}
 
@@ -363,16 +365,16 @@ export default function ProjetosPage() {
 
                                 {termoBusca && (
 
-                                    <button
+                                    <Button
                                         type="button"
-                                        className="limpar-busca"
+                                        variant="limpar-busca"
                                         onClick={() =>
                                             setTermoBusca('')
                                         }
                                         aria-label="Limpar busca"
                                     >
                                         <i className="fa-solid fa-xmark"></i>
-                                    </button>
+                                    </Button>
 
                                 )}
 
@@ -520,13 +522,14 @@ export default function ProjetosPage() {
                         </div>
 
 
-                        <button
+                        <Button
                             type="button"
-                            className="modal-close"
+                            variant="modal-close"
                             onClick={fecharModal}
+                            aria-label="Fechar modal"
                         >
                             <i className="fa-solid fa-xmark"></i>
-                        </button>
+                        </Button>
 
                     </div>
 
@@ -542,13 +545,12 @@ export default function ProjetosPage() {
 
                     <div className="modal-footer">
 
-                        <button
+                        <Button
                             type="button"
-                            className="btn-modal-cancelar"
+                            label="Fechar"
+                            variant="btn-modal-cancelar"
                             onClick={fecharModal}
-                        >
-                            Fechar
-                        </button>
+                        />
 
                     </div>
 

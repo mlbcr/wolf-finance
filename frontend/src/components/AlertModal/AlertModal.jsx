@@ -1,6 +1,13 @@
 import './AlertModal.css'
 
-export default function AlertModal({ titulo, mensagem, onFechar, tipo = 'erro' }) {
+import Button from '@/components/Button/Button'
+
+export default function AlertModal({
+    titulo,
+    mensagem,
+    onFechar,
+    tipo = 'erro'
+}) {
     if (!mensagem) return null
 
     const iconeMap = {
@@ -20,18 +27,27 @@ export default function AlertModal({ titulo, mensagem, onFechar, tipo = 'erro' }
     return (
         <div className="alert-modal-overlay">
             <div className="alert-modal">
-                <div className="alert-modal-icon" style={{ color: corMap[tipo] }}>
+                <div
+                    className="alert-modal-icon"
+                    style={{ color: corMap[tipo] }}
+                >
                     <i className={`fa-solid ${iconeMap[tipo]}`}></i>
                 </div>
 
-                <h2 className="alert-modal-titulo">{titulo || 'Aviso'}</h2>
+                <h2 className="alert-modal-titulo">
+                    {titulo || 'Aviso'}
+                </h2>
 
-                <p className="alert-modal-mensagem">{mensagem}</p>
+                <p className="alert-modal-mensagem">
+                    {mensagem}
+                </p>
 
                 <div className="alert-modal-footer">
-                    <button className="btn-ok" onClick={onFechar} style={{ backgroundColor: corMap[tipo] }}>
-                        OK
-                    </button>
+                    <Button
+                        label="OK"
+                        variant={`btn-ok btn-${tipo}`}
+                        onClick={onFechar}
+                    />
                 </div>
             </div>
         </div>

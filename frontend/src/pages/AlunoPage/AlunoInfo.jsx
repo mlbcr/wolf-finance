@@ -20,9 +20,6 @@ export default function AlunoInfo({ aluno }) {
 
     return (
         <>
-
-            {/* DADOS PESSOAIS */}
-
             <section className="aluno-section">
 
                 <div className="section-title">

@@ -10,8 +10,8 @@ import EditarAlunoModal from './components/EditarAlunoModal'
 import AlunoInfo from './AlunoInfo'
 import AlunoEquipes from './AlunoEquipes'
 import AlunoProjetos from './AlunoProjetos'
-import AlertModal from '@/components/AlertModal/AlertModal'
-import LoadingModal from '@/components/LoadingModal/LoadingModal'
+
+import Button from '@/components/Button/Button'
 
 import './AlunoPage.css'
 
@@ -51,10 +51,12 @@ export default function AlunoPage() {
 
             setAluno(alunoAtualizado)
             setErro('Aluno atualizado com sucesso!')
+
             setTimeout(() => {
                 setEditando(false)
                 setErro(null)
             }, 1500)
+
         } catch (error) {
             console.error(error)
             setErro('Não foi possível atualizar o aluno.')
@@ -75,14 +77,13 @@ export default function AlunoPage() {
         return (
             <main className="aluno-page">
 
-                <button
-                    type="button"
-                    className="voltar-button"
+                <Button
+                    variant="voltar-button"
                     onClick={() => navigate('/alunos')}
                 >
                     <i className="fa-solid fa-arrow-left"></i>
                     Voltar para alunos
-                </button>
+                </Button>
 
                 <div className="aluno-empty">
 
@@ -111,14 +112,13 @@ export default function AlunoPage() {
     return (
         <main className="aluno-page">
 
-            <button
-                type="button"
-                className="voltar-button"
+            <Button
+                variant="voltar-button"
                 onClick={() => navigate('/alunos')}
             >
                 <i className="fa-solid fa-arrow-left"></i>
                 Voltar para alunos
-            </button>
+            </Button>
 
 
             {/* HEADER */}
@@ -141,10 +141,11 @@ export default function AlunoPage() {
                     </p>
 
                     <span
-                        className={`aluno-status ${aluno.status === 'ATIVO'
+                        className={`aluno-status ${
+                            aluno.status === 'ATIVO'
                                 ? 'ativo'
                                 : 'inativo'
-                            }`}
+                        }`}
                     >
                         <i className="fa-solid fa-circle"></i>
                         {aluno.status}
@@ -152,14 +153,13 @@ export default function AlunoPage() {
 
                 </div>
 
-                <button
-                    type="button"
-                    className="btn-editar-aluno"
+                <Button
+                    variant="btn-editar-aluno"
                     onClick={() => setEditando(true)}
                 >
                     <i className="fa-solid fa-pen"></i>
                     Editar aluno
-                </button>
+                </Button>
 
             </section>
 
@@ -168,9 +168,8 @@ export default function AlunoPage() {
 
             <nav className="aluno-tabs">
 
-                <button
-                    type="button"
-                    className={
+                <Button
+                    variant={
                         abaAtiva === 'informacoes'
                             ? 'active'
                             : ''
@@ -178,11 +177,10 @@ export default function AlunoPage() {
                     onClick={() => setAbaAtiva('informacoes')}
                 >
                     Informações do aluno
-                </button>
+                </Button>
 
-                <button
-                    type="button"
-                    className={
+                <Button
+                    variant={
                         abaAtiva === 'equipes'
                             ? 'active'
                             : ''
@@ -190,11 +188,10 @@ export default function AlunoPage() {
                     onClick={() => setAbaAtiva('equipes')}
                 >
                     Equipes
-                </button>
+                </Button>
 
-                <button
-                    type="button"
-                    className={
+                <Button
+                    variant={
                         abaAtiva === 'projetos'
                             ? 'active'
                             : ''
@@ -202,7 +199,7 @@ export default function AlunoPage() {
                     onClick={() => setAbaAtiva('projetos')}
                 >
                     Projetos
-                </button>
+                </Button>
 
             </nav>
 
@@ -240,4 +237,3 @@ export default function AlunoPage() {
         </main>
     )
 }
-

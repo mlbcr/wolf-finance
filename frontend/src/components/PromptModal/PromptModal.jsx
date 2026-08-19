@@ -1,7 +1,15 @@
 import { useState } from 'react'
 import './PromptModal.css'
 
-export default function PromptModal({ titulo, mensagem, placeholder, onConfirmar, onCancelar }) {
+import Button from '@/components/Button/Button'
+
+export default function PromptModal({
+    titulo,
+    mensagem,
+    placeholder,
+    onConfirmar,
+    onCancelar
+}) {
     const [valor, setValor] = useState('')
 
     if (!mensagem) return null
@@ -14,6 +22,7 @@ export default function PromptModal({ titulo, mensagem, placeholder, onConfirmar
         if (e.key === 'Enter') {
             handleConfirmar()
         }
+
         if (e.key === 'Escape') {
             onCancelar()
         }
@@ -26,9 +35,13 @@ export default function PromptModal({ titulo, mensagem, placeholder, onConfirmar
                     <i className="fa-solid fa-pen"></i>
                 </div>
 
-                <h2 className="prompt-modal-titulo">{titulo || 'Entrada'}</h2>
+                <h2 className="prompt-modal-titulo">
+                    {titulo || 'Entrada'}
+                </h2>
 
-                <p className="prompt-modal-mensagem">{mensagem}</p>
+                <p className="prompt-modal-mensagem">
+                    {mensagem}
+                </p>
 
                 <input
                     type="text"
@@ -41,12 +54,17 @@ export default function PromptModal({ titulo, mensagem, placeholder, onConfirmar
                 />
 
                 <div className="prompt-modal-footer">
-                    <button className="btn-cancelar" onClick={onCancelar}>
-                        Cancelar
-                    </button>
-                    <button className="btn-confirmar" onClick={handleConfirmar}>
-                        Confirmar
-                    </button>
+                    <Button
+                        label="Cancelar"
+                        variant="btn-cancelar"
+                        onClick={onCancelar}
+                    />
+
+                    <Button
+                        label="Confirmar"
+                        variant="btn-confirmar"
+                        onClick={handleConfirmar}
+                    />
                 </div>
             </div>
         </div>

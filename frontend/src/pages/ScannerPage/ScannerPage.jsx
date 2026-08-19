@@ -1,18 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import useAuth from '@/contexts/useAuth'
+
 import {
     registrarPresencaSala,
     registrarPresencaReuniao
 } from '@/api/api'
+
 import AlertModal from '@/components/AlertModal/AlertModal'
 import PromptModal from '@/components/PromptModal/PromptModal'
 import LoadingModal from '@/components/LoadingModal/LoadingModal'
+import Button from '@/components/Button/Button'
+
 import jsQR from 'jsqr'
+
 import './ScannerPage.css'
 
 export default function ScannerPage() {
     const navigate = useNavigate()
+
     const { usuario, loading: loadingAuth } = useAuth()
 
     const videoRef = useRef(null)
@@ -26,12 +33,7 @@ export default function ScannerPage() {
     const [modo, setModo] = useState('camera')
     const [mostrarPrompt, setMostrarPrompt] = useState(false)
 
-    // Evita que o mesmo QR seja processado várias vezes
     const processandoCodigoRef = useRef(false)
-
-    // ============================================================
-    // AUTENTICAÇÃO
-    // ============================================================
 
     useEffect(() => {
         if (!loadingAuth && !usuario) {
@@ -39,41 +41,36 @@ export default function ScannerPage() {
         }
     }, [usuario, loadingAuth, navigate])
 
-    // ============================================================
-    // LIMPAR CÂMERA AO SAIR DA PÁGINA
-    // ============================================================
-
     useEffect(() => {
         return () => {
             pararCamera()
         }
     }, [])
 
-    // ============================================================
-    // INICIAR CÂMERA
-    // ============================================================
-
     async function iniciarCamera() {
         try {
             setErro(null)
             setSucesso(null)
+
             processandoCodigoRef.current = false
 
             if (!navigator.mediaDevices?.getUserMedia) {
                 setErro(
                     'Seu navegador não permite acesso à câmera.'
                 )
+
                 return
             }
 
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: {
-                    facingMode: {
-                        ideal: 'environment'
-                    }
-                },
-                audio: false
-            })
+            const stream =
+                await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: {
+                            ideal: 'environment'
+                        }
+                    },
+                    audio: false
+                })
 
             if (videoRef.current) {
                 videoRef.current.srcObject = stream
@@ -82,18 +79,18 @@ export default function ScannerPage() {
 
                 setScanning(true)
             }
+
         } catch (error) {
-            console.error('Erro ao acessar câmera:', error)
+            console.error(
+                'Erro ao acessar câmera:',
+                error
+            )
 
             setErro(
                 'Não foi possível acessar a câmera. Verifique as permissões do navegador ou use o modo arquivo.'
             )
         }
     }
-
-    // ============================================================
-    // PROCESSAR SCAN DA CÂMERA
-    // ============================================================
 
     function processoScan() {
         if (
@@ -107,9 +104,13 @@ export default function ScannerPage() {
 
         const video = videoRef.current
         const canvas = canvasRef.current
-        const ctx = canvas.getContext('2d', {
-            willReadFrequently: true
-        })
+
+        const ctx = canvas.getContext(
+            '2d',
+            {
+                willReadFrequently: true
+            }
+        )
 
         canvas.width = video.videoWidth
         canvas.height = video.videoHeight
@@ -146,23 +147,14 @@ export default function ScannerPage() {
             return
         }
 
-        // Continua procurando enquanto a câmera estiver ativa
         if (videoRef.current?.srcObject) {
             requestAnimationFrame(processoScan)
         }
     }
 
-    // ============================================================
-    // QUANDO O VÍDEO ESTIVER PRONTO
-    // ============================================================
-
     function handleVideoPlay() {
         processoScan()
     }
-
-    // ============================================================
-    // PARAR CÂMERA
-    // ============================================================
 
     function pararCamera() {
         if (
@@ -179,14 +171,14 @@ export default function ScannerPage() {
         setScanning(false)
     }
 
-    // ============================================================
-    // PROCESSAR CÓDIGO DO QR
-    // ============================================================
-
     async function processarCodigo(codigo) {
         if (!codigo) {
             processandoCodigoRef.current = false
-            setErro('QR Code vazio ou inválido')
+
+            setErro(
+                'QR Code vazio ou inválido'
+            )
+
             return
         }
 
@@ -194,16 +186,17 @@ export default function ScannerPage() {
             setCarregando(true)
             setErro(null)
 
-            console.log('QR CODE LIDO:', codigo)
+            if (
+                codigo.includes(
+                    '/presenca/sala/'
+                )
+            ) {
+                const partes = codigo.split(
+                    '/presenca/sala/'
+                )
 
-            // ====================================================
-            // QR CODE DE SALA
-            // ====================================================
-
-            if (codigo.includes('/presenca/sala/')) {
-                const partes = codigo.split('/presenca/sala/')
-
-                const codigoExtraido = partes[1]?.split(/[?#]/)[0]
+                const codigoExtraido =
+                    partes[1]?.split(/[?#]/)[0]
 
                 if (!codigoExtraido) {
                     throw new Error(
@@ -211,19 +204,10 @@ export default function ScannerPage() {
                     )
                 }
 
-                console.log(
-                    'Código da sala:',
-                    codigoExtraido
-                )
-
-                const resposta = await registrarPresencaSala(
-                    codigoExtraido
-                )
-
-                console.log(
-                    'Resposta presença sala:',
-                    resposta
-                )
+                const resposta =
+                    await registrarPresencaSala(
+                        codigoExtraido
+                    )
 
                 setSucesso({
                     tipo: 'SALA',
@@ -239,16 +223,17 @@ export default function ScannerPage() {
                 return
             }
 
-            // ====================================================
-            // QR CODE DE REUNIÃO
-            // ====================================================
-
-            if (codigo.includes('/presenca/reuniao/')) {
+            if (
+                codigo.includes(
+                    '/presenca/reuniao/'
+                )
+            ) {
                 const partes = codigo.split(
                     '/presenca/reuniao/'
                 )
 
-                const codigoExtraido = partes[1]?.split(/[?#]/)[0]
+                const codigoExtraido =
+                    partes[1]?.split(/[?#]/)[0]
 
                 if (!codigoExtraido) {
                     throw new Error(
@@ -256,20 +241,10 @@ export default function ScannerPage() {
                     )
                 }
 
-                console.log(
-                    'Código da reunião:',
-                    codigoExtraido
-                )
-
                 const resposta =
                     await registrarPresencaReuniao(
                         codigoExtraido
                     )
-
-                console.log(
-                    'Resposta presença reunião:',
-                    resposta
-                )
 
                 setSucesso({
                     tipo: 'REUNIAO',
@@ -285,10 +260,6 @@ export default function ScannerPage() {
                 return
             }
 
-            // ====================================================
-            // QR DESCONHECIDO
-            // ====================================================
-
             setErro(
                 'QR Code inválido ou não reconhecido.'
             )
@@ -301,7 +272,8 @@ export default function ScannerPage() {
                 error
             )
 
-            let mensagem = 'Erro ao processar QR Code'
+            let mensagem =
+                'Erro ao processar QR Code'
 
             if (error?.message) {
                 mensagem = error.message
@@ -318,24 +290,29 @@ export default function ScannerPage() {
         }
     }
 
-    // ============================================================
-    // LER QR DE UMA IMAGEM
-    // ============================================================
-
     function lerQRCodeDaImagem(img) {
         const canvas = canvasRef.current
 
         if (!canvas) {
-            setErro('Não foi possível processar a imagem.')
+            setErro(
+                'Não foi possível processar a imagem.'
+            )
+
             return
         }
 
-        const ctx = canvas.getContext('2d', {
-            willReadFrequently: true
-        })
+        const ctx = canvas.getContext(
+            '2d',
+            {
+                willReadFrequently: true
+            }
+        )
 
-        canvas.width = img.naturalWidth || img.width
-        canvas.height = img.naturalHeight || img.height
+        canvas.width =
+            img.naturalWidth || img.width
+
+        canvas.height =
+            img.naturalHeight || img.height
 
         ctx.drawImage(
             img,
@@ -374,10 +351,6 @@ export default function ScannerPage() {
         processarCodigo(qrCode.data)
     }
 
-    // ============================================================
-    // SELECIONAR IMAGEM
-    // ============================================================
-
     function handleInputMudou(e) {
         const arquivo = e.target.files?.[0]
 
@@ -414,16 +387,12 @@ export default function ScannerPage() {
 
         reader.readAsDataURL(arquivo)
 
-        // Permite selecionar a mesma imagem novamente
         e.target.value = ''
     }
 
-    // ============================================================
-    // CÓDIGO MANUAL
-    // ============================================================
-
     function handleCodigoCola() {
         setErro(null)
+
         setMostrarPrompt(true)
     }
 
@@ -436,12 +405,10 @@ export default function ScannerPage() {
 
         processandoCodigoRef.current = true
 
-        processarCodigo(codigo.trim())
+        processarCodigo(
+            codigo.trim()
+        )
     }
-
-    // ============================================================
-    // TROCAR MODO
-    // ============================================================
 
     function mudarModo(novoModo) {
         pararCamera()
@@ -449,12 +416,9 @@ export default function ScannerPage() {
         setModo(novoModo)
         setErro(null)
         setSucesso(null)
+
         processandoCodigoRef.current = false
     }
-
-    // ============================================================
-    // LOADING AUTH
-    // ============================================================
 
     if (loadingAuth) {
         return (
@@ -464,10 +428,6 @@ export default function ScannerPage() {
         )
     }
 
-    // ============================================================
-    // TELA
-    // ============================================================
-
     return (
         <main className="scanner-page">
 
@@ -475,15 +435,16 @@ export default function ScannerPage() {
 
             <header className="scanner-header">
 
-                <button
-                    className="btn-voltar"
+                <Button
+                    variant="btn-voltar"
                     onClick={() => navigate(-1)}
                 >
                     <i className="fa-solid fa-arrow-left"></i>
-                </button>
+                </Button>
 
                 <div>
                     <h1>Escanear QR Code</h1>
+
                     <p>
                         Escaneie o código de presença
                     </p>
@@ -497,15 +458,11 @@ export default function ScannerPage() {
 
             <div className="scanner-container">
 
-                {/* LOADING */}
-
                 {carregando && (
                     <LoadingModal
                         mensagem="Processando..."
                     />
                 )}
-
-                {/* ERRO */}
 
                 {erro && (
                     <AlertModal
@@ -513,13 +470,13 @@ export default function ScannerPage() {
                         mensagem={erro}
                         onFechar={() => {
                             setErro(null)
-                            processandoCodigoRef.current = false
+
+                            processandoCodigoRef.current =
+                                false
                         }}
                         tipo="erro"
                     />
                 )}
-
-                {/* PROMPT */}
 
                 {mostrarPrompt && (
                     <PromptModal
@@ -535,14 +492,14 @@ export default function ScannerPage() {
                     />
                 )}
 
-                {/* SUCESSO */}
-
                 {sucesso && (
                     <div className="sucesso-container">
 
                         <i className="fa-solid fa-circle-check"></i>
 
-                        <h2>Sucesso!</h2>
+                        <h2>
+                            Sucesso!
+                        </h2>
 
                         <p>
                             {sucesso.mensagem}
@@ -551,9 +508,7 @@ export default function ScannerPage() {
                     </div>
                 )}
 
-                {/* ================================================== */}
                 {/* CAMERA */}
-                {/* ================================================== */}
 
                 {modo === 'camera' && !sucesso && (
 
@@ -621,27 +576,25 @@ export default function ScannerPage() {
 
                             {!scanning ? (
 
-                                <button
-                                    className="btn-iniciar"
+                                <Button
+                                    variant="btn-iniciar"
                                     onClick={iniciarCamera}
                                     disabled={carregando}
                                 >
                                     <i className="fa-solid fa-play"></i>
-
                                     Iniciar câmera
-                                </button>
+                                </Button>
 
                             ) : (
 
-                                <button
-                                    className="btn-parar"
+                                <Button
+                                    variant="btn-parar"
                                     onClick={pararCamera}
                                     disabled={carregando}
                                 >
                                     <i className="fa-solid fa-stop"></i>
-
                                     Parar câmera
-                                </button>
+                                </Button>
 
                             )}
 
@@ -650,9 +603,7 @@ export default function ScannerPage() {
                     </div>
                 )}
 
-                {/* ================================================== */}
                 {/* ARQUIVO */}
-                {/* ================================================== */}
 
                 {modo === 'arquivo' && !sucesso && (
 
@@ -670,8 +621,8 @@ export default function ScannerPage() {
                                 }}
                             />
 
-                            <button
-                                className="btn-upload"
+                            <Button
+                                variant="btn-upload"
                                 onClick={() =>
                                     inputRef.current?.click()
                                 }
@@ -682,12 +633,12 @@ export default function ScannerPage() {
                                 <span>
                                     Escolher imagem
                                 </span>
-                            </button>
+                            </Button>
 
                             <p>ou</p>
 
-                            <button
-                                className="btn-colar"
+                            <Button
+                                variant="btn-colar"
                                 onClick={handleCodigoCola}
                                 disabled={carregando}
                             >
@@ -696,23 +647,21 @@ export default function ScannerPage() {
                                 <span>
                                     Colar código manualmente
                                 </span>
-                            </button>
+                            </Button>
 
                         </div>
 
                     </div>
                 )}
 
-                {/* ================================================== */}
                 {/* SELETOR */}
-                {/* ================================================== */}
 
                 {!sucesso && (
 
                     <div className="modo-seletor">
 
-                        <button
-                            className={`btn-modo ${
+                        <Button
+                            variant={`btn-modo ${
                                 modo === 'camera'
                                     ? 'ativo'
                                     : ''
@@ -723,12 +672,11 @@ export default function ScannerPage() {
                             disabled={carregando}
                         >
                             <i className="fa-solid fa-camera"></i>
-
                             Câmera
-                        </button>
+                        </Button>
 
-                        <button
-                            className={`btn-modo ${
+                        <Button
+                            variant={`btn-modo ${
                                 modo === 'arquivo'
                                     ? 'ativo'
                                     : ''
@@ -739,9 +687,8 @@ export default function ScannerPage() {
                             disabled={carregando}
                         >
                             <i className="fa-solid fa-image"></i>
-
                             Arquivo
-                        </button>
+                        </Button>
 
                     </div>
                 )}
@@ -750,4 +697,4 @@ export default function ScannerPage() {
 
         </main>
     )
-}   
+}

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import Button from '@/components/Button/Button'
+
 import './EditarAlunoModal.css'
 
 export default function EditarAlunoModal({
@@ -90,14 +92,14 @@ export default function EditarAlunoModal({
                         </p>
                     </div>
 
-                    <button
+                    <Button
                         type="button"
-                        className="modal-close"
+                        variant="modal-close"
                         onClick={onClose}
                         disabled={salvando}
                     >
                         <i className="fa-solid fa-xmark"></i>
-                    </button>
+                    </Button>
 
                 </div>
 
@@ -112,6 +114,7 @@ export default function EditarAlunoModal({
 
                             <div>
                                 <h3>Dados pessoais</h3>
+
                                 <p>
                                     Informações básicas do aluno.
                                 </p>
@@ -204,6 +207,7 @@ export default function EditarAlunoModal({
 
                             <div>
                                 <h3>Dados acadêmicos</h3>
+
                                 <p>
                                     Informações sobre curso e matrícula.
                                 </p>
@@ -266,6 +270,7 @@ export default function EditarAlunoModal({
 
                             <div>
                                 <h3>Dados da liga</h3>
+
                                 <p>
                                     Participação na liga.
                                 </p>
@@ -354,6 +359,7 @@ export default function EditarAlunoModal({
 
                             <div>
                                 <h3>Estágio</h3>
+
                                 <p>
                                     Informações profissionais.
                                 </p>
@@ -379,32 +385,25 @@ export default function EditarAlunoModal({
 
                     <div className="modal-aluno-actions">
 
-                        <button
+                        <Button
                             type="button"
-                            className="btn-cancelar"
+                            label="Cancelar"
+                            variant="btn-cancelar"
                             onClick={onClose}
                             disabled={salvando}
-                        >
-                            Cancelar
-                        </button>
+                        />
 
-                        <button
+                        <Button
                             type="submit"
-                            className="btn-salvar-aluno"
-                            disabled={salvando}
+                            variant="btn-salvar-aluno"
+                            loading={salvando}
+                            loadingLabel="Salvando..."
                         >
-                            {salvando ? (
-                                <>
-                                    <i className="fa-solid fa-spinner fa-spin"></i>
-                                    Salvando...
-                                </>
-                            ) : (
-                                <>
-                                    <i className="fa-solid fa-check"></i>
-                                    Salvar alterações
-                                </>
-                            )}
-                        </button>
+                            <>
+                                <i className="fa-solid fa-check"></i>
+                                Salvar alterações
+                            </>
+                        </Button>
 
                     </div>
 

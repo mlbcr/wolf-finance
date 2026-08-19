@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import useAuth from '@/contexts/useAuth'
 import Logo from '@/assets/logo1.png'
+import Button from '@/components/Button/Button'
 
 import './Header.css'
 
@@ -32,33 +33,32 @@ export default function Header() {
         logout()
         navigate('/login')
     }
-    function handlePerfil() { 
-        setMenuAberto(false) 
-        navigate('/perfil') 
+    function handlePerfil() {
+        setMenuAberto(false)
+        navigate('/perfil')
     }
 
     return (
         <header className="header">
 
-            <button
-                className="header-logo"
+            <Button
+                variant="header-logo"
                 onClick={() => navigate('/')}
             >
                 <img
                     src={Logo}
                     alt="Wolf Finance"
                 />
-
-            </button>
+            </Button>
 
             <div className="header-user">
 
-                <button
-                    className="user-avatar"
+                <Button
+                    variant="user-avatar"
                     onClick={() => setMenuAberto(!menuAberto)}
                 >
                     {iniciais}
-                </button>
+                </Button>
 
                 {menuAberto && (
                     <div className="user-menu">
@@ -74,18 +74,22 @@ export default function Header() {
                         </div>
 
                         <div className="user-menu-divider"></div>
-                        <button className="logout-button" onClick={handlePerfil} >
+
+                        <Button
+                            variant="logout-button"
+                            onClick={handlePerfil}
+                        >
                             <i className="fa-solid fa-user"></i>
                             Perfil
-                        </button>
+                        </Button>
 
-                        <button
-                            className="logout-button"
+                        <Button
+                            variant="logout-button"
                             onClick={handleLogout}
                         >
                             <i className="fa-solid fa-right-from-bracket"></i>
                             Sair
-                        </button>
+                        </Button>
 
                     </div>
                 )}

@@ -83,9 +83,9 @@ export default function RecuperarSenhaPage() {
                         </div>
 
                         <Button
-                            label={carregando ? "Carregando..." : "Enviar instruções"}
+                            label="Enviar instruções"
                             variant="recuperar-senha"
-                            disabled={carregando}
+                            loading={carregando}
                         />
 
                         <Link

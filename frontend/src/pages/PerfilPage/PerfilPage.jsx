@@ -3,7 +3,10 @@ import { useState } from "react"
 import useAuth from "@/contexts/useAuth"
 
 import "./PerfilPage.css"
+
 import Modal from '@/components/Modal/Modal'
+import Button from '@/components/Button/Button'
+
 
 export default function PerfilPage() {
 
@@ -11,13 +14,16 @@ export default function PerfilPage() {
 
     const [modalAberto, setModalAberto] = useState(false)
 
+
     if (loading) {
         return <p>Carregando...</p>
     }
 
+
     if (!usuario) {
         return <p>Não foi possível carregar o usuário.</p>
     }
+
 
     const iniciais = usuario.nome_completo
         .split(" ")
@@ -25,7 +31,9 @@ export default function PerfilPage() {
         .slice(0, 2)
         .join("")
 
+
     function formatarData(data) {
+
         if (!data) {
             return "Não informado"
         }
@@ -34,6 +42,7 @@ export default function PerfilPage() {
 
         return `${dia}/${mes}/${ano}`
     }
+
 
     return (
         <main className="perfil-page">
@@ -46,16 +55,19 @@ export default function PerfilPage() {
                         {iniciais}
                     </div>
 
+
                     <div className="perfil-header-info">
 
-                        <h1>{usuario.nome_completo}</h1>
+                        <h1>
+                            {usuario.nome_completo}
+                        </h1>
+
 
                         <div className="perfil-badges">
 
                             <span className="perfil-role">
                                 {usuario.tipo} {usuario.status}
                             </span>
-
 
                         </div>
 
@@ -76,37 +88,75 @@ export default function PerfilPage() {
                         Informações pessoais
                     </h2>
 
+
                     <div className="perfil-grid">
 
                         <div className="perfil-field">
-                            <span>Nome completo</span>
-                            <strong>{usuario.nome_completo}</strong>
-                        </div>
 
-                        <div className="perfil-field">
-                            <span>Data de nascimento</span>
+                            <span>
+                                Nome completo
+                            </span>
+
                             <strong>
-                                {formatarData(usuario.data_nascimento)}
+                                {usuario.nome_completo}
                             </strong>
+
                         </div>
 
-                        <div className="perfil-field">
-                            <span>E-mail</span>
-                            <strong>{usuario.email}</strong>
-                        </div>
 
                         <div className="perfil-field">
-                            <span>Telefone</span>
+
+                            <span>
+                                Data de nascimento
+                            </span>
+
                             <strong>
-                                {usuario.telefone || "Não informado"}
+                                {formatarData(
+                                    usuario.data_nascimento
+                                )}
                             </strong>
+
                         </div>
 
+
                         <div className="perfil-field">
-                            <span>Bairro</span>
+
+                            <span>
+                                E-mail
+                            </span>
+
                             <strong>
-                                {usuario.bairro || "Não informado"}
+                                {usuario.email}
                             </strong>
+
+                        </div>
+
+
+                        <div className="perfil-field">
+
+                            <span>
+                                Telefone
+                            </span>
+
+                            <strong>
+                                {usuario.telefone ||
+                                    "Não informado"}
+                            </strong>
+
+                        </div>
+
+
+                        <div className="perfil-field">
+
+                            <span>
+                                Bairro
+                            </span>
+
+                            <strong>
+                                {usuario.bairro ||
+                                    "Não informado"}
+                            </strong>
+
                         </div>
 
                     </div>
@@ -116,22 +166,43 @@ export default function PerfilPage() {
 
                 <div className="perfil-divider"></div>
 
+
+                {/* INFORMAÇÕES ACADÊMICAS */}
+
                 <section className="perfil-section">
+
                     <h2>
                         <i className="fa-solid fa-graduation-cap"></i>
                         Informações acadêmicas
                     </h2>
+
+
                     <div className="perfil-grid">
-                        <div className="perfil-field">
-                            <span>Matrícula</span>
-                            <strong>{usuario.matricula}</strong>
-                        </div>
 
                         <div className="perfil-field">
-                            <span>Curso</span>
+
+                            <span>
+                                Matrícula
+                            </span>
+
                             <strong>
-                                {usuario.curso || "Não informado"}
+                                {usuario.matricula}
                             </strong>
+
+                        </div>
+
+
+                        <div className="perfil-field">
+
+                            <span>
+                                Curso
+                            </span>
+
+                            <strong>
+                                {usuario.curso ||
+                                    "Não informado"}
+                            </strong>
+
                         </div>
 
                     </div>
@@ -151,37 +222,65 @@ export default function PerfilPage() {
                         Informações na liga
                     </h2>
 
+
                     <div className="perfil-grid">
 
                         <div className="perfil-field">
-                            <span>Cargo</span>
+
+                            <span>
+                                Cargo
+                            </span>
+
                             <strong>
                                 {usuario.cargo || "MEMBRO"}
                             </strong>
+
                         </div>
 
+
                         <div className="perfil-field">
-                            <span>Status</span>
+
+                            <span>
+                                Status
+                            </span>
+
                             <strong>
                                 {usuario.status}
                             </strong>
+
                         </div>
 
+
                         <div className="perfil-field">
-                            <span>Ingresso na liga</span>
+
+                            <span>
+                                Ingresso na liga
+                            </span>
+
                             <strong>
-                                {formatarData(usuario.ingresso_liga)}
+                                {formatarData(
+                                    usuario.ingresso_liga
+                                )}
                             </strong>
+
                         </div>
 
+
                         <div className="perfil-field">
-                            <span>Desligamento</span>
+
+                            <span>
+                                Desligamento
+                            </span>
+
                             <strong>
                                 {usuario.desligamento_liga
-                                    ? formatarData(usuario.desligamento_liga)
+                                    ? formatarData(
+                                        usuario.desligamento_liga
+                                    )
                                     : "Não desligado"
                                 }
                             </strong>
+
                         </div>
 
                     </div>
@@ -201,6 +300,7 @@ export default function PerfilPage() {
                         Estágio
                     </h2>
 
+
                     <div className="perfil-estagio">
 
                         <span>
@@ -210,11 +310,14 @@ export default function PerfilPage() {
                             }
                         </span>
 
-                        <i className={
-                            usuario.faz_estagio
-                                ? "fa-solid fa-circle-check"
-                                : "fa-solid fa-circle-xmark"
-                        }></i>
+
+                        <i
+                            className={
+                                usuario.faz_estagio
+                                    ? "fa-solid fa-circle-check"
+                                    : "fa-solid fa-circle-xmark"
+                            }
+                        ></i>
 
                     </div>
 
@@ -241,16 +344,21 @@ export default function PerfilPage() {
 
                     </div>
 
+
                     <div className="password-row">
 
                         <span className="password-dots">
                             ••••••••••
                         </span>
 
-                        <button className="btn-secondary">
+
+                        <Button
+                            type="button"
+                            variant="btn-secondary"
+                        >
                             <i className="fa-solid fa-key"></i>
                             Mudar senha
-                        </button>
+                        </Button>
 
                     </div>
 
@@ -277,13 +385,15 @@ export default function PerfilPage() {
 
                     </div>
 
-                    <button
-                        className="btn-alterar"
+
+                    <Button
+                        type="button"
+                        variant="btn-alterar"
                         onClick={() => setModalAberto(true)}
                     >
                         <i className="fa-solid fa-pen-to-square"></i>
                         Solicitar alteração
-                    </button>
+                    </Button>
 
                 </section>
 
@@ -293,53 +403,74 @@ export default function PerfilPage() {
             {/* MODAL */}
 
             {modalAberto && (
-                <Modal onClose={() => setModalAberto(false)} containerClassName="modal">
+
+                <Modal
+                    onClose={() => setModalAberto(false)}
+                    containerClassName="modal"
+                >
 
                     <div className="modal-header">
 
                         <div>
-                            <h2>Solicitar alteração</h2>
+
+                            <h2>
+                                Solicitar alteração
+                            </h2>
 
                             <p>
                                 Explique quais informações precisam
                                 ser alteradas.
                             </p>
+
                         </div>
 
-                        <button
-                            className="modal-close"
-                            onClick={() => setModalAberto(false)}
+
+                        <Button
+                            type="button"
+                            variant="modal-close"
+                            onClick={() =>
+                                setModalAberto(false)
+                            }
+                            aria-label="Fechar modal"
                         >
                             <i className="fa-solid fa-xmark"></i>
-                        </button>
+                        </Button>
 
                     </div>
+
 
                     <textarea
                         className="alteracao-textarea"
                         placeholder="Ex: Meu telefone mudou para (21) 99999-9999..."
                     />
 
+
                     <div className="modal-actions">
 
-                        <button
-                            className="btn-cancelar"
-                            onClick={() => setModalAberto(false)}
-                        >
-                            Cancelar
-                        </button>
+                        <Button
+                            type="button"
+                            label="Cancelar"
+                            variant="btn-cancelar"
+                            onClick={() =>
+                                setModalAberto(false)
+                            }
+                        />
 
-                        <button className="btn-enviar">
+
+                        <Button
+                            type="button"
+                            variant="btn-enviar"
+                        >
                             <i className="fa-solid fa-paper-plane"></i>
                             Enviar solicitação
-                        </button>
+                        </Button>
 
                     </div>
 
                 </Modal>
+
             )}
 
         </main>
     )
 }
-
