@@ -4,6 +4,9 @@ export * from './apiAlunos'
 export * from './apiEquipes'
 export * from './apiCursos'
 export * from './apiProjetos'
+export * from './apiPresencas'
+export * from './apiReunioes'
+export * from './apiQRCodes'
 
 export default async function recuperarSenha(login) {
     const response = await fetch(

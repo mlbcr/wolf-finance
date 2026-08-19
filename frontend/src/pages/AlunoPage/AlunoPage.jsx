@@ -10,6 +10,8 @@ import EditarAlunoModal from './components/EditarAlunoModal'
 import AlunoInfo from './AlunoInfo'
 import AlunoEquipes from './AlunoEquipes'
 import AlunoProjetos from './AlunoProjetos'
+import AlertModal from '@/components/AlertModal/AlertModal'
+import LoadingModal from '@/components/LoadingModal/LoadingModal'
 
 import './AlunoPage.css'
 
@@ -22,6 +24,7 @@ export default function AlunoPage() {
 
     const [editando, setEditando] = useState(false)
     const [salvando, setSalvando] = useState(false)
+    const [erro, setErro] = useState(null)
 
     const [abaAtiva, setAbaAtiva] = useState('informacoes')
 
@@ -47,11 +50,14 @@ export default function AlunoPage() {
             const alunoAtualizado = await atualizarAluno(id, dados)
 
             setAluno(alunoAtualizado)
-            setEditando(false)
-
+            setErro('Aluno atualizado com sucesso!')
+            setTimeout(() => {
+                setEditando(false)
+                setErro(null)
+            }, 1500)
         } catch (error) {
             console.error(error)
-            alert('Não foi possível atualizar o aluno.')
+            setErro('Não foi possível atualizar o aluno.')
         } finally {
             setSalvando(false)
         }
@@ -135,11 +141,10 @@ export default function AlunoPage() {
                     </p>
 
                     <span
-                        className={`aluno-status ${
-                            aluno.status === 'ATIVO'
+                        className={`aluno-status ${aluno.status === 'ATIVO'
                                 ? 'ativo'
                                 : 'inativo'
-                        }`}
+                            }`}
                     >
                         <i className="fa-solid fa-circle"></i>
                         {aluno.status}

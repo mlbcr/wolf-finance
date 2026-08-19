@@ -10,6 +10,7 @@ import ReunioesPage from '@/pages/ReunioesPage/ReunioesPage'
 import PerfilPage from '@/pages/PerfilPage/PerfilPage'
 import AlunoPage from '@/pages/AlunoPage/AlunoPage'
 import AlunosPage from '@/pages/AlunosPage/AlunosPage'
+import ScannerPage from '@/pages/ScannerPage/ScannerPage'
 
 import { Routes, Route } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
@@ -25,6 +26,7 @@ export default function AppRouter() {
                 <Route path="/perfil" element={<PerfilPage />} />
                 <Route path="/reunioes" element={<ReunioesPage />} />
                 <Route path="/presencas" element={<PresencasPage />} />
+                <Route path="/presenca/scanner" element={<ScannerPage />} />
                 <Route path="/equipes" element={<EquipesPage />} />
                 <Route path="/equipes/:id" element={<EquipePage />} />
                 <Route path="/projetos" element={<ProjetosPage />} />

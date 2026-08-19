@@ -1,0 +1,144 @@
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.loading-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    z-index: 1001;
+
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.loading-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+
+    padding: 40px 24px;
+
+    width: 90%;
+    max-width: 300px;
+
+    border-radius: 12px;
+
+    background-color: white;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+
+    text-align: center;
+
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   SPINNER
+========================================================= */
+
+.loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    height: 60px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+
+    border: 4px solid #e0e0e0;
+    border-top: 4px solid #3157d5;
+
+    border-radius: 50%;
+
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   MENSAGEM
+========================================================= */
+
+.loading-mensagem {
+    margin: 0;
+
+    color: #666;
+
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+    .loading-modal {
+        padding: 30px 20px;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+
+        border-width: 3px;
+    }
+
+    .loading-mensagem {
+        font-size: 13px;
+    }
+}

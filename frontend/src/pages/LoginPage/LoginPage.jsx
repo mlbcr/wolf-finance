@@ -7,6 +7,8 @@ import useAuth from '@/contexts/useAuth'
 import Label from '@/components/Label/Label'
 import Input from '@/components/Input/Input'
 import Button from '@/components/Button/Button'
+import AlertModal from '@/components/AlertModal/AlertModal'
+import LoadingModal from '@/components/LoadingModal/LoadingModal'
 import Logo from '@/assets/logo1.png'
 
 export default function LoginPage() {
@@ -14,6 +16,8 @@ export default function LoginPage() {
   const [senha, setSenha] = useState(() => localStorage.getItem('savedSenha') ?? '')
   const [rememberMe, setRememberMe] = useState(() => Boolean(localStorage.getItem('savedLogin') || localStorage.getItem('savedSenha')))
   const [showPassword, setShowPassword] = useState(false)
+  const [erro, setErro] = useState(null)
+  const [carregando, setCarregando] = useState(false)
   const { login: doLogin } = useAuth()
 
   const navigate = useNavigate()
@@ -22,6 +26,9 @@ export default function LoginPage() {
     e.preventDefault()
 
     try {
+      setCarregando(true)
+      setErro(null)
+
       await doLogin({
         login,
         senha,
@@ -38,12 +45,24 @@ export default function LoginPage() {
       navigate('/')
     } catch (error) {
       console.error(error)
-      alert('Login inválido')
+      setErro('Login inválido. Verifique suas credenciais.')
+    } finally {
+      setCarregando(false)
     }
   }
 
   return (
     <div className="login-page">
+      {carregando && <LoadingModal mensagem="Fazendo login..." />}
+      {erro && (
+        <AlertModal
+          titulo="Erro no Login"
+          mensagem={erro}
+          onFechar={() => setErro(null)}
+          tipo="erro"
+        />
+      )}
+
       <div className="login-card">
 
         <div className="login-header">
@@ -108,25 +127,25 @@ export default function LoginPage() {
 
           <div className="remember-group">
             <label className="remember-checkbox">
-                <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) =>
-                        setRememberMe(e.target.checked)
-                    }
-                />
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) =>
+                  setRememberMe(e.target.checked)
+                }
+              />
 
-                <span className="custom-checkbox">
-                    {rememberMe && (
-                        <i className="fa-solid fa-check"></i>
-                    )}
-                </span>
+              <span className="custom-checkbox">
+                {rememberMe && (
+                  <i className="fa-solid fa-check"></i>
+                )}
+              </span>
 
-                <span className="remember-text">
-                    Lembrar login e senha
-                </span>
+              <span className="remember-text">
+                Lembrar login e senha
+              </span>
             </label>
-        </div>
+          </div>
 
           <Button
             label="Entrar"

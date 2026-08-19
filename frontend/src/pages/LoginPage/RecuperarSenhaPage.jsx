@@ -6,28 +6,47 @@ import { Link } from 'react-router-dom'
 import Label from '@/components/Label/Label'
 import Input from '@/components/Input/Input'
 import Button from '@/components/Button/Button'
+import AlertModal from '@/components/AlertModal/AlertModal'
+import LoadingModal from '@/components/LoadingModal/LoadingModal'
 
 import recuperarSenha from '@/api/api'
 
 export default function RecuperarSenhaPage() {
     const [login, setLogin] = useState('')
     const [enviado, setEnviado] = useState(false)
+    const [erro, setErro] = useState(null)
+    const [carregando, setCarregando] = useState(false)
 
     async function handleRecuperacao(e) {
         e.preventDefault()
 
         try {
+            setCarregando(true)
+            setErro(null)
+
             await recuperarSenha(login)
 
             setEnviado(true)
         } catch (error) {
             console.error(error)
-            alert('Não foi possível solicitar a recuperação da senha.')
+            setErro('Não foi possível solicitar a recuperação da senha.')
+        } finally {
+            setCarregando(false)
         }
     }
 
     return (
         <div className="recuperar-page">
+            {carregando && <LoadingModal mensagem="Processando..." />}
+            {erro && (
+                <AlertModal
+                    titulo="Erro"
+                    mensagem={erro}
+                    onFechar={() => setErro(null)}
+                    tipo="erro"
+                />
+            )}
+
             <div className="recuperar-card">
 
                 <div className="recuperar-header">
@@ -64,8 +83,9 @@ export default function RecuperarSenhaPage() {
                         </div>
 
                         <Button
-                            label="Enviar instruções"
+                            label={carregando ? "Carregando..." : "Enviar instruções"}
                             variant="recuperar-senha"
+                            disabled={carregando}
                         />
 
                         <Link
