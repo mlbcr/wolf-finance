@@ -56,66 +56,92 @@ def criar_reuniao_service(
     db: Session,
     dados: ReuniaoCreate
 ):
+
     if dados.equipe_id:
+
         equipe = db.query(Equipe).filter(
             Equipe.id == dados.equipe_id
         ).first()
-        
+
         if not equipe:
-            raise ValueError("Equipe não encontrada")
-    
+            raise ValueError(
+                "Equipe não encontrada"
+            )
+
+    if dados.hora_fim <= dados.hora_inicio:
+        raise ValueError(
+            "O horário de fim deve ser posterior ao horário de início"
+        )
+
     reuniao = Reuniao(
-        numero=dados.numero,
-        hora=dados.hora,
+        titulo=dados.titulo,
+        descricao=dados.descricao,
         data=dados.data,
-        tipo=dados.tipo,
+        hora_inicio=dados.hora_inicio,
+        hora_fim=dados.hora_fim,
         equipe_id=dados.equipe_id
     )
-    
-    db.add(reuniao)
-    db.commit()
-    db.refresh(reuniao)
-    
-    return reuniao
 
+    db.add(reuniao)
+
+    db.commit()
+
+    db.refresh(reuniao)
+
+    return reuniao
 
 def atualizar_reuniao_service(
     db: Session,
     reuniao_id: UUID,
     dados: ReuniaoUpdate
 ):
+
     reuniao = db.query(Reuniao).filter(
         Reuniao.id == reuniao_id
     ).first()
-    
+
     if not reuniao:
-        raise ValueError("Reunião não encontrada")
-    
-    if dados.numero is not None:
-        reuniao.numero = dados.numero
-    
-    if dados.hora is not None:
-        reuniao.hora = dados.hora
-    
+        raise ValueError(
+            "Reunião não encontrada"
+        )
+
+    if dados.titulo is not None:
+        reuniao.titulo = dados.titulo
+
+    if dados.descricao is not None:
+        reuniao.descricao = dados.descricao
+
     if dados.data is not None:
         reuniao.data = dados.data
-    
-    if dados.tipo is not None:
-        reuniao.tipo = dados.tipo
-    
+
+    if dados.hora_inicio is not None:
+        reuniao.hora_inicio = dados.hora_inicio
+
+    if dados.hora_fim is not None:
+        reuniao.hora_fim = dados.hora_fim
+
     if dados.equipe_id is not None:
+
         equipe = db.query(Equipe).filter(
             Equipe.id == dados.equipe_id
         ).first()
-        
+
         if not equipe:
-            raise ValueError("Equipe não encontrada")
-        
+            raise ValueError(
+                "Equipe não encontrada"
+            )
+
         reuniao.equipe_id = dados.equipe_id
-    
+
+    if reuniao.hora_fim <= reuniao.hora_inicio:
+        raise ValueError(
+            "O horário de fim deve ser posterior ao horário de início"
+        )
+
     db.commit()
+
     db.refresh(reuniao)
-    
+
     return reuniao
 
 
@@ -123,14 +149,18 @@ def deletar_reuniao_service(
     db: Session,
     reuniao_id: UUID
 ):
+
     reuniao = db.query(Reuniao).filter(
         Reuniao.id == reuniao_id
     ).first()
-    
+
     if not reuniao:
-        raise ValueError("Reunião não encontrada")
-    
+        raise ValueError(
+            "Reunião não encontrada"
+        )
+
     db.delete(reuniao)
+
     db.commit()
 
 

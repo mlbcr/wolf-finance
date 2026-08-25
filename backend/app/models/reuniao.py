@@ -1,7 +1,7 @@
 import uuid
 from datetime import date, time
 
-from sqlalchemy import Date, Time, ForeignKey, Integer, String
+from sqlalchemy import Date, Time, ForeignKey, Integer, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -17,14 +17,14 @@ class Reuniao(Base):
         default=uuid.uuid4
     )
 
-    numero: Mapped[int] = mapped_column(
-        Integer,
+    titulo: Mapped[str] = mapped_column(
+        String,
         nullable=False
     )
 
-    hora: Mapped[time] = mapped_column(
-        Time,
-        nullable=False
+    descricao: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True
     )
 
     data: Mapped[date] = mapped_column(
@@ -32,8 +32,13 @@ class Reuniao(Base):
         nullable=False
     )
 
-    tipo: Mapped[str] = mapped_column(
-        String,
+    hora_inicio: Mapped[time] = mapped_column(
+        Time,
+        nullable=False
+    )
+
+    hora_fim: Mapped[time] = mapped_column(
+        Time,
         nullable=False
     )
 
@@ -47,11 +52,13 @@ class Reuniao(Base):
 
     presencas = relationship(
         "ReuniaoPresenca",
-        back_populates="reuniao"
+        back_populates="reuniao",
+        cascade="all, delete-orphan"
     )
 
     qrcode = relationship(
         "QRCode",
         back_populates="reuniao",
-        uselist=False
+        uselist=False,
+        cascade="all, delete-orphan"
     )

@@ -58,4 +58,8 @@ class QRCode(Base):
     )
 
     usuario = relationship("Usuario")
-    reuniao = relationship("Reuniao", back_populates="qrcode")
+
+    reuniao = relationship(
+        "Reuniao",
+        back_populates="qrcode"
+    )

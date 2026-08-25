@@ -15,7 +15,6 @@ SCOPES = [
 
 
 def obter_credentials():
-
     token_json = os.getenv("GMAIL_TOKEN")
 
     if not token_json:
@@ -28,8 +27,13 @@ def obter_credentials():
         SCOPES
     )
 
-    if creds.expired and creds.refresh_token:
-        creds.refresh(Request())
+    if not creds.valid:
+        if creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            raise RuntimeError(
+                "Credenciais inválidas. Gere um novo GMAIL_TOKEN."
+            )
 
     return creds
 

@@ -4,7 +4,7 @@ from datetime import datetime
 
 from sqlalchemy import String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
 
@@ -48,3 +48,5 @@ class Usuario(Base):
         nullable=False,
         default="ATIVO"
     )
+
+    aluno = relationship("Aluno")

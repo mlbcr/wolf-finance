@@ -46,15 +46,21 @@ def buscar_usuario(
     usuario_id: str,
     db: Session
 ):
+    print("USUARIO ID:", usuario_id)
+
     usuario = db.query(Usuario).filter(
         Usuario.id == usuario_id
     ).first()
+
+    print("USUARIO:", usuario)
 
     if not usuario:
         raise HTTPException(
             status_code=404,
             detail="Usuário não encontrado"
         )
+
+    print("ALUNO:", usuario.aluno)
 
     if not usuario.aluno:
         raise HTTPException(
@@ -199,10 +205,15 @@ def obter_horas_semana(
 
     total_horas = calcular_horas_semana_service(db, aluno.id)
 
+    if aluno.faz_estagio:
+        meta_horas = 3
+    else:
+        meta_horas = 4
+
     return {
         "total_horas": total_horas,
-        "meta_horas": 20.0,
-        "percentual": round((total_horas / 20.0) * 100, 2) if total_horas > 0 else 0
+        "meta_horas": meta_horas,
+        "percentual": round((total_horas / meta_horas) * 100, 2) if total_horas > 0 else 0
     }
 
 
