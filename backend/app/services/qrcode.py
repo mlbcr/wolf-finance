@@ -40,7 +40,7 @@ def criar_qrcode_sala(
         gerado_por=usuario_id,
         tipo="SALA",
         data_criacao=agora,
-        data_limite=agora + timedelta(minutes=duracao_minutos),
+        data_limite=momento + timedelta(minutes=duracao_minutos),
         status="ATIVO"
     )
 
@@ -84,7 +84,7 @@ def criar_qrcode_reuniao(
         gerado_por=usuario_id,
         tipo="REUNIAO",
         data_criacao=agora,
-        data_limite=agora + timedelta(minutes=duracao_minutos),
+        data_limite=momento + timedelta(minutes=duracao_minutos),
         status="ATIVO"
     )
 

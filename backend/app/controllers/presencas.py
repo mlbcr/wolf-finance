@@ -108,7 +108,7 @@ def registrar_presenca_sala(
 
     momento = agora()
 
-    if agora > qrcode.data_limite:
+    if momento > qrcode.data_limite:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="QR Code expirado"
@@ -399,7 +399,7 @@ def registrar_presenca_reuniao(
 
     momento = agora()
 
-    if agora > qrcode.data_limite:
+    if momento > qrcode.data_limite:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="QR Code expirado"
