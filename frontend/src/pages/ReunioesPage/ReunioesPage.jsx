@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react'
+import {
+    useEffect,
+    useState
+} from 'react'
 
 import useAuth from '@/contexts/useAuth'
 
@@ -7,8 +10,7 @@ import {
     criarReuniao,
     atualizarReuniao,
     deletarReuniao,
-    gerarQRCodeReuniao,
-    listarPresencasReuniao
+    gerarQRCodeReuniao
 } from '@/api/api'
 
 import AlertModal from '@/components/AlertModal/AlertModal'
@@ -16,78 +18,150 @@ import ConfirmModal from '@/components/ConfirmModal/ConfirmModal'
 import LoadingModal from '@/components/LoadingModal/LoadingModal'
 import Button from '@/components/Button/Button'
 
+import ReuniaoCard from './components/ReuniaoCard'
+import ReuniaoFormModal from './components/ReuniaoFormModal'
+import ReuniaoInfoModal from './components/ReuniaoInfoModal'
+import QRCodeModal from './components/QRCodeModal'
+
 import './ReunioesPage.css'
 
 
-function formatarData(data) {
-    const date = new Date(data + 'T00:00:00')
-
-    return date.toLocaleDateString('pt-BR', {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    })
-}
-
-
-function formatarHora(time) {
-    if (!time) return '--:--'
-
-    return time.substring(0, 5)
-}
-
-
 export default function ReunioesPage() {
-    const { usuario, loading: loadingAuth } = useAuth()
 
-    const [reunioes, setReunioes] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [erro, setErro] = useState(null)
+    const {
+        usuario,
+        loading: loadingAuth
+    } = useAuth()
 
-    const [modalAberto, setModalAberto] = useState(false)
-    const [modalPresencas, setModalPresencas] = useState(false)
 
-    const [reuniaoSelecionada, setReuniaoSelecionada] = useState(null)
-    const [presencas, setPresencas] = useState([])
+    const [
+        reunioes,
+        setReunioes
+    ] = useState([])
 
-    const [dados, setDados] = useState({
-        numero: '',
-        hora: '',
-        data: '',
-        tipo: 'PRESENCIAL',
-        equipe_id: null
-    })
 
-    const [confirmDelete, setConfirmDelete] = useState(null)
-    const [processando, setProcessando] = useState(false)
+    const [
+        loading,
+        setLoading
+    ] = useState(true)
+
+
+    const [
+        erro,
+        setErro
+    ] = useState(null)
+
+
+    const [
+        reuniaoSelecionada,
+        setReuniaoSelecionada
+    ] = useState(null)
+
+
+    const [
+        modalFormulario,
+        setModalFormulario
+    ] = useState(false)
+
+
+    const [
+        modalInformacoes,
+        setModalInformacoes
+    ] = useState(false)
+
+
+    const [
+        modalQRCode,
+        setModalQRCode
+    ] = useState(false)
+
+
+    const [
+        confirmDelete,
+        setConfirmDelete
+    ] = useState(null)
+
+
+    const [
+        salvando,
+        setSalvando
+    ] = useState(false)
+
+
+    const [
+        gerandoQRCode,
+        setGerandoQRCode
+    ] = useState(false)
+
+
+    const [
+        qrcode,
+        setQRCode
+    ] = useState(null)
 
 
     useEffect(() => {
-        if (!loadingAuth && usuario) {
+
+        if (
+            !loadingAuth &&
+            usuario
+        ) {
+
             carregarReunioes()
+
         }
-    }, [usuario, loadingAuth])
+
+    }, [
+        usuario,
+        loadingAuth
+    ])
+
+
+    useEffect(() => {
+
+        return () => {
+
+            if (
+                qrcode?.imagemUrl
+            ) {
+
+                URL.revokeObjectURL(
+                    qrcode.imagemUrl
+                )
+
+            }
+
+        }
+
+    }, [
+        qrcode
+    ])
 
 
     async function carregarReunioes() {
+
         try {
+
             setLoading(true)
+
             setErro(null)
 
-            const dados = await listarReunioes()
 
-            const sorted = (dados || []).sort((a, b) => {
-                return new Date(b.data) - new Date(a.data)
-            })
+            const data =
+                await listarReunioes()
 
-            setReunioes(sorted)
+
+            setReunioes(
+                data || []
+            )
 
         } catch (error) {
+
             console.error(
                 'Erro ao carregar reuniões:',
                 error
             )
+
 
             setErro(
                 error.message ||
@@ -95,193 +169,376 @@ export default function ReunioesPage() {
             )
 
         } finally {
+
             setLoading(false)
+
         }
+
     }
 
 
-    function abrirModalNova() {
-        setDados({
-            numero: '',
-            hora: '',
-            data: '',
-            tipo: 'PRESENCIAL',
-            equipe_id: null
-        })
+    function abrirCriacao() {
 
-        setModalAberto(true)
+        setReuniaoSelecionada(null)
+
+        setModalFormulario(true)
+
     }
 
 
-    function fecharModal() {
-        if (processando) return
+    function abrirEdicao(reuniao) {
 
-        setModalAberto(false)
+        setReuniaoSelecionada(
+            reuniao
+        )
+
+        setModalFormulario(true)
+
     }
 
 
-    async function salvarReuniao() {
+    function abrirInformacoes(reuniao) {
+
+        setReuniaoSelecionada(
+            reuniao
+        )
+
+
+        /*
+        O QR Code é uma imagem temporária.
+        Portanto, ao abrir outra reunião,
+        começamos sem QR Code.
+        */
+
+        setQRCode(null)
+
+
+        setModalInformacoes(true)
+
+    }
+
+
+    function fecharFormulario() {
+
+        if (salvando) return
+
+
+        setModalFormulario(false)
+
+        setReuniaoSelecionada(null)
+
+    }
+
+
+    function fecharInformacoes() {
+
+        if (gerandoQRCode) return
+
+
+        setModalInformacoes(false)
+
+        setModalQRCode(false)
+
+        setReuniaoSelecionada(null)
+
+        setQRCode(null)
+
+    }
+
+
+    function fecharQRCode() {
+
+        if (gerandoQRCode) return
+
+
+        setModalQRCode(false)
+
+    }
+
+
+    async function salvarReuniao(dados) {
+
         try {
-            if (
-                !dados.numero ||
-                !dados.hora ||
-                !dados.data
-            ) {
-                setErro(
-                    'Preencha todos os campos obrigatórios'
+
+            setSalvando(true)
+
+
+            if (reuniaoSelecionada) {
+
+                await atualizarReuniao(
+                    reuniaoSelecionada.id,
+                    dados
                 )
 
-                return
+
+                setErro(
+                    'Reunião atualizada com sucesso!'
+                )
+
+            } else {
+
+                await criarReuniao(
+                    dados
+                )
+
+
+                setErro(
+                    'Reunião criada com sucesso!'
+                )
+
             }
 
-            setProcessando(true)
-
-            const payload = {
-                numero: parseInt(dados.numero),
-                hora: dados.hora,
-                data: dados.data,
-                tipo: dados.tipo,
-                equipe_id: dados.equipe_id || null
-            }
-
-            await criarReuniao(payload)
 
             await carregarReunioes()
 
-            setErro(
-                'Reunião criada com sucesso!'
-            )
 
             setTimeout(() => {
-                fecharModal()
+
+                setModalFormulario(false)
+
+                setReuniaoSelecionada(null)
+
                 setErro(null)
+
             }, 1500)
 
         } catch (error) {
+
+            console.error(
+                'Erro ao salvar reunião:',
+                error
+            )
+
+
             setErro(
                 error.message ||
-                'Erro ao criar reunião'
+                'Erro ao salvar reunião'
             )
 
         } finally {
-            setProcessando(false)
+
+            setSalvando(false)
+
         }
+
     }
 
 
-    async function gerarQRCode(reuniao) {
+    async function confirmarDelete() {
+
+        if (!confirmDelete) return
+
+
         try {
-            const blob =
-                await gerarQRCodeReuniao(reuniao.id)
 
-            const url = URL.createObjectURL(blob)
-
-            const link =
-                document.createElement('a')
-
-            link.href = url
-
-            link.download =
-                `qrcode-reuniao-${reuniao.numero}.png`
-
-            link.click()
-
-            URL.revokeObjectURL(url)
-
-        } catch (error) {
-            setErro(
-                error.message ||
-                'Erro ao gerar QR Code'
-            )
-        }
-    }
+            setSalvando(true)
 
 
-    async function verPresencas(reuniao) {
-        try {
-            setProcessando(true)
-
-            setReuniaoSelecionada(reuniao)
-
-            const presencasData =
-                await listarPresencasReuniao(
-                    reuniao.id
-                )
-
-            setPresencas(
-                presencasData || []
+            await deletarReuniao(
+                confirmDelete.id
             )
 
-            setModalPresencas(true)
-
-        } catch (error) {
-            setErro(
-                error.message ||
-                'Erro ao carregar presenças'
-            )
-
-        } finally {
-            setProcessando(false)
-        }
-    }
-
-
-    async function confirmarDeleteReuniao() {
-        try {
-            setProcessando(true)
-
-            await deletarReuniao(confirmDelete)
 
             await carregarReunioes()
 
+
             setConfirmDelete(null)
+
 
             setErro(
                 'Reunião deletada com sucesso!'
             )
 
+
             setTimeout(() => {
+
                 setErro(null)
+
             }, 1500)
 
         } catch (error) {
+
+            console.error(
+                'Erro ao deletar reunião:',
+                error
+            )
+
+
             setErro(
                 error.message ||
                 'Erro ao deletar reunião'
             )
 
         } finally {
-            setProcessando(false)
+
+            setSalvando(false)
+
         }
+
     }
 
 
-    const isAdmin = usuario?.tipo === 'ADMIN'
+    async function gerarNovoQRCode() {
+
+        if (!reuniaoSelecionada) return
 
 
-    if (loading || loadingAuth) {
+        try {
+
+            setGerandoQRCode(true)
+
+
+            const resultado =
+                await gerarQRCodeReuniao(
+                    reuniaoSelecionada.id
+                )
+
+
+            const {
+                imagem,
+                codigo,
+                id,
+                dataLimite
+            } = resultado
+
+
+            if (
+                !imagem ||
+                imagem.size === 0
+            ) {
+
+                throw new Error(
+                    'O QR Code não foi gerado corretamente.'
+                )
+
+            }
+
+
+            if (
+                qrcode?.imagemUrl
+            ) {
+
+                URL.revokeObjectURL(
+                    qrcode.imagemUrl
+                )
+
+            }
+
+
+            const imagemUrl =
+                URL.createObjectURL(
+                    imagem
+                )
+
+
+            /*
+            Aqui você define o link
+            que será usado para registrar
+            a presença.
+            */
+
+            const link =
+                `${window.location.origin}/presenca/${codigo}`
+
+
+            setQRCode({
+                imagemUrl,
+                codigo,
+                id,
+                dataLimite,
+                link
+            })
+
+
+            /*
+            Não precisa mais abrir
+            outro modal automaticamente.
+            O QR Code aparece no próprio
+            modal de informações.
+            */
+
+        } catch (error) {
+
+            console.error(
+                'Erro ao gerar QR Code:',
+                error
+            )
+
+
+            setErro(
+                error.message ||
+                'Erro ao gerar QR Code'
+            )
+
+        } finally {
+
+            setGerandoQRCode(false)
+
+        }
+
+    }
+
+
+    function abrirQRCode() {
+
+        if (
+            !qrcode?.imagemUrl
+        ) {
+
+            setErro(
+                'Nenhum QR Code disponível para esta reunião.'
+            )
+
+            return
+
+        }
+
+
+        setModalQRCode(true)
+
+    }
+
+
+    if (
+        loading ||
+        loadingAuth
+    ) {
+
         return (
+
             <main className="reunioes-page">
+
                 <LoadingModal
                     mensagem="Carregando reuniões..."
                 />
+
             </main>
+
         )
+
     }
 
 
     return (
+
         <main className="reunioes-page">
 
-            {/* MODAIS */}
 
-            {processando && (
+            {(salvando || gerandoQRCode) && (
+
                 <LoadingModal
-                    mensagem="Processando..."
+                    mensagem={
+                        gerandoQRCode
+                            ? 'Gerando QR Code...'
+                            : 'Processando...'
+                    }
                 />
+
             )}
 
+
             {erro && (
+
                 <AlertModal
                     titulo={
                         erro.includes('sucesso')
@@ -289,86 +546,204 @@ export default function ReunioesPage() {
                             : 'Erro'
                     }
                     mensagem={erro}
-                    onFechar={() => setErro(null)}
+                    onFechar={() =>
+                        setErro(null)
+                    }
                     tipo={
                         erro.includes('sucesso')
                             ? 'sucesso'
                             : 'erro'
                     }
                 />
+
             )}
 
+
             {confirmDelete && (
+
                 <ConfirmModal
                     titulo="Deletar Reunião"
-                    mensagem="Tem certeza que deseja deletar esta reunião? Esta ação não pode ser desfeita."
-                    onConfirmar={confirmarDeleteReuniao}
+                    mensagem={
+                        `Tem certeza que deseja deletar ` +
+                        `"${confirmDelete.titulo}"? ` +
+                        `Esta ação não pode ser desfeita.`
+                    }
+                    onConfirmar={
+                        confirmarDelete
+                    }
                     onCancelar={() =>
                         setConfirmDelete(null)
                     }
                 />
+
             )}
 
 
-            {/* HEADER */}
+            {modalFormulario && (
+
+                <ReuniaoFormModal
+                    reuniao={
+                        reuniaoSelecionada
+                    }
+                    onSalvar={
+                        salvarReuniao
+                    }
+                    onFechar={
+                        fecharFormulario
+                    }
+                    salvando={
+                        salvando
+                    }
+                />
+
+            )}
+
+
+            {modalInformacoes &&
+                reuniaoSelecionada && (
+
+                    <ReuniaoInfoModal
+                        reuniao={
+                            reuniaoSelecionada
+                        }
+                        qrcode={
+                            qrcode
+                        }
+                        onGerarQRCode={
+                            gerarNovoQRCode
+                        }
+                        onAbrirQRCode={
+                            abrirQRCode
+                        }
+                        onFechar={
+                            fecharInformacoes
+                        }
+                        gerando={
+                            gerandoQRCode
+                        }
+                    />
+
+                )}
+
+
+            {modalQRCode && (
+
+                <QRCodeModal
+                    titulo={
+                        reuniaoSelecionada
+                            ? `QR Code - ${reuniaoSelecionada.titulo}`
+                            : 'QR Code'
+                    }
+                    qrcode={
+                        qrcode
+                    }
+                    onGerarNovo={
+                        gerarNovoQRCode
+                    }
+                    onFechar={
+                        fecharQRCode
+                    }
+                    gerando={
+                        gerandoQRCode
+                    }
+                />
+
+            )}
+
 
             <header className="reunioes-header">
 
                 <div>
+
                     <span className="page-label">
+
                         Wolf Finance
+
                     </span>
 
-                    <h1>Reuniões</h1>
+
+                    <h1>
+
+                        Reuniões
+
+                    </h1>
+
 
                     <p>
-                        Acompanhe as reuniões programadas
+
+                        Gerencie as reuniões
+                        e acompanhe as informações.
+
                     </p>
+
                 </div>
 
 
-                {isAdmin && (
+                {usuario?.tipo === 'ADMIN' && (
+
                     <Button
-                        variant="btn-nova-reuniao"
-                        onClick={abrirModalNova}
+                        type="button"
+                        label="Nova reunião"
+                        variant="btn-criar-reuniao"
+                        onClick={
+                            abrirCriacao
+                        }
                     >
-                        <i className="fa-solid fa-plus"></i>
-                        Nova reunião
+
+                        <i className="fa-solid fa-plus" />
+
                     </Button>
+
                 )}
 
             </header>
 
-
-            {/* LISTA DE REUNIÕES */}
 
             <section className="reunioes-section">
 
                 <div className="section-header">
 
                     <div>
+
                         <h2>
-                            Reuniões programadas
+
+                            Todas as reuniões
+
                         </h2>
 
+
                         <p>
-                            Lista de todas as reuniões
+
+                            Visualize e gerencie
+                            as reuniões da liga.
+
                         </p>
+
                     </div>
 
 
                     {reunioes.length > 0 && (
+
                         <div className="reunioes-count">
 
                             <strong>
+
                                 {reunioes.length}
+
                             </strong>
 
+
                             <span>
-                                reuniões
+
+                                {reunioes.length === 1
+                                    ? 'reunião'
+                                    : 'reuniões'
+                                }
+
                             </span>
 
                         </div>
+
                     )}
 
                 </div>
@@ -378,115 +753,35 @@ export default function ReunioesPage() {
 
                     <div className="reunioes-lista">
 
-                        {reunioes.map(reuniao => (
+                        {reunioes.map(
+                            reuniao => (
 
-                            <div
-                                key={reuniao.id}
-                                className="reuniao-item"
-                            >
+                                <ReuniaoCard
+                                    key={reuniao.id}
+                                    reuniao={reuniao}
+                                    loading={
+                                        salvando ||
+                                        gerandoQRCode
+                                    }
+                                    onVerInformacoes={() =>
+                                        abrirInformacoes(
+                                            reuniao
+                                        )
+                                    }
+                                    onEditar={() =>
+                                        abrirEdicao(
+                                            reuniao
+                                        )
+                                    }
+                                    onDeletar={() =>
+                                        setConfirmDelete(
+                                            reuniao
+                                        )
+                                    }
+                                />
 
-                                <div className="reuniao-info">
-
-                                    <div className="reuniao-numero">
-
-                                        <span className="badge">
-                                            #{reuniao.numero}
-                                        </span>
-
-                                    </div>
-
-
-                                    <div className="reuniao-detalhes">
-
-                                        <div className="reuniao-data-hora">
-
-                                            <i className="fa-solid fa-calendar"></i>
-
-                                            <span>
-                                                {formatarData(
-                                                    reuniao.data
-                                                )}
-                                            </span>
-
-                                            <span className="separador">
-                                                •
-                                            </span>
-
-                                            <i className="fa-solid fa-clock"></i>
-
-                                            <span>
-                                                {formatarHora(
-                                                    reuniao.hora
-                                                )}
-                                            </span>
-
-                                        </div>
-
-
-                                        <div className="reuniao-tipo">
-
-                                            <i className="fa-solid fa-video"></i>
-
-                                            <span>
-                                                {reuniao.tipo}
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-
-                                <div className="reuniao-acoes">
-
-                                    {isAdmin && (
-                                        <>
-
-                                            <Button
-                                                variant="btn-qrcode"
-                                                onClick={() =>
-                                                    gerarQRCode(reuniao)
-                                                }
-                                                title="Gerar QR Code"
-                                            >
-                                                <i className="fa-solid fa-qrcode"></i>
-                                            </Button>
-
-
-                                            <Button
-                                                variant="btn-presencas"
-                                                onClick={() =>
-                                                    verPresencas(reuniao)
-                                                }
-                                                title="Ver presenças"
-                                                disabled={processando}
-                                            >
-                                                <i className="fa-solid fa-users"></i>
-                                            </Button>
-
-
-                                            <Button
-                                                variant="btn-deletar"
-                                                onClick={() =>
-                                                    setConfirmDelete(
-                                                        reuniao.id
-                                                    )
-                                                }
-                                                title="Deletar reunião"
-                                                disabled={processando}
-                                            >
-                                                <i className="fa-solid fa-trash"></i>
-                                            </Button>
-
-                                        </>
-                                    )}
-
-                                </div>
-
-                            </div>
-
-                        ))}
+                            )
+                        )}
 
                     </div>
 
@@ -494,11 +789,28 @@ export default function ReunioesPage() {
 
                     <div className="vazio-container">
 
-                        <i className="fa-solid fa-calendar-xmark"></i>
+                        <i className="fa-solid fa-calendar-xmark" />
+
 
                         <p>
-                            Nenhuma reunião programada
+
+                            Nenhuma reunião cadastrada.
+
                         </p>
+
+
+                        {usuario?.tipo === 'ADMIN' && (
+
+                            <Button
+                                type="button"
+                                label="Criar primeira reunião"
+                                variant="btn-criar-reuniao"
+                                onClick={
+                                    abrirCriacao
+                                }
+                            />
+
+                        )}
 
                     </div>
 
@@ -506,295 +818,8 @@ export default function ReunioesPage() {
 
             </section>
 
-
-            {/* MODAL NOVA REUNIÃO */}
-
-            {modalAberto && isAdmin && (
-
-                <div
-                    className="modal-overlay"
-                    onClick={fecharModal}
-                >
-
-                    <div
-                        className="modal-container"
-                        onClick={(e) =>
-                            e.stopPropagation()
-                        }
-                    >
-
-                        <div className="modal-header">
-
-                            <h2>
-                                Nova Reunião
-                            </h2>
-
-
-                            <Button
-                                type="button"
-                                variant="btn-fechar"
-                                onClick={fecharModal}
-                                disabled={processando}
-                            >
-                                <i className="fa-solid fa-times"></i>
-                            </Button>
-
-                        </div>
-
-
-                        <div className="modal-body">
-
-                            <div className="form-group">
-
-                                <label htmlFor="numero">
-                                    Número
-                                </label>
-
-                                <input
-                                    type="number"
-                                    id="numero"
-                                    min="1"
-                                    value={dados.numero}
-                                    onChange={(e) =>
-                                        setDados({
-                                            ...dados,
-                                            numero: e.target.value
-                                        })
-                                    }
-                                    disabled={processando}
-                                />
-
-                            </div>
-
-
-                            <div className="form-row">
-
-                                <div className="form-group">
-
-                                    <label htmlFor="data">
-                                        Data
-                                    </label>
-
-                                    <input
-                                        type="date"
-                                        id="data"
-                                        value={dados.data}
-                                        onChange={(e) =>
-                                            setDados({
-                                                ...dados,
-                                                data: e.target.value
-                                            })
-                                        }
-                                        disabled={processando}
-                                    />
-
-                                </div>
-
-
-                                <div className="form-group">
-
-                                    <label htmlFor="hora">
-                                        Hora
-                                    </label>
-
-                                    <input
-                                        type="time"
-                                        id="hora"
-                                        value={dados.hora}
-                                        onChange={(e) =>
-                                            setDados({
-                                                ...dados,
-                                                hora: e.target.value
-                                            })
-                                        }
-                                        disabled={processando}
-                                    />
-
-                                </div>
-
-                            </div>
-
-
-                            <div className="form-group">
-
-                                <label htmlFor="tipo">
-                                    Tipo
-                                </label>
-
-                                <select
-                                    id="tipo"
-                                    value={dados.tipo}
-                                    onChange={(e) =>
-                                        setDados({
-                                            ...dados,
-                                            tipo: e.target.value
-                                        })
-                                    }
-                                    disabled={processando}
-                                >
-
-                                    <option value="PRESENCIAL">
-                                        Presencial
-                                    </option>
-
-                                    <option value="ONLINE">
-                                        Online
-                                    </option>
-
-                                    <option value="HIBRIDA">
-                                        Híbrida
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-
-                        <div className="modal-footer">
-
-                            <Button
-                                type="button"
-                                label="Cancelar"
-                                variant="btn-cancelar"
-                                onClick={fecharModal}
-                                disabled={processando}
-                            />
-
-
-                            <Button
-                                type="button"
-                                label="Criar"
-                                loadingLabel="Criando..."
-                                variant="btn-salvar"
-                                onClick={salvarReuniao}
-                                loading={processando}
-                            />
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            )}
-
-
-            {/* MODAL PRESENÇAS */}
-
-            {modalPresencas && (
-
-                <div
-                    className="modal-overlay"
-                    onClick={() =>
-                        setModalPresencas(false)
-                    }
-                >
-
-                    <div
-                        className="modal-container"
-                        onClick={(e) =>
-                            e.stopPropagation()
-                        }
-                    >
-
-                        <div className="modal-header">
-
-                            <h2>
-                                Presenças - Reunião #
-                                {reuniaoSelecionada?.numero}
-                            </h2>
-
-
-                            <Button
-                                type="button"
-                                variant="btn-fechar"
-                                onClick={() =>
-                                    setModalPresencas(false)
-                                }
-                            >
-                                <i className="fa-solid fa-times"></i>
-                            </Button>
-
-                        </div>
-
-
-                        <div className="modal-body">
-
-                            {presencas.length > 0 ? (
-
-                                <div className="presencas-lista">
-
-                                    {presencas.map(
-                                        presenca => (
-
-                                            <div
-                                                key={presenca.id}
-                                                className="presenca-item"
-                                            >
-
-                                                <div>
-
-                                                    <p className="presenca-aluno-id">
-                                                        {
-                                                            presenca.aluno_id
-                                                        }
-                                                    </p>
-
-                                                    <p className="presenca-horario">
-                                                        {
-                                                            new Date(
-                                                                presenca.registrada_em
-                                                            ).toLocaleString(
-                                                                'pt-BR'
-                                                            )
-                                                        }
-                                                    </p>
-
-                                                </div>
-
-                                            </div>
-
-                                        )
-                                    )}
-
-                                </div>
-
-                            ) : (
-
-                                <div className="vazio-modal">
-
-                                    <p>
-                                        Nenhuma presença registrada
-                                    </p>
-
-                                </div>
-
-                            )}
-
-                        </div>
-
-
-                        <div className="modal-footer">
-
-                            <Button
-                                type="button"
-                                label="Fechar"
-                                variant="btn-fechar-modal"
-                                onClick={() =>
-                                    setModalPresencas(false)
-                                }
-                            />
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            )}
-
         </main>
+
     )
+
 }

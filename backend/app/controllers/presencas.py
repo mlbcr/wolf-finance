@@ -123,15 +123,16 @@ def registrar_presenca_sala(
         SalaPresenca.hora_fim.is_(None)
     ).first()
 
+    agora = datetime.now()
+
     if presenca:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail={
-                "tipo": "PRESENCA_ABERTA",
-                "presenca_id": str(presenca.id),
-                "hora_inicio": presenca.hora_inicio.isoformat()
-            }
-        )
+        # Já entrou → registra saída
+        presenca.hora_fim = agora.time()
+
+        db.commit()
+        db.refresh(presenca)
+
+        return presenca
 
     presenca = SalaPresenca(
         aluno_id=aluno.id,

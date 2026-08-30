@@ -1,0 +1,341 @@
+.reuniao-info-modal {
+    max-width: 620px;
+}
+
+
+.reuniao-info-body {
+    gap: 24px;
+}
+
+
+.reuniao-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.reuniao-info-section h3 {
+    margin: 0;
+
+    color: #1f1f1f;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.reuniao-info-section p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+.reuniao-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 14px;
+}
+
+
+.reuniao-info-item {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 14px;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+
+    background-color: #fafafa;
+}
+
+
+.reuniao-info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background-color: #e8ecf9;
+
+    color: #3157d5;
+}
+
+
+.reuniao-info-item > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.reuniao-info-item span {
+    color: #777;
+
+    font-size: 12px;
+}
+
+
+.reuniao-info-item strong {
+    color: #1f1f1f;
+
+    font-size: 13px;
+}
+
+
+/* ================================================= */
+/* QR CODE */
+/* ================================================= */
+
+.reuniao-qrcode-section {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+
+    padding: 20px;
+
+    border: 1px solid #e5e8f5;
+    border-radius: 12px;
+
+    background-color: #fafbff;
+}
+
+
+.reuniao-qrcode-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.reuniao-qrcode-title {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.reuniao-qrcode-title i {
+    color: #3157d5;
+
+    font-size: 20px;
+}
+
+
+.reuniao-qrcode-title h3 {
+    margin: 0;
+
+    color: #1f1f1f;
+
+    font-size: 16px;
+}
+
+
+.reuniao-qrcode-header p {
+    margin: 8px 0 0;
+
+    color: #777;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* ================================================= */
+/* PREVIEW DO QR CODE */
+/* ================================================= */
+
+.reuniao-qrcode-preview {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 16px;
+
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+
+    background-color: white;
+}
+
+
+.reuniao-qrcode-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 150px;
+    height: 150px;
+
+    flex-shrink: 0;
+
+    padding: 8px;
+
+    border: 1px solid #eee;
+    border-radius: 8px;
+
+    background-color: white;
+}
+
+
+.reuniao-qrcode-image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+.reuniao-qrcode-preview-info {
+    display: flex;
+    flex: 1;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+}
+
+
+.reuniao-qrcode-preview-info p {
+    margin: 8px 0 0;
+
+    color: #777;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+.qrcode-status {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: #237a3b;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.qrcode-status i {
+    font-size: 11px;
+}
+
+
+/* ================================================= */
+/* QR CODE VAZIO */
+/* ================================================= */
+
+.reuniao-qrcode-empty {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 18px;
+
+    border: 1px dashed #cfd5e8;
+    border-radius: 10px;
+
+    background-color: white;
+}
+
+
+.reuniao-qrcode-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background-color: #eef1fb;
+
+    color: #3157d5;
+
+    font-size: 22px;
+}
+
+
+.reuniao-qrcode-empty h4 {
+    margin: 0 0 5px;
+
+    color: #333;
+
+    font-size: 14px;
+}
+
+
+.reuniao-qrcode-empty p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+@media (max-width: 600px) {
+
+    .reuniao-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .reuniao-qrcode-header {
+        flex-direction: column;
+    }
+
+
+    .reuniao-qrcode-preview {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .reuniao-qrcode-image-container {
+        width: 100%;
+        height: 220px;
+
+        box-sizing: border-box;
+    }
+
+
+    .reuniao-qrcode-preview-info {
+        width: 100%;
+    }
+
+}

@@ -26,10 +26,22 @@ export async function listarReunioes(equipeId = null) {
     return response.json()
 }
 
-export async function listarReunioesForPeriodo(dataInicio, dataFim, equipeId = null) {
+
+// ============================================================
+// LISTAR REUNIÕES POR PERÍODO
+// ============================================================
+
+export async function listarReunioesForPeriodo(
+    dataInicio,
+    dataFim,
+    equipeId = null
+) {
     const token = localStorage.getItem('token')
 
-    let url = `${API_URL}/reunioes/data?data_inicio=${dataInicio}&data_fim=${dataFim}`
+    let url =
+        `${API_URL}/reunioes/data?` +
+        `data_inicio=${dataInicio}&` +
+        `data_fim=${dataFim}`
 
     if (equipeId) {
         url += `&equipe_id=${equipeId}`
@@ -47,6 +59,11 @@ export async function listarReunioesForPeriodo(dataInicio, dataFim, equipeId = n
 
     return response.json()
 }
+
+
+// ============================================================
+// OBTER REUNIÃO
+// ============================================================
 
 export async function obterReuniao(reuniaoId) {
     const token = localStorage.getItem('token')
@@ -67,8 +84,9 @@ export async function obterReuniao(reuniaoId) {
     return response.json()
 }
 
+
 // ============================================================
-// CRIAR REUNIÃO (ADMIN)
+// CRIAR REUNIÃO
 // ============================================================
 
 export async function criarReuniao(dados) {
@@ -78,51 +96,66 @@ export async function criarReuniao(dados) {
         `${API_URL}/reunioes/`,
         {
             method: 'POST',
+
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
+
             body: JSON.stringify(dados),
         }
     )
 
     if (!response.ok) {
         const erro = await response.json()
-        throw new Error(erro.detail || 'Erro ao criar reunião')
+
+        throw new Error(
+            erro.detail || 'Erro ao criar reunião'
+        )
     }
 
     return response.json()
 }
 
+
 // ============================================================
-// ATUALIZAR REUNIÃO (ADMIN)
+// ATUALIZAR REUNIÃO
 // ============================================================
 
-export async function atualizarReuniao(reuniaoId, dados) {
+export async function atualizarReuniao(
+    reuniaoId,
+    dados
+) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
         `${API_URL}/reunioes/${reuniaoId}`,
         {
             method: 'PUT',
+
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
+
             body: JSON.stringify(dados),
         }
     )
 
     if (!response.ok) {
         const erro = await response.json()
-        throw new Error(erro.detail || 'Erro ao atualizar reunião')
+
+        throw new Error(
+            erro.detail || 'Erro ao atualizar reunião'
+        )
     }
 
     return response.json()
 }
 
+
 // ============================================================
-// DELETAR REUNIÃO (ADMIN)
+// DELETAR REUNIÃO
 // ============================================================
 
 export async function deletarReuniao(reuniaoId) {
@@ -132,6 +165,7 @@ export async function deletarReuniao(reuniaoId) {
         `${API_URL}/reunioes/${reuniaoId}`,
         {
             method: 'DELETE',
+
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -139,15 +173,22 @@ export async function deletarReuniao(reuniaoId) {
     )
 
     if (!response.ok) {
-        throw new Error('Erro ao deletar reunião')
+        const erro = await response.json()
+
+        throw new Error(
+            erro.detail || 'Erro ao deletar reunião'
+        )
     }
 }
 
+
 // ============================================================
-// PRESENÇAS NA REUNIÃO (ADMIN)
+// PRESENÇAS NA REUNIÃO
 // ============================================================
 
-export async function listarPresencasReuniao(reuniaoId) {
+export async function listarPresencasReuniao(
+    reuniaoId
+) {
     const token = localStorage.getItem('token')
 
     const response = await fetch(
@@ -160,7 +201,9 @@ export async function listarPresencasReuniao(reuniaoId) {
     )
 
     if (!response.ok) {
-        throw new Error('Erro ao listar presenças da reunião')
+        throw new Error(
+            'Erro ao listar presenças da reunião'
+        )
     }
 
     return response.json()

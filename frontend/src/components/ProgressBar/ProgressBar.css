@@ -25,6 +25,9 @@
 
 .progress-bar-fill {
     height: 100%;
+    width: 0;
+
+    background-color: #ffbf0e;
 
     border-radius: 10px;
 

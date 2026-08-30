@@ -1,54 +1,142 @@
-import { useState, useCallback } from 'react'
+import {
+    useState,
+    useCallback
+} from 'react'
+
 import ReunioesContext from './ReunioesContext'
-import { listarReunioes } from '@/api/api'
 
-export default function ReunioesProvider({ children }) {
-    const [reunioes, setReunioes] = useState([])
-    const [carregando, setCarregando] = useState(false)
-    const [erro, setErro] = useState(null)
+import {
+    listarReunioes
+} from '@/api/api'
 
-    const carregarReunioes = useCallback(async (equipeId = null) => {
-        try {
-            setCarregando(true)
-            setErro(null)
 
-            const dados = await listarReunioes(equipeId)
+export default function ReunioesProvider({
+    children
+}) {
 
-            setReunioes(dados || [])
-        } catch (error) {
-            setErro(error.message || 'Erro ao carregar reuniões')
-        } finally {
-            setCarregando(false)
-        }
-    }, [])
+    const [reunioes, setReunioes] =
+        useState([])
 
-    const adicionarReuniao = useCallback((novaReuniao) => {
-        setReunioes((prev) => [novaReuniao, ...prev])
-    }, [])
+    const [carregando, setCarregando] =
+        useState(false)
 
-    const atualizarReuniao = useCallback((reuniaoId, reuniaoAtualizada) => {
-        setReunioes((prev) =>
-            prev.map((r) => (r.id === reuniaoId ? reuniaoAtualizada : r))
+    const [erro, setErro] =
+        useState(null)
+
+
+    const carregarReunioes =
+        useCallback(
+            async (equipeId = null) => {
+
+                try {
+
+                    setCarregando(true)
+
+                    setErro(null)
+
+                    const dados =
+                        await listarReunioes(
+                            equipeId
+                        )
+
+                    setReunioes(
+                        dados || []
+                    )
+
+                } catch (error) {
+
+                    setErro(
+                        error.message ||
+                        'Erro ao carregar reuniões'
+                    )
+
+                } finally {
+
+                    setCarregando(false)
+
+                }
+
+            },
+            []
         )
-    }, [])
 
-    const removerReuniao = useCallback((reuniaoId) => {
-        setReunioes((prev) => prev.filter((r) => r.id !== reuniaoId))
-    }, [])
+
+    const adicionarReuniao =
+        useCallback(
+            (novaReuniao) => {
+
+                setReunioes(prev => [
+                    novaReuniao,
+                    ...prev
+                ])
+
+            },
+            []
+        )
+
+
+    const atualizarReuniaoNoEstado =
+        useCallback(
+            (
+                reuniaoId,
+                reuniaoAtualizada
+            ) => {
+
+                setReunioes(prev =>
+                    prev.map(reuniao =>
+                        reuniao.id === reuniaoId
+                            ? reuniaoAtualizada
+                            : reuniao
+                    )
+                )
+
+            },
+            []
+        )
+
+
+    const removerReuniao =
+        useCallback(
+            reuniaoId => {
+
+                setReunioes(prev =>
+                    prev.filter(
+                        reuniao =>
+                            reuniao.id !== reuniaoId
+                    )
+                )
+
+            },
+            []
+        )
+
 
     const value = {
+
         reunioes,
+
         carregando,
+
         erro,
+
         carregarReunioes,
+
         adicionarReuniao,
-        atualizarReuniao,
+
+        atualizarReuniaoNoEstado,
+
         removerReuniao
+
     }
 
+
     return (
-        <ReunioesContext.Provider value={value}>
+
+        <ReunioesContext.Provider
+            value={value}
+        >
             {children}
         </ReunioesContext.Provider>
+
     )
 }

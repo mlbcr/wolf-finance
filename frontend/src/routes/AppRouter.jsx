@@ -11,6 +11,8 @@ import PerfilPage from '@/pages/PerfilPage/PerfilPage'
 import AlunoPage from '@/pages/AlunoPage/AlunoPage'
 import AlunosPage from '@/pages/AlunosPage/AlunosPage'
 import ScannerPage from '@/pages/ScannerPage/ScannerPage'
+import RegistrarPresencaPage from '@/pages/RegistrarPresencaPage/RegistrarPresencaPage'
+import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage'
 
 import { Routes, Route } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
@@ -26,6 +28,7 @@ export default function AppRouter() {
                 <Route path="/perfil" element={<PerfilPage />} />
                 <Route path="/reunioes" element={<ReunioesPage />} />
                 <Route path="/presencas" element={<PresencasPage />} />
+                <Route path="/presenca/:codigo" element={<RegistrarPresencaPage />} />
                 <Route path="/presenca/scanner" element={<ScannerPage />} />
                 <Route path="/equipes" element={<EquipesPage />} />
                 <Route path="/equipes/:id" element={<EquipePage />} />
@@ -37,6 +40,9 @@ export default function AppRouter() {
                 <Route path="/alunos" element={<AlunosPage />} />
                 <Route path="/alunos/:id" element={<AlunoPage />} />
             </Route>
+
+            <Route path="*" element={<NotFoundPage />} />
+
         </Routes>
     )
 }
