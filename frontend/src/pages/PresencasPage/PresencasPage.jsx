@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import useAuth from '@/contexts/useAuth'
 
@@ -16,28 +16,61 @@ import Button from '@/components/Button/Button'
 
 import './PresencasPage.css'
 
-
 function formatarHora(time) {
     if (!time) return '--:--'
 
     return time.substring(0, 5)
 }
 
+function formatarHoraInput(time) {
+    if (!time) return ''
 
-function formatarData(data) {
-    const date = new Date(data + 'T00:00:00')
-
-    return date.toLocaleDateString('pt-BR', {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    })
+    return time.substring(0, 5)
 }
 
 
-export default function PresencasPage() {
+function horaValida(hora) {
+    if (!hora || hora.length !== 5) return false
 
+    const [horas, minutos] = hora.split(':').map(Number)
+
+    return (
+        horas >= 0 &&
+        horas <= 23 &&
+        minutos >= 0 &&
+        minutos <= 59
+    )
+}
+
+function formatarDataExibicao(dataIso) {
+    if (!dataIso) return ''
+
+    const date = new Date(dataIso + 'T00:00:00')
+
+    return date.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    })
+}
+
+function dataBrParaIso(dataBr) {
+    if (!dataBr || dataBr.length < 10) return ''
+
+    const [dia, mes, ano] = dataBr.split('/')
+
+    return `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`
+}
+
+function aplicarMascaraData(valor) {
+    return valor
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .replace(/(\d{4})\d+?$/, '$1')
+}
+
+export default function PresencasPage() {
     const { usuario, loading: loadingAuth } = useAuth()
 
     const [presencas, setPresencas] = useState([])
@@ -46,9 +79,7 @@ export default function PresencasPage() {
     const [loading, setLoading] = useState(true)
     const [erro, setErro] = useState(null)
 
-    const [presencaSelecionada, setPresencaSelecionada] =
-        useState(null)
-
+    const [presencaSelecionada, setPresencaSelecionada] = useState(null)
     const [editando, setEditando] = useState(false)
 
     const [dados, setDados] = useState({
@@ -56,80 +87,54 @@ export default function PresencasPage() {
         hora_fim: ''
     })
 
-    const [confirmDelete, setConfirmDelete] = useState(null)
+    const [filtroAberto, setFiltroAberto] = useState(false)
+    const [dataInicioInput, setDataInicioInput] = useState('')
+    const [dataFimInput, setDataFimInput] = useState('')
 
+    const [confirmDelete, setConfirmDelete] = useState(null)
     const [salvando, setSalvando] = useState(false)
 
-
     useEffect(() => {
-
         if (!loadingAuth && usuario) {
             carregarDados()
         }
-
     }, [usuario, loadingAuth])
 
-
     async function carregarDados() {
-
         try {
-
             setLoading(true)
             setErro(null)
 
-            const [
-                presencasData,
-                horasData
-            ] = await Promise.all([
+            const [presencasData, horasData] = await Promise.all([
                 listarMinhasPresencas(),
                 obterHorasSemana()
             ])
 
             setPresencas(presencasData || [])
             setHorasSemana(horasData)
-
         } catch (error) {
-
-            console.error(
-                'Erro ao carregar presencas:',
-                error
-            )
-
-            setErro(
-                error.message ||
-                'Erro ao carregar presencas'
-            )
-
+            console.error('Erro ao carregar presencas:', error)
+            setErro(error.message || 'Erro ao carregar presenças')
         } finally {
-
             setLoading(false)
-
         }
     }
 
-
     function abrirEdicao(presenca) {
-
         setPresencaSelecionada(presenca)
 
         setDados({
-            hora_inicio:
-                presenca.hora_inicio || '',
-
-            hora_fim:
-                presenca.hora_fim || ''
+            hora_inicio: formatarHoraInput(presenca.hora_inicio),
+            hora_fim: formatarHoraInput(presenca.hora_fim)
         })
 
         setEditando(true)
     }
 
-
     function fecharEdicao() {
-
         if (salvando) return
 
         setEditando(false)
-
         setPresencaSelecionada(null)
 
         setDados({
@@ -138,423 +143,455 @@ export default function PresencasPage() {
         })
     }
 
-
     async function salvarEdicao() {
+        if (salvando || !presencaSelecionada) return
 
         try {
+            if (!dados.hora_inicio || !dados.hora_fim) {
+                setErro('Preencha hora de início e fim')
+                return
+            }
 
-            if (
-                !dados.hora_inicio ||
-                !dados.hora_fim
-            ) {
-                setErro(
-                    'Preencha hora de início e fim'
-                )
+            if (!horaValida(dados.hora_inicio)) {
+                setErro('Informe uma hora de início válida')
+                return
+            }
 
+            if (!horaValida(dados.hora_fim)) {
+                setErro('Informe uma hora de fim válida')
                 return
             }
 
             setSalvando(true)
 
-            await atualizarPresenca(
-                presencaSelecionada.id,
-                {
-                    hora_inicio:
-                        dados.hora_inicio,
-
-                    hora_fim:
-                        dados.hora_fim
-                }
-            )
+            await atualizarPresenca(presencaSelecionada.id, {
+                hora_inicio: dados.hora_inicio,
+                hora_fim: dados.hora_fim
+            })
 
             await carregarDados()
 
-            setErro(
-                'Presença atualizada com sucesso!'
-            )
+            setEditando(false)
+            setPresencaSelecionada(null)
+
+            setDados({
+                hora_inicio: '',
+                hora_fim: ''
+            })
+
+            setErro('Presença atualizada com sucesso!')
 
             setTimeout(() => {
-
-                fecharEdicao()
-
                 setErro(null)
-
             }, 1500)
-
         } catch (error) {
-
-            setErro(
-                error.message ||
-                'Erro ao atualizar presença'
-            )
-
+            setErro(error.message || 'Erro ao atualizar presença')
         } finally {
-
             setSalvando(false)
-
         }
     }
 
-
     async function confirmarDelete() {
-
         try {
-
             setSalvando(true)
 
-            await deletarPresenca(
-                confirmDelete
-            )
-
+            await deletarPresenca(confirmDelete)
             await carregarDados()
 
             setConfirmDelete(null)
-
-            setErro(
-                'Presença deletada com sucesso!'
-            )
+            setErro('Presença deletada com sucesso!')
 
             setTimeout(() => {
                 setErro(null)
             }, 1500)
-
         } catch (error) {
-
-            setErro(
-                error.message ||
-                'Erro ao deletar presença'
-            )
-
+            setErro(error.message || 'Erro ao deletar presença')
         } finally {
-
             setSalvando(false)
-
         }
     }
 
+    function limparFiltros() {
+        setDataInicioInput('')
+        setDataFimInput('')
+    }
+
+    function aplicarAtalhos(dias) {
+        const hoje = new Date()
+        const inicio = new Date()
+
+        inicio.setDate(hoje.getDate() - dias)
+
+        const formatar = (d) => {
+            const dia = String(d.getDate()).padStart(2, '0')
+            const mes = String(d.getMonth() + 1).padStart(2, '0')
+            const ano = d.getFullYear()
+
+            return `${dia}/${mes}/${ano}`
+        }
+
+        setDataInicioInput(formatar(inicio))
+        setDataFimInput(formatar(hoje))
+    }
+
+    const presencasFiltradas = useMemo(() => {
+        const dataInicioIso = dataBrParaIso(dataInicioInput)
+        const dataFimIso = dataBrParaIso(dataFimInput)
+
+        return presencas.filter((presenca) => {
+            if (dataInicioIso && presenca.data < dataInicioIso) {
+                return false
+            }
+
+            if (dataFimIso && presenca.data > dataFimIso) {
+                return false
+            }
+
+            return true
+        })
+    }, [presencas, dataInicioInput, dataFimInput])
+
+    const temFiltro = Boolean(dataInicioInput || dataFimInput)
+
+    const progressoPercentual = horasSemana?.percentual || 0
+    const metaAtingida = progressoPercentual >= 100
 
     if (loading || loadingAuth) {
-
         return (
             <main className="presencas-page">
-
-                <LoadingModal
-                    mensagem="Carregando suas presenças..."
-                />
-
+                <LoadingModal mensagem="Carregando suas presenças..." />
             </main>
         )
     }
 
-
     return (
         <main className="presencas-page">
-
-            {/* MODAIS */}
-
-            {salvando && (
-                <LoadingModal
-                    mensagem="Processando..."
-                />
-            )}
-
+            {salvando && <LoadingModal mensagem="Processando..." />}
 
             {erro && (
-
                 <AlertModal
-                    titulo={
-                        erro.includes('sucesso')
-                            ? 'Sucesso'
-                            : 'Erro'
-                    }
+                    titulo={erro.includes('sucesso') ? 'Sucesso' : 'Atenção'}
                     mensagem={erro}
                     onFechar={() => setErro(null)}
-                    tipo={
-                        erro.includes('sucesso')
-                            ? 'sucesso'
-                            : 'erro'
-                    }
+                    tipo={erro.includes('sucesso') ? 'sucesso' : 'erro'}
                 />
-
             )}
-
 
             {confirmDelete && (
-
                 <ConfirmModal
-                    titulo="Deletar Presença"
+                    titulo="Deletar presença"
                     mensagem="Tem certeza que deseja deletar esta presença? Esta ação não pode ser desfeita."
                     onConfirmar={confirmarDelete}
-                    onCancelar={() =>
-                        setConfirmDelete(null)
-                    }
+                    onCancelar={() => setConfirmDelete(null)}
                 />
-
             )}
 
-
-            {/* HEADER */}
-
             <header className="presencas-header">
-
-                <div>
-
-                    <span className="page-label">
-                        Wolf Finance
-                    </span>
-
-                    <h1>
-                        Presenças
-                    </h1>
-
-                    <p>
-                        Acompanhe suas horas de presença
-                        na liga
-                    </p>
-
-                </div>
-
+                <h1>Minhas Presenças</h1>
+                <p>Acompanhe seus registros de presença.</p>
             </header>
 
-
-            {/* RESUMO SEMANAL */}
-
             {horasSemana && (
-
                 <section className="resumo-semanal">
-
-                    <div className="resumo-card">
-
+                    <div
+                        className={`resumo-card ${metaAtingida ? 'meta-cumprida' : ''
+                            }`}
+                    >
                         <div className="resumo-info">
+                            <span className="resumo-label">
+                                <i className="fa-regular fa-clock"></i>
+                                Horas nesta semana
+                            </span>
 
-                            <h3>
-                                Horas desta semana
-                            </h3>
+                            <div className="resumo-metricas">
+                                <strong className="horas-valor">
+                                    {horasSemana.total_horas}h
+                                </strong>
 
-                            <p className="horas-valor">
-                                {horasSemana.total_horas}h
-                            </p>
-
-                            <p className="meta-valor">
-                                Meta: {horasSemana.meta_horas}h
-                            </p>
-
+                                <span className="meta-valor">
+                                    / {horasSemana.meta_horas}h
+                                </span>
+                            </div>
                         </div>
 
-
                         <div className="resumo-progresso">
-
                             <div className="progress-bar">
-
                                 <div
                                     className="progress-fill"
                                     style={{
                                         width: `${Math.min(
-                                            horasSemana.percentual,
+                                            progressoPercentual,
                                             100
-                                        )}%`,
-
-                                        backgroundColor:
-                                            horasSemana.percentual >= 100
-                                                ? '#10b981'
-                                                : '#3157d5'
+                                        )}%`
                                     }}
                                 />
-
                             </div>
 
-                            <p className="percentual">
-                                {horasSemana.percentual}%
-                            </p>
-
+                            <span
+                                className={`percentual-badge ${metaAtingida ? 'concluido' : ''
+                                    }`}
+                            >
+                                {progressoPercentual}%
+                            </span>
                         </div>
-
                     </div>
-
                 </section>
-
             )}
 
-
-            {/* LISTA DE PRESENÇAS */}
-
             <section className="presencas-section">
-
                 <div className="section-header">
+                    <h2>Histórico</h2>
 
-                    <div>
-
-                        <h2>
-                            Suas presenças
-                        </h2>
-
-                        <p>
-                            Histórico de presenças registradas
-                        </p>
-
-                    </div>
-
-
-                    {presencas.length > 0 && (
-
-                        <div className="presencas-count">
-
-                            <strong>
-                                {presencas.length}
-                            </strong>
-
-                            <span>
-                                {presencas.length === 1
-                                    ? 'presença'
-                                    : 'presenças'
-                                }
-                            </span>
-
-                        </div>
-
-                    )}
-
+                    <span className="presencas-count">
+                        <strong>{presencasFiltradas.length}</strong>
+                        {presencasFiltradas.length === 1
+                            ? 'registro'
+                            : 'registros'}
+                    </span>
                 </div>
 
+                <div
+                    className={`filtros-container ${filtroAberto ? 'aberto' : ''
+                        }`}
+                >
+                    <button
+                        type="button"
+                        className="filtros-toggle"
+                        onClick={() =>
+                            setFiltroAberto((prev) => !prev)
+                        }
+                        aria-expanded={filtroAberto}
+                    >
+                        <span className="filtros-toggle-conteudo">
+                            <i className="fa-regular fa-calendar"></i>
+                            <span>Filtrar por período</span>
 
-                {presencas.length > 0 ? (
+                            {temFiltro && (
+                                <span className="filtro-ativo">
+                                    Ativo
+                                </span>
+                            )}
+                        </span>
 
-                    <div className="presencas-lista">
+                        <i
+                            className={`fa-solid fa-chevron-down ${filtroAberto ? 'rotacionado' : ''
+                                }`}
+                        ></i>
+                    </button>
 
-                        {presencas.map(presenca => (
+                    <div
+                        className={`filtros-conteudo ${filtroAberto ? 'visivel' : ''
+                            }`}
+                    >
+                        <div className="filtros-campos">
+                            <div className="filtro-group">
+                                <label htmlFor="data-inicio">
+                                    Data inicial
+                                </label>
 
-                            <div
-                                key={presenca.id}
-                                className="presenca-item"
-                            >
+                                <input
+                                    id="data-inicio"
+                                    type="text"
+                                    placeholder="DD/MM/AAAA"
+                                    maxLength={10}
+                                    value={dataInicioInput}
+                                    onChange={(e) =>
+                                        setDataInicioInput(
+                                            aplicarMascaraData(
+                                                e.target.value
+                                            )
+                                        )
+                                    }
+                                />
+                            </div>
 
-                                <div className="presenca-info">
+                            <span className="filtro-separador">
+                                até
+                            </span>
 
+                            <div className="filtro-group">
+                                <label htmlFor="data-fim">
+                                    Data final
+                                </label>
+
+                                <input
+                                    id="data-fim"
+                                    type="text"
+                                    placeholder="DD/MM/AAAA"
+                                    maxLength={10}
+                                    value={dataFimInput}
+                                    onChange={(e) =>
+                                        setDataFimInput(
+                                            aplicarMascaraData(
+                                                e.target.value
+                                            )
+                                        )
+                                    }
+                                />
+                            </div>
+
+                            <div className="filtro-atalhos">
+                                <button
+                                    type="button"
+                                    onClick={() => aplicarAtalhos(7)}
+                                >
+                                    Últimos 7 dias
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() => aplicarAtalhos(30)}
+                                >
+                                    Últimos 30 dias
+                                </button>
+                            </div>
+
+                            {temFiltro && (
+                                <button
+                                    type="button"
+                                    className="limpar-filtros"
+                                    onClick={limparFiltros}
+                                >
+                                    Limpar
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {presencasFiltradas.length > 0 ? (
+                    <div className="presencas-container">
+                        <div className="presencas-tabela-header">
+                            <span>Data</span>
+                            <span>Horário</span>
+                            <span>Duração</span>
+                            <span className="text-right">
+                                Ações
+                            </span>
+                        </div>
+
+                        <div className="presencas-lista">
+                            {presencasFiltradas.map((presenca) => (
+                                <div
+                                    key={presenca.id}
+                                    className="presenca-item"
+                                >
                                     <div className="presenca-data">
-
-                                        <i className="fa-solid fa-calendar"></i>
-
                                         <span>
-                                            {formatarData(
+                                            {formatarDataExibicao(
                                                 presenca.data
                                             )}
                                         </span>
-
                                     </div>
 
-
                                     <div className="presenca-horas">
-
-                                        <span className="hora-inicio">
+                                        <span className="hora-badge">
                                             {formatarHora(
                                                 presenca.hora_inicio
                                             )}
                                         </span>
 
-                                        <i className="fa-solid fa-arrow-right"></i>
+                                        <span className="horario-separador">
+                                            até
+                                        </span>
 
-                                        <span className="hora_fim">
+                                        <span className="hora-badge">
                                             {formatarHora(
                                                 presenca.hora_fim
                                             )}
                                         </span>
-
                                     </div>
 
-
-                                    {presenca.total_horas && (
-
-                                        <div className="presenca-total">
-
-                                            <i className="fa-solid fa-hourglass-end"></i>
-
-                                            <span>
+                                    <div className="presenca-total">
+                                        {presenca.total_horas ? (
+                                            <span className="total-chip">
                                                 {presenca.total_horas}h
                                             </span>
+                                        ) : (
+                                            <span className="em-andamento-chip">
+                                                Em aberto
+                                            </span>
+                                        )}
+                                    </div>
 
-                                        </div>
+                                    <div className="presenca-acoes">
+                                        <button
+                                            type="button"
+                                            className="btn-acao-editar"
+                                            onClick={() =>
+                                                abrirEdicao(presenca)
+                                            }
+                                            title="Editar horários"
+                                            aria-label="Editar horários"
+                                        >
+                                            <i className="fa-solid fa-pen"></i>
+                                        </button>
 
-                                    )}
-
+                                        <Button
+                                            type="button"
+                                            variant="btn-deletar"
+                                            onClick={() =>
+                                                setConfirmDelete(
+                                                    presenca.id
+                                                )
+                                            }
+                                            title="Deletar presença"
+                                            disabled={salvando}
+                                        >
+                                            <i className="fa-regular fa-trash-can"></i>
+                                        </Button>
+                                    </div>
                                 </div>
-
-
-                                <div className="presenca-acoes">
-
-                                    <Button
-                                        type="button"
-                                        variant="btn-editar"
-                                        onClick={() =>
-                                            abrirEdicao(presenca)
-                                        }
-                                        title="Editar presença"
-                                        disabled={salvando}
-                                    >
-                                        <i className="fa-solid fa-pencil"></i>
-                                    </Button>
-
-
-                                    <Button
-                                        type="button"
-                                        variant="btn-deletar"
-                                        onClick={() =>
-                                            setConfirmDelete(
-                                                presenca.id
-                                            )
-                                        }
-                                        title="Deletar presença"
-                                        disabled={salvando}
-                                    >
-                                        <i className="fa-solid fa-trash"></i>
-                                    </Button>
-
-                                </div>
-
-                            </div>
-
-                        ))}
-
+                            ))}
+                        </div>
                     </div>
-
                 ) : (
-
                     <div className="vazio-container">
+                        <div className="vazio-icon">
+                            <i className="fa-solid fa-folder-open"></i>
+                        </div>
 
-                        <i className="fa-solid fa-inbox"></i>
+                        <h3>Nenhum registro encontrado</h3>
 
                         <p>
-                            Nenhuma presença registrada
+                            {temFiltro
+                                ? 'Não existem presenças nesse período.'
+                                : 'Você ainda não possui registros de presença.'}
                         </p>
 
+                        {temFiltro && (
+                            <button
+                                type="button"
+                                className="vazio-limpar"
+                                onClick={limparFiltros}
+                            >
+                                Limpar filtros
+                            </button>
+                        )}
                     </div>
-
                 )}
-
             </section>
 
-
-            {/* MODAL DE EDIÇÃO */}
-
             {editando && (
-
                 <div
                     className="modal-overlay"
                     onClick={fecharEdicao}
                 >
-
                     <div
                         className="modal-container"
-                        onClick={(e) =>
-                            e.stopPropagation()
-                        }
+                        onClick={(e) => e.stopPropagation()}
                     >
-
                         <div className="modal-header">
+                            <div>
+                                <h2>Editar presença</h2>
 
-                            <h2>
-                                Editar Presença
-                            </h2>
-
+                                <p className="modal-subtitle">
+                                    {presencaSelecionada &&
+                                        formatarDataExibicao(
+                                            presencaSelecionada.data
+                                        )}
+                                </p>
+                            </div>
 
                             <Button
                                 type="button"
@@ -562,64 +599,52 @@ export default function PresencasPage() {
                                 onClick={fecharEdicao}
                                 disabled={salvando}
                             >
-                                <i className="fa-solid fa-times"></i>
+                                <i className="fa-solid fa-xmark"></i>
                             </Button>
-
                         </div>
-
 
                         <div className="modal-body">
+                            <div className="horarios-edicao">
+                                <div className="horario-edicao-group">
+                                    <label htmlFor="hora_inicio">
+                                        Início
+                                    </label>
 
-                            <div className="form-group">
+                                    <input
+                                        type="time"
+                                        id="hora_inicio"
+                                        value={dados.hora_inicio}
+                                        disabled={salvando}
+                                        onChange={(e) =>
+                                            setDados({
+                                                ...dados,
+                                                hora_inicio: e.target.value
+                                            })
+                                        }
+                                    />
+                                </div>
 
-                                <label htmlFor="hora_inicio">
-                                    Hora de Início
-                                </label>
+                                <div className="horario-edicao-group">
+                                    <label htmlFor="hora_fim">
+                                        Fim
+                                    </label>
 
-                                <input
-                                    type="time"
-                                    id="hora_inicio"
-                                    value={dados.hora_inicio}
-                                    disabled={salvando}
-                                    onChange={(e) =>
-                                        setDados({
-                                            ...dados,
-                                            hora_inicio:
-                                                e.target.value
-                                        })
-                                    }
-                                />
-
+                                    <input
+                                        type="time"
+                                        id="hora_fim"
+                                        value={dados.hora_fim}
+                                        disabled={salvando}
+                                        onChange={(e) =>
+                                            setDados({
+                                                ...dados,
+                                                hora_fim: e.target.value
+                                            })
+                                        }
+                                    />
+                                </div>
                             </div>
-
-
-                            <div className="form-group">
-
-                                <label htmlFor="hora_fim">
-                                    Hora de Fim
-                                </label>
-
-                                <input
-                                    type="time"
-                                    id="hora_fim"
-                                    value={dados.hora_fim}
-                                    disabled={salvando}
-                                    onChange={(e) =>
-                                        setDados({
-                                            ...dados,
-                                            hora_fim:
-                                                e.target.value
-                                        })
-                                    }
-                                />
-
-                            </div>
-
                         </div>
-
-
                         <div className="modal-footer">
-
                             <Button
                                 type="button"
                                 label="Cancelar"
@@ -628,24 +653,18 @@ export default function PresencasPage() {
                                 disabled={salvando}
                             />
 
-
                             <Button
                                 type="button"
-                                label="Salvar"
+                                label="Salvar alterações"
                                 loadingLabel="Salvando..."
                                 variant="btn-salvar"
                                 onClick={salvarEdicao}
                                 loading={salvando}
                             />
-
                         </div>
-
                     </div>
-
                 </div>
-
             )}
-
         </main>
     )
 }
