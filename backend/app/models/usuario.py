@@ -38,9 +38,9 @@ class Usuario(Base):
     )
 
     cadastrado_em: Mapped[datetime | None] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
-        default=agora()
+        default=agora
     )
 
     status: Mapped[str] = mapped_column(

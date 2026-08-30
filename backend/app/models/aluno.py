@@ -58,9 +58,9 @@ class Aluno(Base):
     )
 
     cadastrado_em: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
-        default=agora()
+        default=agora
     )
     ingresso_liga: Mapped[date] = mapped_column(
         Date,

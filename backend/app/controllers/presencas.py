@@ -108,6 +108,12 @@ def registrar_presenca_sala(
 
     momento = agora()
 
+    print("MOMENTO:", momento)
+    print("TZ MOMENTO:", momento.tzinfo)
+
+    print("LIMITE:", qrcode.data_limite)
+    print("TZ LIMITE:", qrcode.data_limite.tzinfo)
+
     if momento > qrcode.data_limite:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -130,7 +136,7 @@ def registrar_presenca_sala(
 
     if presenca:
         # Já entrou → registra saída
-        presenca.hora_fim = agora.time()
+        presenca.hora_fim = momento.time()
 
         db.commit()
         db.refresh(presenca)
@@ -140,7 +146,7 @@ def registrar_presenca_sala(
     presenca = SalaPresenca(
         aluno_id=aluno.id,
         data=hoje(),
-        hora_inicio=agora.time(),
+        hora_inicio=momento.time(),
         hora_fim=None
     )
 
@@ -398,6 +404,12 @@ def registrar_presenca_reuniao(
         )
 
     momento = agora()
+
+    print("MOMENTO:", momento)
+    print("TZ MOMENTO:", momento.tzinfo)
+
+    print("LIMITE:", qrcode.data_limite)
+    print("TZ LIMITE:", qrcode.data_limite.tzinfo)
 
     if momento > qrcode.data_limite:
         raise HTTPException(

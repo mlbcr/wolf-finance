@@ -6,7 +6,8 @@ from uuid import UUID
 
 import qrcode
 from sqlalchemy.orm import Session
-from utils.fuso import agora, hoje
+
+from utils.fuso import agora
 from app.models.qrcode import QRCode
 from app.models.reuniao import Reuniao
 
@@ -18,7 +19,7 @@ def gerar_codigo():
 def obter_url_base():
     """Retorna a URL base baseado no ambiente"""
     env = os.getenv("ENV", "dev")
-    
+
     if env == "prod":
         return "https://gowolffinance.vercel.app"
     else:
@@ -31,6 +32,7 @@ def criar_qrcode_sala(
     duracao_minutos: int = 5
 ):
     """Cria um QR code para registrar presença na sala"""
+
     codigo = gerar_codigo()
     momento = agora()
 
@@ -39,7 +41,7 @@ def criar_qrcode_sala(
         reuniao_id=None,
         gerado_por=usuario_id,
         tipo="SALA",
-        data_criacao=agora,
+        data_criacao=momento,
         data_limite=momento + timedelta(minutes=duracao_minutos),
         status="ATIVO"
     )
@@ -67,14 +69,14 @@ def criar_qrcode_reuniao(
     duracao_minutos: int = 60
 ):
     """Cria um QR code para uma reunião específica"""
+
     codigo = gerar_codigo()
     momento = agora()
 
-    # Verificar se reunião existe
     reuniao = db.query(Reuniao).filter(
         Reuniao.id == reuniao_id
     ).first()
-    
+
     if not reuniao:
         raise ValueError("Reunião não encontrada")
 
@@ -83,7 +85,7 @@ def criar_qrcode_reuniao(
         reuniao_id=reuniao_id,
         gerado_por=usuario_id,
         tipo="REUNIAO",
-        data_criacao=agora,
+        data_criacao=momento,
         data_limite=momento + timedelta(minutes=duracao_minutos),
         status="ATIVO"
     )
@@ -108,12 +110,15 @@ def listar_qrcodes_ativos_service(
     db: Session
 ):
     """Lista todos os QR codes ativos"""
+
     momento = agora()
-    
+
     return db.query(QRCode).filter(
         QRCode.status == "ATIVO",
-        QRCode.data_limite > agora
-    ).order_by(QRCode.data_criacao.desc()).all()
+        QRCode.data_limite > momento
+    ).order_by(
+        QRCode.data_criacao.desc()
+    ).all()
 
 
 def buscar_qrcode_service(
@@ -121,13 +126,14 @@ def buscar_qrcode_service(
     codigo: str
 ):
     """Busca um QR code pelo código"""
+
     qrcode_db = db.query(QRCode).filter(
         QRCode.codigo == codigo
     ).first()
-    
+
     if not qrcode_db:
         raise ValueError("QR Code não encontrado")
-    
+
     return qrcode_db
 
 
@@ -136,15 +142,17 @@ def invalidar_qrcode_service(
     codigo: str
 ):
     """Invalida um QR code"""
+
     qrcode_db = db.query(QRCode).filter(
         QRCode.codigo == codigo
     ).first()
-    
+
     if not qrcode_db:
         raise ValueError("QR Code não encontrado")
-    
+
     qrcode_db.status = "INATIVO"
+
     db.commit()
     db.refresh(qrcode_db)
-    
+
     return qrcode_db

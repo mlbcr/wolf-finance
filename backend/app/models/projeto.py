@@ -46,16 +46,16 @@ class Projeto(Base):
     )
 
     criado_em: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
-        default=agora()
+        default=agora
     )
 
     atualizado_em: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
-        default=agora(),
-        onupdate=agora()
+        default=agora,
+        onupdate=agora
     )
 
     status: Mapped[str] = mapped_column(

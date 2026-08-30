@@ -41,13 +41,13 @@ class QRCode(Base):
     )
 
     data_criacao: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
-        default=agora()
+        default=agora
     )
 
     data_limite: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False
     )
 

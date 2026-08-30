@@ -11,7 +11,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 from utils.fuso import agora, hoje
 
 def criar_token(usuario_id: str):
-    expiracao = agora()(timezone.utc) + timedelta(
+    expiracao = agora() + timedelta(
         minutes=ACCESS_TOKEN_EXPIRE_MINUTES
     )
 

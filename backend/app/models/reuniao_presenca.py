@@ -30,9 +30,9 @@ class ReuniaoPresenca(Base):
     )
 
     registrada_em: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
-        default=agora()
+        default=agora
     )
 
     aluno = relationship("Aluno")
