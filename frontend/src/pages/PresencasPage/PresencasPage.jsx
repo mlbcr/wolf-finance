@@ -22,6 +22,36 @@ function formatarHora(time) {
     return time.substring(0, 5)
 }
 
+function formatarDuracao(totalHoras) {
+    if (totalHoras === null || totalHoras === undefined) {
+        return null
+    }
+
+    const horas = Number(totalHoras)
+
+    if (isNaN(horas)) {
+        return null
+    }
+
+    const horasInteiras = Math.floor(horas)
+    const minutos = Math.round((horas - horasInteiras) * 60)
+
+    // Caso o arredondamento resulte em 60 minutos
+    if (minutos === 60) {
+        return `${horasInteiras + 1}h`
+    }
+
+    if (horasInteiras === 0) {
+        return `${minutos}min`
+    }
+
+    if (minutos === 0) {
+        return `${horasInteiras}h`
+    }
+
+    return `${horasInteiras}h ${minutos}min`
+}
+
 function formatarHoraInput(time) {
     if (!time) return ''
 
@@ -503,9 +533,10 @@ export default function PresencasPage() {
                                     </div>
 
                                     <div className="presenca-total">
-                                        {presenca.total_horas ? (
+                                        {presenca.total_horas !== null &&
+                                        presenca.total_horas !== undefined ? (
                                             <span className="total-chip">
-                                                {presenca.total_horas}h
+                                                {formatarDuracao(presenca.total_horas)}
                                             </span>
                                         ) : (
                                             <span className="em-andamento-chip">

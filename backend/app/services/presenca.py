@@ -7,6 +7,7 @@ from sqlalchemy import and_
 from app.models.sala_presenca import SalaPresenca
 from app.models.aluno import Aluno
 from app.schemas.sala_presenca import SalaPresencaUpdate
+from app.utils.fuso import agora, hoje
 
 
 def listar_presencas_aluno_service(
@@ -65,22 +66,51 @@ def atualizar_presenca_service(
     presenca = db.query(SalaPresenca).filter(
         SalaPresenca.id == presenca_id
     ).first()
-    
+
     if not presenca:
         raise ValueError("Presença não encontrada")
-    
-    if dados.hora_inicio is not None:
-        presenca.hora_inicio = dados.hora_inicio
-    
-    if dados.hora_fim is not None:
-        # Validar que hora_fim é posterior a hora_inicio
-        if presenca.hora_inicio and dados.hora_fim <= presenca.hora_inicio:
-            raise ValueError("Hora de fim deve ser posterior à hora de início")
-        presenca.hora_fim = dados.hora_fim
-    
+
+    # Define os novos valores, mantendo os atuais quando não forem enviados
+    nova_hora_inicio = (
+        dados.hora_inicio
+        if dados.hora_inicio is not None
+        else presenca.hora_inicio
+    )
+
+    nova_hora_fim = (
+        dados.hora_fim
+        if dados.hora_fim is not None
+        else presenca.hora_fim
+    )
+
+    # Verifica se o intervalo é válido
+    if nova_hora_inicio and nova_hora_fim:
+        if nova_hora_fim <= nova_hora_inicio:
+            raise ValueError(
+                "Hora de fim deve ser posterior à hora de início"
+            )
+
+        # Verifica sobreposição com outra presença
+        sobreposicao = verificar_sobreposicao_presenca(
+            db=db,
+            aluno_id=presenca.aluno_id,
+            data=presenca.data,
+            hora_inicio=nova_hora_inicio,
+            hora_fim=nova_hora_fim,
+            presenca_id_excluir=presenca.id
+        )
+
+        if sobreposicao:
+            raise ValueError(
+                "Já existe uma presença registrada nesse intervalo."
+            )
+
+    presenca.hora_inicio = nova_hora_inicio
+    presenca.hora_fim = nova_hora_fim
+
     db.commit()
     db.refresh(presenca)
-    
+
     return presenca
 
 
@@ -94,9 +124,8 @@ def calcular_horas_semana_service(
     Se data não for fornecida, usa a data atual
     """
     if not data:
-        data = date.today()
+        data = hoje()
     
-    # Pega o primeiro dia da semana (segunda-feira)
     dias_semana = data.weekday()
     data_inicio_semana = data - timedelta(days=dias_semana)
     data_fim_semana = data_inicio_semana + timedelta(days=6)
@@ -147,3 +176,25 @@ def deletar_presenca_service(
     
     db.delete(presenca)
     db.commit()
+
+def verificar_sobreposicao_presenca(
+    db,
+    aluno_id,
+    data,
+    hora_inicio,
+    hora_fim,
+    presenca_id_excluir=None
+):
+    query = db.query(SalaPresenca).filter(
+        SalaPresenca.aluno_id == aluno_id,
+        SalaPresenca.data == data,
+        SalaPresenca.hora_inicio < hora_fim,
+        SalaPresenca.hora_fim > hora_inicio
+    )
+
+    if presenca_id_excluir:
+        query = query.filter(
+            SalaPresenca.id != presenca_id_excluir
+        )
+
+    return query.first()

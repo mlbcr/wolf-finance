@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -11,6 +12,7 @@ from app.models.qrcode import QRCode
 from app.models.usuario import Usuario
 from app.models.reuniao_presenca import ReuniaoPresenca
 from app.models.reuniao import Reuniao
+from app.utils.fuso import hoje
 
 from app.schemas.sala_presenca import (
     SalaPresencaResponse,
@@ -36,6 +38,7 @@ from app.services.reuniao import (
 
 from app.security.dependencies import get_usuario_id
 
+FUSO_BRASIL = ZoneInfo("America/Sao_Paulo")
 
 router = APIRouter(
     prefix="/presencas",
@@ -103,7 +106,7 @@ def registrar_presenca_sala(
             detail="Este QR Code não é de sala"
         )
 
-    agora = datetime.now()
+    agora = datetime.now(FUSO_BRASIL)
 
     if agora > qrcode.data_limite:
         raise HTTPException(
@@ -119,11 +122,11 @@ def registrar_presenca_sala(
 
     presenca = db.query(SalaPresenca).filter(
         SalaPresenca.aluno_id == aluno.id,
-        SalaPresenca.data == date.today(),
+        SalaPresenca.data == hoje(),
         SalaPresenca.hora_fim.is_(None)
     ).first()
 
-    agora = datetime.now()
+    agora = datetime.now(FUSO_BRASIL)
 
     if presenca:
         # Já entrou → registra saída
@@ -136,7 +139,7 @@ def registrar_presenca_sala(
 
     presenca = SalaPresenca(
         aluno_id=aluno.id,
-        data=date.today(),
+        data=hoje(),
         hora_inicio=agora.time(),
         hora_fim=None
     )
@@ -394,7 +397,7 @@ def registrar_presenca_reuniao(
             detail="Este QR Code não é de reunião"
         )
 
-    agora = datetime.now()
+    agora = datetime.now(FUSO_BRASIL)
 
     if agora > qrcode.data_limite:
         raise HTTPException(
