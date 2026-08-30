@@ -2,7 +2,7 @@ from datetime import date, datetime
 from uuid import UUID
 
 from sqlalchemy.orm import Session
-from app.utils.fuso import agora, hoje
+from utils.fuso import agora, hoje
 from app.models.reuniao import Reuniao
 from app.models.equipe import Equipe
 from app.models.reuniao_presenca import ReuniaoPresenca

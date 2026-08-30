@@ -6,7 +6,7 @@ from uuid import UUID
 
 import qrcode
 from sqlalchemy.orm import Session
-from app.utils.fuso import agora, hoje
+from utils.fuso import agora, hoje
 from app.models.qrcode import QRCode
 from app.models.reuniao import Reuniao
 

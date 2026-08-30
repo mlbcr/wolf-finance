@@ -5,7 +5,7 @@ from datetime import date, datetime
 from sqlalchemy import String, Date, DateTime, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
-from app.utils.fuso import agora, hoje
+from utils.fuso import agora, hoje
 from database import Base
 
 

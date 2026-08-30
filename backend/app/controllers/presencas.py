@@ -12,7 +12,7 @@ from app.models.qrcode import QRCode
 from app.models.usuario import Usuario
 from app.models.reuniao_presenca import ReuniaoPresenca
 from app.models.reuniao import Reuniao
-from app.utils.fuso import agora, hoje
+from utils.fuso import agora, hoje
 
 from app.schemas.sala_presenca import (
     SalaPresencaResponse,

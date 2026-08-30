@@ -5,9 +5,9 @@ from datetime import datetime, date
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import String, DateTime, Date, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
-from app.utils.fuso import agora, hoje
+from utils.fuso import agora, hoje
 from database import Base
-from app.utils.fuso import agora, hoje
+from utils.fuso import agora, hoje
 
 class Projeto(Base):
     __tablename__ = "projetos"

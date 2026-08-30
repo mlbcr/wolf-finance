@@ -7,7 +7,7 @@ from sqlalchemy import and_
 from app.models.sala_presenca import SalaPresenca
 from app.models.aluno import Aluno
 from app.schemas.sala_presenca import SalaPresencaUpdate
-from app.utils.fuso import agora, hoje
+from utils.fuso import agora, hoje
 
 
 def listar_presencas_aluno_service(
