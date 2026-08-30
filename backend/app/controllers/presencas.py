@@ -12,7 +12,7 @@ from app.models.qrcode import QRCode
 from app.models.usuario import Usuario
 from app.models.reuniao_presenca import ReuniaoPresenca
 from app.models.reuniao import Reuniao
-from app.utils.fuso import hoje
+from app.utils.fuso import agora, hoje
 
 from app.schemas.sala_presenca import (
     SalaPresencaResponse,
@@ -106,7 +106,7 @@ def registrar_presenca_sala(
             detail="Este QR Code não é de sala"
         )
 
-    agora = datetime.now(FUSO_BRASIL)
+    agora = agora()
 
     if agora > qrcode.data_limite:
         raise HTTPException(
@@ -126,7 +126,7 @@ def registrar_presenca_sala(
         SalaPresenca.hora_fim.is_(None)
     ).first()
 
-    agora = datetime.now(FUSO_BRASIL)
+    agora = agora()
 
     if presenca:
         # Já entrou → registra saída
@@ -397,7 +397,7 @@ def registrar_presenca_reuniao(
             detail="Este QR Code não é de reunião"
         )
 
-    agora = datetime.now(FUSO_BRASIL)
+    agora = agora()
 
     if agora > qrcode.data_limite:
         raise HTTPException(

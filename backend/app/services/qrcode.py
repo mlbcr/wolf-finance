@@ -6,7 +6,7 @@ from uuid import UUID
 
 import qrcode
 from sqlalchemy.orm import Session
-
+from app.utils.fuso import agora, hoje
 from app.models.qrcode import QRCode
 from app.models.reuniao import Reuniao
 
@@ -32,7 +32,7 @@ def criar_qrcode_sala(
 ):
     """Cria um QR code para registrar presença na sala"""
     codigo = gerar_codigo()
-    agora = datetime.now()
+    agora = agora()
 
     qrcode_db = QRCode(
         codigo=codigo,
@@ -68,7 +68,7 @@ def criar_qrcode_reuniao(
 ):
     """Cria um QR code para uma reunião específica"""
     codigo = gerar_codigo()
-    agora = datetime.now()
+    agora = agora()
 
     # Verificar se reunião existe
     reuniao = db.query(Reuniao).filter(
@@ -108,7 +108,7 @@ def listar_qrcodes_ativos_service(
     db: Session
 ):
     """Lista todos os QR codes ativos"""
-    agora = datetime.now()
+    agora = agora()
     
     return db.query(QRCode).filter(
         QRCode.status == "ATIVO",

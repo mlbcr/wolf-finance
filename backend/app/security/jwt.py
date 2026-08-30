@@ -8,10 +8,10 @@ SECRET_KEY = os.getenv("JWT_PASS")
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
-
+from app.utils.fuso import agora, hoje
 
 def criar_token(usuario_id: str):
-    expiracao = datetime.now(timezone.utc) + timedelta(
+    expiracao = agora()(timezone.utc) + timedelta(
         minutes=ACCESS_TOKEN_EXPIRE_MINUTES
     )
 

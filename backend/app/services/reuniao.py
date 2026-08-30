@@ -2,7 +2,7 @@ from datetime import date, datetime
 from uuid import UUID
 
 from sqlalchemy.orm import Session
-
+from app.utils.fuso import agora, hoje
 from app.models.reuniao import Reuniao
 from app.models.equipe import Equipe
 from app.models.reuniao_presenca import ReuniaoPresenca
@@ -205,7 +205,7 @@ def registrar_presenca_reuniao_service(
     presenca = ReuniaoPresenca(
         aluno_id=aluno_id,
         reuniao_id=reuniao_id,
-        registrada_em=datetime.now()
+        registrada_em=agora()
     )
     
     db.add(presenca)

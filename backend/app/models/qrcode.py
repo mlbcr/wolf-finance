@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
+from app.utils.fuso import agora, hoje
 from database import Base
 
 
@@ -43,7 +43,7 @@ class QRCode(Base):
     data_criacao: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
-        default=datetime.now
+        default=agora()
     )
 
     data_limite: Mapped[datetime] = mapped_column(

@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
+from app.utils.fuso import agora, hoje
 from database import Base
 
 
@@ -32,7 +32,7 @@ class ReuniaoPresenca(Base):
     registrada_em: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
-        default=datetime.now
+        default=agora()
     )
 
     aluno = relationship("Aluno")

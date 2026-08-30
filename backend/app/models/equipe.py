@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
-
+from app.utils.fuso import agora, hoje
 from database import Base
 
 
@@ -44,14 +44,14 @@ class Equipe(Base):
     criado_em: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
-        default=datetime.now
+        default=agora()
     )
 
     atualizado_em: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
-        default=datetime.now,
-        onupdate=datetime.now
+        default=agora(),
+        onupdate=agora()
     )
 
     status: Mapped[str] = mapped_column(
