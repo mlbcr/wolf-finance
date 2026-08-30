@@ -37,3 +37,8 @@ Thumbs.db
 
 credentials.json
 token.json
+
+__pycache__/
+*.pyc
+venv/
+.env
