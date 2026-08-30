@@ -32,7 +32,7 @@ def criar_qrcode_sala(
 ):
     """Cria um QR code para registrar presença na sala"""
     codigo = gerar_codigo()
-    agora = agora()
+    momento = agora()
 
     qrcode_db = QRCode(
         codigo=codigo,
@@ -68,7 +68,7 @@ def criar_qrcode_reuniao(
 ):
     """Cria um QR code para uma reunião específica"""
     codigo = gerar_codigo()
-    agora = agora()
+    momento = agora()
 
     # Verificar se reunião existe
     reuniao = db.query(Reuniao).filter(
@@ -108,7 +108,7 @@ def listar_qrcodes_ativos_service(
     db: Session
 ):
     """Lista todos os QR codes ativos"""
-    agora = agora()
+    momento = agora()
     
     return db.query(QRCode).filter(
         QRCode.status == "ATIVO",

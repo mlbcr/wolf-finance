@@ -106,7 +106,7 @@ def registrar_presenca_sala(
             detail="Este QR Code não é de sala"
         )
 
-    agora = agora()
+    momento = agora()
 
     if agora > qrcode.data_limite:
         raise HTTPException(
@@ -126,7 +126,7 @@ def registrar_presenca_sala(
         SalaPresenca.hora_fim.is_(None)
     ).first()
 
-    agora = agora()
+    momento = agora()
 
     if presenca:
         # Já entrou → registra saída
@@ -397,7 +397,7 @@ def registrar_presenca_reuniao(
             detail="Este QR Code não é de reunião"
         )
 
-    agora = agora()
+    momento = agora()
 
     if agora > qrcode.data_limite:
         raise HTTPException(
