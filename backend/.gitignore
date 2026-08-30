@@ -42,3 +42,5 @@ __pycache__/
 *.pyc
 venv/
 .env
+
+qrcode_presenca_prod.png

@@ -1,6 +1,8 @@
 import qrcode
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 ENV = os.getenv("ENV", "dev")
 
 codigo = "123456"

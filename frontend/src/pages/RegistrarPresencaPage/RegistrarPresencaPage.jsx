@@ -106,14 +106,6 @@ export default function RegistrarPresencaPage() {
 
             <div className="registrar-presenca-container">
 
-                <div className="registrar-presenca-logo">
-
-                    <span>
-                        Wolf Finance
-                    </span>
-
-                </div>
-
 
                 {sucesso && presenca && (
 
