@@ -35,6 +35,8 @@ def criar_aluno(
             matricula=aluno.matricula,
             email=aluno.email,
             senha=senha_inicial,
+            logo_cid="logo-wolf",
+            logo_text_cid="logo-wolf-text"
         )
 
         enviar_email(
