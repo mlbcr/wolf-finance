@@ -4,10 +4,13 @@ from pydantic import BaseModel, EmailStr
 
 class AlunoCreate(BaseModel):
     nome_completo: str
+    bairro: str
+    curso: str
     email: EmailStr
     telefone: str
     matricula: str
     data_nascimento: date
+    ingresso_liga: date
     cargo: str
     periodo_ingresso: date
     faz_estagio: bool = False

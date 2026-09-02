@@ -1,10 +1,10 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.orm import Session
 
 from app.schemas.alunos import AlunoCreate, AlunoUpdate
-from app.services.aluno import cadastrar_aluno, aluno_para_dict
+from app.services.aluno import cadastrar_aluno, aluno_para_dict, importar_alunos
 from app.models.aluno import Aluno
 from app.models.equipe import Equipe, AlunoEquipe
 
@@ -231,3 +231,63 @@ def listar_equipes_aluno(
         }
         for equipe in equipes
     ]
+
+@router.post("/importar")
+async def importar_arquivo_alunos(
+    arquivo: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+    """
+    Importa alunos de um arquivo CSV ou XLSX.
+    
+    O arquivo deve conter as colunas:
+    - Nome, Data de nascimento, Bairro/cidade que reside, Celular, E-mail,
+      Curso, Matrícula, Período de ingresso na liga, Situação atual
+    
+    Returns:
+        - total_linhas: Total de linhas do arquivo
+        - cadastrados: Quantidade de alunos cadastrados com sucesso
+        - alunos: Lista de alunos cadastrados com suas senhas iniciais
+        - erros: Lista de erros encontrados durante a importação
+        - status: "sucesso" ou "parcial"
+    """
+    if not arquivo.filename:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Arquivo não foi enviado"
+        )
+    
+    extensao = arquivo.filename.split(".")[-1].lower()
+
+    if extensao not in ["csv", "xlsx"]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Envie um arquivo CSV ou XLSX válido"
+        )
+
+    try:
+        resultado = await importar_alunos(
+            arquivo=arquivo,
+            db=db,
+            extensao=extensao
+        )
+
+        return resultado
+
+    except ValueError as error:
+        db.rollback()
+        
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(error)
+        )
+        
+    except Exception as error:
+        db.rollback()
+
+        print("ERRO AO IMPORTAR ALUNOS:", repr(error))
+
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Erro ao processar arquivo: {str(error)}"
+        )

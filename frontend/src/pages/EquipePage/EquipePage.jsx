@@ -17,6 +17,7 @@ import EquipeHeader from './components/EquipeHeader'
 import MembrosSection from './components/MembrosSection'
 import EditarEquipeModal from './components/EditarEquipeModal'
 import AdicionarMembrosModal from './components/AdicionarMembrosModal'
+import BackButton from '@/components/BackButton/BackButton'
 
 import './EquipePage.css'
 

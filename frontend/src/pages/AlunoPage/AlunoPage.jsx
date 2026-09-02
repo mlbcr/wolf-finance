@@ -12,6 +12,7 @@ import AlunoEquipes from './AlunoEquipes'
 import AlunoProjetos from './AlunoProjetos'
 
 import Button from '@/components/Button/Button'
+import BackButton from '@/components/BackButton/BackButton'
 
 import './AlunoPage.css'
 
@@ -141,11 +142,10 @@ export default function AlunoPage() {
                     </p>
 
                     <span
-                        className={`aluno-status ${
-                            aluno.status === 'ATIVO'
+                        className={`aluno-status ${aluno.status === 'ATIVO'
                                 ? 'ativo'
                                 : 'inativo'
-                        }`}
+                            }`}
                     >
                         <i className="fa-solid fa-circle"></i>
                         {aluno.status}

@@ -10,6 +10,7 @@ import {
 
 import Modal from '@/components/Modal/Modal'
 import Button from '@/components/Button/Button'
+import BackButton from '@/components/BackButton/BackButton'
 
 import './ProjetosPage.css'
 
@@ -119,6 +120,8 @@ export default function ProjetosPage() {
 
     return (
         <main className="projetos-page">
+
+            <BackButton />
 
             {/* HEADER */}
 

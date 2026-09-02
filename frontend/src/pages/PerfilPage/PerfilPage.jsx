@@ -6,6 +6,7 @@ import "./PerfilPage.css"
 
 import Modal from '@/components/Modal/Modal'
 import Button from '@/components/Button/Button'
+import BackButton from '@/components/BackButton/BackButton'
 
 
 export default function PerfilPage() {
@@ -46,6 +47,8 @@ export default function PerfilPage() {
 
     return (
         <main className="perfil-page">
+
+            <BackButton />
 
             <section className="perfil-card">
 

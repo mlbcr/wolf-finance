@@ -17,6 +17,7 @@ import AlertModal from '@/components/AlertModal/AlertModal'
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal'
 import LoadingModal from '@/components/LoadingModal/LoadingModal'
 import Button from '@/components/Button/Button'
+import BackButton from '@/components/BackButton/BackButton'
 
 import ReuniaoCard from './components/ReuniaoCard'
 import ReuniaoFormModal from './components/ReuniaoFormModal'
@@ -523,6 +524,7 @@ export default function ReunioesPage() {
 
         <main className="reunioes-page">
 
+            <BackButton />
 
             {(salvando || gerandoQRCode) && (
 

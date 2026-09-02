@@ -8,6 +8,8 @@ import {
     buscarTodasEquipes
 } from '@/api/api'
 
+import BackButton from '@/components/BackButton/BackButton'
+
 import './EquipesPage.css'
 import Modal from '@/components/Modal/Modal'
 
@@ -107,6 +109,8 @@ export default function EquipesPage() {
 
     return (
         <main className="equipes-page">
+
+            <BackButton />
 
             {/* HEADER */}
 

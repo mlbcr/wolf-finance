@@ -38,6 +38,38 @@ export async function buscarAluno(id) {
     return response.json()
 }
 
+export async function importarAlunos(arquivo) {
+    const token = localStorage.getItem('token')
+
+    const formData = new FormData()
+
+    formData.append('arquivo', arquivo)
+
+    const response = await fetch(
+        `${API_URL}/alunos/importar`,
+        {
+            method: 'POST',
+
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+
+            body: formData
+        }
+    )
+
+    if (!response.ok) {
+        const erro = await response.json()
+
+        throw new Error(
+            erro.detail ||
+            'Não foi possível importar os alunos'
+        )
+    }
+
+    return response.json()
+}
+
 export async function atualizarAluno(id, dados) {
     const token = localStorage.getItem('token')
 

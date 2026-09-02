@@ -13,6 +13,7 @@ import AlertModal from '@/components/AlertModal/AlertModal'
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal'
 import LoadingModal from '@/components/LoadingModal/LoadingModal'
 import Button from '@/components/Button/Button'
+import BackButton from '@/components/BackButton/BackButton'
 
 import './PresencasPage.css'
 
@@ -296,6 +297,8 @@ export default function PresencasPage() {
 
     return (
         <main className="presencas-page">
+            <BackButton />
+
             {salvando && <LoadingModal mensagem="Processando..." />}
 
             {erro && (
@@ -534,7 +537,7 @@ export default function PresencasPage() {
 
                                     <div className="presenca-total">
                                         {presenca.total_horas !== null &&
-                                        presenca.total_horas !== undefined ? (
+                                            presenca.total_horas !== undefined ? (
                                             <span className="total-chip">
                                                 {formatarDuracao(presenca.total_horas)}
                                             </span>
