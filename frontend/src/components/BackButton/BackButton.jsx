@@ -14,7 +14,6 @@ const ROUTE_MAP = {
     '/registrar-presenca': '/presencas',
     '/presenca/scanner': '/presencas',
 
-    // Rotas com parâmetros (usadas para pattern matching)
     '/alunos/:id': '/alunos',
     '/equipes/:id': '/equipes',
     '/projetos/:id': '/projetos',
@@ -25,7 +24,6 @@ export default function BackButton({ to }) {
     const navigate = useNavigate()
     const location = useLocation()
 
-    // Se passou explicitamente a rota, usa isso
     if (to !== undefined) {
         return (
             <button
@@ -40,17 +38,13 @@ export default function BackButton({ to }) {
         )
     }
 
-    // Caso contrário, tenta mapear automaticamente
     const currentPath = location.pathname
-    let destination = -1 // fallback: voltar no histórico
+    let destination = -1 
 
-    // Tenta encontrar a rota exata no mapa
     if (ROUTE_MAP[currentPath]) {
         destination = ROUTE_MAP[currentPath]
     } else {
-        // Tenta pattern matching para rotas com parâmetros (ex: /alunos/123)
         for (const route in ROUTE_MAP) {
-            // Transforma /alunos/:id em regex que corresponde /alunos/qualquer-coisa
             const pattern = route.replace(/:[^/]+/g, '[^/]+')
             const regex = new RegExp(`^${pattern}$`)
 

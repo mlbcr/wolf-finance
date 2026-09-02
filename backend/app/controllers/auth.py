@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.schemas.auth import LoginRequest, RecuperarSenhaRequest
+from app.schemas.auth import LoginRequest, RecuperarSenhaRequest, MudarSenhaRequest
 from app.services.auth import (
     autenticar_usuario,
-    solicitar_recuperacao_senha
+    solicitar_recuperacao_senha,
+    mudar_senha
 )
 from app.security.dependencies import get_usuario_id
 
@@ -91,3 +92,17 @@ def recuperar_senha(
     db: Session = Depends(get_db)
 ):
     return solicitar_recuperacao_senha(dados, db)
+
+
+@router.post("/mudar-senha")
+def mudar_senha_handler(
+    dados: MudarSenhaRequest,
+    usuario_id: str = Depends(get_usuario_id),
+    db: Session = Depends(get_db)
+):
+    return mudar_senha(
+        usuario_id,
+        dados.senha_atual,
+        dados.nova_senha,
+        db
+    )

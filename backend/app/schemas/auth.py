@@ -17,3 +17,7 @@ class UsuarioAtualResponse(BaseModel):
 
 class RecuperarSenhaRequest(BaseModel):
     login: str
+
+class MudarSenhaRequest(BaseModel):
+    senha_atual: str
+    nova_senha: str

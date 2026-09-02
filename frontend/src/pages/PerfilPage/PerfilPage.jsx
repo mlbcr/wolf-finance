@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 import useAuth from "@/contexts/useAuth"
+import { mudarSenha } from "@/api/apiAuth"
 
 import "./PerfilPage.css"
 
@@ -13,7 +14,14 @@ export default function PerfilPage() {
 
     const { usuario, loading } = useAuth()
 
-    const [modalAberto, setModalAberto] = useState(false)
+    const [modalAlteracao, setModalAlteracao] = useState(false)
+    const [modalSenha, setModalSenha] = useState(false)
+
+    const [senhaAtual, setSenhaAtual] = useState('')
+    const [novaSenha, setNovaSenha] = useState('')
+    const [confirmaSenha, setConfirmaSenha] = useState('')
+
+    const [carregandoSenha, setCarregandoSenha] = useState(false)
 
 
     if (loading) {
@@ -42,6 +50,53 @@ export default function PerfilPage() {
         const [ano, mes, dia] = data.split("-")
 
         return `${dia}/${mes}/${ano}`
+    }
+
+
+    async function handleMudarSenha() {
+
+        if (!senhaAtual.trim()) {
+            alert('Digite a senha atual')
+            return
+        }
+
+        if (!novaSenha.trim()) {
+            alert('Digite a nova senha')
+            return
+        }
+
+        if (novaSenha !== confirmaSenha) {
+            alert('As senhas não conferem')
+            return
+        }
+
+        if (novaSenha.length < 6) {
+            alert('A nova senha deve ter no mínimo 6 caracteres')
+            return
+        }
+
+        setCarregandoSenha(true)
+
+        try {
+
+            await mudarSenha(senhaAtual, novaSenha)
+
+            alert('Senha alterada com sucesso!')
+
+            setSenhaAtual('')
+            setNovaSenha('')
+            setConfirmaSenha('')
+            setModalSenha(false)
+
+        } catch (error) {
+
+            alert(error.message || 'Erro ao mudar a senha')
+
+        } finally {
+
+            setCarregandoSenha(false)
+
+        }
     }
 
 
@@ -358,6 +413,7 @@ export default function PerfilPage() {
                         <Button
                             type="button"
                             variant="btn-secondary"
+                            onClick={() => setModalSenha(true)}
                         >
                             <i className="fa-solid fa-key"></i>
                             Mudar senha
@@ -392,7 +448,7 @@ export default function PerfilPage() {
                     <Button
                         type="button"
                         variant="btn-alterar"
-                        onClick={() => setModalAberto(true)}
+                        onClick={() => setModalAlteracao(true)}
                     >
                         <i className="fa-solid fa-pen-to-square"></i>
                         Solicitar alteração
@@ -403,12 +459,150 @@ export default function PerfilPage() {
             </section>
 
 
-            {/* MODAL */}
+            {/* MODAL MUDAR SENHA */}
 
-            {modalAberto && (
+            {modalSenha && (
 
                 <Modal
-                    onClose={() => setModalAberto(false)}
+                    onClose={() => setModalSenha(false)}
+                    containerClassName="modal"
+                >
+
+                    <div className="modal-header">
+
+                        <div>
+
+                            <h2>
+                                Mudar senha
+                            </h2>
+
+                            <p>
+                                Digite sua senha atual e a nova senha.
+                            </p>
+
+                        </div>
+
+
+                        <Button
+                            type="button"
+                            variant="modal-close"
+                            onClick={() =>
+                                setModalSenha(false)
+                            }
+                            aria-label="Fechar modal"
+                        >
+                            <i className="fa-solid fa-xmark"></i>
+                        </Button>
+
+                    </div>
+
+
+                    <div className="modal-body">
+
+                        <div className="form-group">
+
+                            <label>
+                                Senha atual
+                            </label>
+
+                            <input
+                                type="password"
+                                placeholder="Digite sua senha atual"
+                                value={senhaAtual}
+                                onChange={e =>
+                                    setSenhaAtual(e.target.value)
+                                }
+                                disabled={carregandoSenha}
+                            />
+
+                        </div>
+
+
+                        <div className="form-group">
+
+                            <label>
+                                Nova senha
+                            </label>
+
+                            <input
+                                type="password"
+                                placeholder="Digite sua nova senha"
+                                value={novaSenha}
+                                onChange={e =>
+                                    setNovaSenha(e.target.value)
+                                }
+                                disabled={carregandoSenha}
+                            />
+
+                        </div>
+
+
+                        <div className="form-group">
+
+                            <label>
+                                Confirmar nova senha
+                            </label>
+
+                            <input
+                                type="password"
+                                placeholder="Confirme sua nova senha"
+                                value={confirmaSenha}
+                                onChange={e =>
+                                    setConfirmaSenha(e.target.value)
+                                }
+                                disabled={carregandoSenha}
+                            />
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="modal-footer">
+
+                        <Button
+                            type="button"
+                            variant="btn-secondary"
+                            onClick={() =>
+                                setModalSenha(false)
+                            }
+                            disabled={carregandoSenha}
+                        >
+                            Cancelar
+                        </Button>
+
+                        <Button
+                            type="button"
+                            variant="btn-primary"
+                            onClick={handleMudarSenha}
+                            disabled={carregandoSenha}
+                        >
+                            {carregandoSenha ? (
+                                <>
+                                    <i className="fa-solid fa-spinner fa-spin"></i>
+                                    Salvando...
+                                </>
+                            ) : (
+                                <>
+                                    <i className="fa-solid fa-key"></i>
+                                    Mudar senha
+                                </>
+                            )}
+                        </Button>
+
+                    </div>
+
+                </Modal>
+
+            )}
+
+
+            {/* MODAL ALTERAR DADOS */}
+
+            {modalAlteracao && (
+
+                <Modal
+                    onClose={() => setModalAlteracao(false)}
                     containerClassName="modal"
                 >
 
@@ -432,7 +626,7 @@ export default function PerfilPage() {
                             type="button"
                             variant="modal-close"
                             onClick={() =>
-                                setModalAberto(false)
+                                setModalAlteracao(false)
                             }
                             aria-label="Fechar modal"
                         >
@@ -455,7 +649,7 @@ export default function PerfilPage() {
                             label="Cancelar"
                             variant="btn-cancelar"
                             onClick={() =>
-                                setModalAberto(false)
+                                setModalAlteracao(false)
                             }
                         />
 

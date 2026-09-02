@@ -1,3 +1,101 @@
-.recuperar-senha {
-    
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* Primary Button */
+.btn-primary {
+    background: #0f2747;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #173a65;
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background: #eef3f8;
+    color: #0f2747;
+}
+
+.btn-secondary:hover {
+    background: #dfe8f1;
+}
+
+.btn-secondary:disabled {
+    background: #f0f0f0;
+    color: #a0aec0;
+    cursor: not-allowed;
+}
+
+/* Alterar Button */
+.btn-alterar {
+    background: #0f2747;
+    color: #ffffff;
+}
+
+.btn-alterar:hover {
+    background: #173a65;
+    transform: translateY(-1px);
+}
+
+/* Cancelar Button */
+.btn-cancelar {
+    background: #f1f4f7;
+    color: #4a5568;
+}
+
+.btn-cancelar:hover {
+    background: #e5e9ee;
+}
+
+/* Enviar Button */
+.btn-enviar {
+    background: #0f2747;
+    color: #ffffff;
+}
+
+.btn-enviar:hover {
+    background: #173a65;
+}
+
+/* Modal Close Button */
+.modal-close {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: #f1f4f7;
+    color: #5d6878;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: #e6ebf0;
+}
+
+/* Loading state */
+button.loading {
+    opacity: 0.8;
 }

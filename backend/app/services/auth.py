@@ -198,3 +198,63 @@ def solicitar_recuperacao_senha(
     return {
         "message": "Uma nova senha foi enviada para o e-mail cadastrado."
     }
+
+
+def mudar_senha(
+    usuario_id: str,
+    senha_atual: str,
+    nova_senha: str,
+    db: Session
+):
+    """
+    Permite que um usuário autenticado mude sua própria senha.
+    """
+    
+    # Buscar usuário
+    usuario = (
+        db.query(Usuario)
+        .filter(Usuario.id == usuario_id)
+        .first()
+    )
+
+    if not usuario:
+        raise HTTPException(
+            status_code=404,
+            detail="Usuário não encontrado"
+        )
+
+    # Verificar se a senha atual está correta
+    if not verificar_senha(
+        senha_atual,
+        usuario.senha_hash
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Senha atual incorreta"
+        )
+
+    # Validar nova senha
+    if not nova_senha or len(nova_senha.strip()) < 6:
+        raise HTTPException(
+            status_code=400,
+            detail="Nova senha deve ter no mínimo 6 caracteres"
+        )
+
+    # Gerar hash da nova senha
+    novo_hash = gerar_hash(nova_senha)
+
+    # Atualizar senha
+    usuario.senha_hash = novo_hash
+
+    try:
+        db.commit()
+    except Exception as erro:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail="Erro ao mudar a senha"
+        )
+
+    return {
+        "message": "Senha alterada com sucesso"
+    }

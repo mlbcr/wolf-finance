@@ -37,3 +37,33 @@ export async function buscarUsuarioLogado() {
 
     return response.json()
 }
+
+export async function mudarSenha(senhaAtual, novaSenha) {
+    const token = localStorage.getItem('token')
+
+    const response = await fetch(
+        `${API_URL}/auth/mudar-senha`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                senha_atual: senhaAtual,
+                nova_senha: novaSenha,
+            }),
+        }
+    )
+
+    if (!response.ok) {
+        const erro = await response.json().catch(() => ({}))
+        throw new Error(
+            erro.detail ||
+            erro.message ||
+            'Não foi possível mudar a senha'
+        )
+    }
+
+    return response.json()
+}
